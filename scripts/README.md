@@ -5,15 +5,13 @@ ExtendScript enhancement, enhancing the ExtendScript language for various Adobe�
 © 2020-2024, Rorohiko Ltd. - Kris Coppieters
 kris@rorohiko.com
 
-This tool utilizes _Tightener_. 
-
 To run _Creative Developer Tools for ExtendScript_, you need to activate the software by way of the included _License Manager_.
 
 We have free trial licenses available - you can use the _License Manager_ to order free trial licenses.
 
 ## License Manager
 
-The _License Manager_ is provided in the _Helpers_ subfolder. 
+The _License Manager_ is provided in the _Helpers_ subfolder.
 
 You may relocate it to a convenient location (e.g., `/Applications` or `C:\Program Files`).
 
@@ -34,14 +32,14 @@ CreativeDeveloperTools_ES     (folder)
 ```
 `sample.jsx` will only work with the `CreativeDeveloperTools_ES` folder alongside it. Run `sample.jsx` from the host app.
 
-All it will currently do is run through a bunch of tests from `crtdtes_test.jsx`, which contains some helpful sample code. Please
+All it will currently do is run through a bunch of tests from `crtdtes_test.jsx`, which also contains some helpful sample code. Please
 inspect this file for some better insights into the functionality provided.
 
 ## Installing Creative Developer Tools for ExtendScript
 
 Copy the _CreativeDeveloperTools_ES_ subfolder to reside next to your own script (`.jsx`). Use your text editor and look in the `sample.jsx` and `credtes_test.jsx` text files for example code.
 
-Modify your script and at the top, add the lines 
+Modify your script and at the top, add the lines
 ```
 // Load the DLL
 //@include "CreativeDeveloperTools_ES/crdtesDLLLoader.jsx"
@@ -51,17 +49,17 @@ Modify your script and at the top, add the lines
 
 ## Installing License Manager
 
-### Mac 
+### Mac
 
-If desired, move the `LicenseManager` application file to its desired location. 
+If desired, move the `LicenseManager` application file to its desired location.
 
-Double-click the `LicenseManager` application icon to run the app from its current location at least once. 
+Double-click the `LicenseManager` application icon to run the app from its current location at least once.
 
 ### Windows
 
 If desired, move the `LicenseManager` folder for your Windows platform (arm64 vs x86_64) to its desired location.
 
-Navigate into the `LicenseManager` folder and double-click the `LicenseManager.exe` icon to run the app from its new location at least once. 
+Navigate into the `LicenseManager` folder and double-click the `LicenseManager.exe` icon to run the app from its new location at least once.
 
 ## Activating
 
@@ -75,9 +73,9 @@ Create a standard account by clicking the _New_ button, bottom right of the _Acc
 
 Enter a descriptive name and a valid email address, and choose an unlock code. To avoid typos, you need to enter the same unlock code twice.
 
-Click _OK_. 
+Click _OK_.
 
-After the account has been created, click _Register_ to register the account. 
+After the account has been created, click _Register_ to register the account.
 
 You will receive a confirmation email with a confirmation link. Click the link to complete the registration.
 
@@ -87,7 +85,7 @@ If the email does not arrive, make sure to check your email spam filter!
 
 On the _Accounts_ window, there is a checkbox _Save Unlock Code_.
 
-If you're on a secure personal computer, you should tick this checkbox, to save the unlock code. That way you don't have to re-enter the code each time you launch the _License Manager_. 
+If you're on a secure personal computer, you should tick this checkbox, to save the unlock code. That way you don't have to re-enter the code each time you launch the _License Manager_.
 
 If you don't save the unlock code, you will need to re-enter the code each time you start the _License Manager_.
 
@@ -97,7 +95,7 @@ You can create as many accounts as needed.
 
 It is acceptable to re-use the same email address and the same unlock code for multiple accounts.
 
-If you _do_ re-use the same email address for more than one account, they can become hard to distinguish. 
+If you _do_ re-use the same email address for more than one account, they can become hard to distinguish.
 
 Make sure to use good descriptive names, so you can tell the accounts apart.
 
@@ -113,19 +111,19 @@ Click one of the entries for `Creative Developer Tools` (free trial or commercia
 
 ### Create an Order
 
-Enter the number of seats needed. 
+Enter the number of seats needed.
 
-Type in some order reference that will have relevance to you. 
+Type in some order reference that will have relevance to you.
 
-Finally, if you have multiple accounts available, you will now need to select the correct account from the popup menu. 
+Finally, if you have multiple accounts available, you will now need to select the correct account from the popup menu.
 
-Then click the _Save_ button. 
+Then click the _Save_ button.
 
 This creates a _License Request_ file (`.lirq` file name extension).
 
 ### Send us your order
 
-Attach this `.lirq` file to an email to mailto:sales@rorohiko.com. 
+Attach this `.lirq` file to an email to mailto:sales@rorohiko.com.
 
 In your email, make sure to mention any additional details that might be relevant or useful (e.g. whether you qualify for a full free license, or if you prefer us to send you a PayPal invoice).
 
@@ -136,7 +134,7 @@ Payment processing is not yet automated - if you're not entitled to a free licen
 With your payment, make sure to mention the order reference that you used in the _License Manager_, so we can match your payment to the order info embedded in the _License Request_.
 ```
     https://www.paypal.com
-```       
+```
 
 ### Activation File
 
@@ -144,11 +142,11 @@ Once we have received your payment, we will email you an activation file for the
 
 Make sure to check your email spam filter!
 
-Start the _License Manager_ and go to the _Licenses, Activations and Pending Orders_ window. 
+Start the _License Manager_ and go to the _Licenses, Activations and Pending Orders_ window.
 
-Click _Import_ and import the `.capb` file. 
+Click _Import_ and import the `.capb` file.
 
-The _License Manager_ will match this activation file to the corresponding pending order. 
+The _License Manager_ will match this activation file to the corresponding pending order.
 
 ### Activate
 
@@ -156,7 +154,7 @@ In the _Licenses, Activations and Pending Orders_ window you can now select the 
 
 ## Sublicensing/auto-activation
 
-You might want to bundle _Creative Developer Tools_ with your own commercial software, or have _Creative Developer Tools_ auto-activate so the end-user does not have to handle any activations. 
+You might want to bundle _Creative Developer Tools_ with your own commercial software, or have _Creative Developer Tools_ auto-activate so the end-user does not have to handle any activations.
 
 To achieve this, you can either add your activation info as a side-car file, or you can embed it into your source code.
 
@@ -164,21 +162,21 @@ In addition to your standard account (incoming), you also need a second develope
 
 The incoming license info will be ordered from Rorohiko using your standard account for purchasing. The outgoing sublicense will be tied to your developer account.
 
-First, switch the _License Manager_ to _Standard_ mode via the _File - License Manager Mode_ menu. 
+First, switch the _License Manager_ to _Standard_ mode via the _File - License Manager Mode_ menu.
 
-Purchase a license for _Creative Developer Tools_ as documented in the previous section. 
+Purchase a license for _Creative Developer Tools_ as documented in the previous section.
 
 Once the order is validated and the activation file has been imported, switch the _License Manager_ to _Developer/Publisher_ mode.
 
-If you don't have a developer account yet, create and register one. Wait for a confirmation email, and make sure to check your spam filter. 
+If you don't have a developer account yet, create and register one. Wait for a confirmation email, and make sure to check your spam filter.
 
 Once you have a registered developer account, go to the _Sublicensing_ window, and select the order.
 
 ### Sidecar File
 
-Select the option _SideCar File_, then click the _Copy_ button. 
+Select the option _SideCar File_, then click the _Copy_ button.
 
-Start your text editor and create a new file, then _Paste_ the activation info (JSON format). 
+Start your text editor and create a new file, then _Paste_ the activation info (JSON format).
 
 Save this file with a `.actv` file name extension (e.g. `MyAutoActivation.actv`).
 
@@ -195,7 +193,7 @@ The software will now auto-activate whenever your customer runs it and the user 
 
 ### Embedding
 
-On the _Sublicensing_ window, select _ExtendScript_, then click the _Copy_ button and then go to your source code, 
+On the _Sublicensing_ window, select _ExtendScript_, then click the _Copy_ button and then go to your source code,
 and _Paste_ right after the line in your own source code where you load _Creative Developer Tools_:
 ```
 // Load the DLL
@@ -223,11 +221,11 @@ The software will now auto-activate when your customer runs it and the user won'
 
 ## Changing computers
 
-When you need to activate on another computer you can transfer and re-use the same licensing info. Activations can be transferred over. 
+When you need to activate on another computer you can transfer and re-use the same licensing info. Activations can be transferred over.
 
 If you activate your copy of _Creative Developer Tools_ by way of the _License Manager_: you can export and import all your account and activation data between computers. Use the _File - Export License Info..._ and _File - Import License Info..._ to manage a transfer.
 
-If you activate your copy by way of the sublicensing mechanism, then the activation will transport automatically. 
+If you activate your copy by way of the sublicensing mechanism, then the activation will transport automatically.
 
 Note that to avoid abuse, there is a limitation on how frequently you can re-activate: after you activate a seat on a particular computer, you need to wait at least 10 minutes before you can re-activate the same seat on another computer.
 
@@ -245,19 +243,19 @@ This license covers the 'Creative Developer Tools for ExtendScript' ExtendScript
 
 Copyright © 2020-2024 by Rorohiko Ltd. All rights reserved.
 
-You should carefully read the following terms and conditions 
-before using this software. Your use of this software indicates 
+You should carefully read the following terms and conditions
+before using this software. Your use of this software indicates
 your acceptance of this license agreement and warranty.
 
-This software and the accompanying files are provided "as is" and 
-without warranties as to performance or merchantability or any 
-other warranties whether expressed or implied. Because of the 
-many and variable hardware and software environments under which 
-this software may operate, no warranty of fitness for a 
+This software and the accompanying files are provided "as is" and
+without warranties as to performance or merchantability or any
+other warranties whether expressed or implied. Because of the
+many and variable hardware and software environments under which
+this software may operate, no warranty of fitness for a
 particular purpose is offered.
 
-Good computer procedure dictates that any program be thoroughly 
-tested with non-critical data before relying on it. The user 
+Good computer procedure dictates that any program be thoroughly
+tested with non-critical data before relying on it. The user
 must assume the entire risk of using the program.
 
 ### curl
@@ -270,25 +268,25 @@ https://curl.haxx.se/
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright (c) 1996 - 2020, Daniel Stenberg, daniel@haxx.se, and many contributors, 
+Copyright (c) 1996 - 2020, Daniel Stenberg, daniel@haxx.se, and many contributors,
 see the THANKS file.
 
 All rights reserved.
 
-Permission to use, copy, modify, and distribute this software for any purpose 
-with or without fee is hereby granted, provided that the above copyright 
+Permission to use, copy, modify, and distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright
 notice and this permission notice appear in all copies.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of a copyright holder shall not 
-be used in advertising or otherwise to promote the sale, use or other dealings 
+Except as contained in this notice, the name of a copyright holder shall not
+be used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization of the copyright holder.
 
 NOTICE
@@ -428,5 +426,3 @@ https://www.openssl.org/
  * copied and put under another distribution licence
  * [including the GNU Public Licence.]
  */
-
-
