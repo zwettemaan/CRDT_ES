@@ -8,7 +8,7 @@ fi
 echo "makerelease ${CRDT_ES_PRODUCT_NAME} in ${CRDT_ES_GIT_ROOT} started"
 
 if [ "${TIGHTENER_RELEASE_ROOT}" = "" -o ! -d "${TIGHTENER_RELEASE_ROOT}" ]; then
-    echo "Cannot make release. ESTightener repo needs to be installed alongside TightenerDocs repo"
+    echo "Cannot make release. CRDT_ES repo needs to be installed alongside TightenerDocs repo"
     exit
 fi
 
