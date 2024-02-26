@@ -1,0 +1,12 @@
+.DS_Store
+!*.dll
+*.swp
+*.user
+/scripts/CreativeDeveloperTools_ES/ARM64/
+/scripts/CreativeDeveloperTools_ES/mac64/
+/scripts/CreativeDeveloperTools_ES/win32/
+/scripts/CreativeDeveloperTools_ES/win64/
+/scripts/CreativeDeveloperTools_ES.*.zip
+/scripts/node_modules
+/scripts/package-lock.json
+/scripts/package.json

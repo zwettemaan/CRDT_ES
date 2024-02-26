@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "crdtesTest",
+            "script": "${workspaceFolder}/scripts/debugTest.jsx",
+            "hostAppSpecifier": "indesign-19.064",
+            "engineName": "main"
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "crdtesSample",
+            "script": "${workspaceFolder}/scripts/sample.jsx",
+            "hostAppSpecifier": "indesign-19.064",
+            "engineName": "main"
+        }
+    ]
+}
