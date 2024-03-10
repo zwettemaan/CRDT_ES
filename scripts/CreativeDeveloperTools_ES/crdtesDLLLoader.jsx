@@ -3,6 +3,7 @@ var CRDT_ES;
 var crdtesDLL;
 var TIGHTENER;
 var IS_INDESIGN_SERVER;
+//DEBUG_LIBPATH64_OVERRIDE = "/Users/kris/Documents/Controlled/Rorohiko/TightenerComponents/TightenerDLL/Xcode/Compiled/Debug/TightenerESDLL_x64D";
 
 if (LOAD_DEBUG_CRDT_ES || "undefined" == typeof(CRDT_ES)) {
 
