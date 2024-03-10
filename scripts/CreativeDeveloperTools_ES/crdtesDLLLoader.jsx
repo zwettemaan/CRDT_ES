@@ -88,7 +88,7 @@ if (LOAD_DEBUG_CRDT_ES || "undefined" == typeof(CRDT_ES)) {
 if (CRDT_ES.isInDesignServer === undefined) {
     CRDT_ES.isInDesignServer = false;
     try {
-        if (app.serverSettings && app.name.toLowerCase().indexOf("indesign") >= 0) {
+        if ("serverSettings" in app && app.name.toLowerCase().indexOf("indesign") >= 0) {
             CRDT_ES.isInDesignServer = true;
         }
     }

@@ -715,6 +715,53 @@ function enQuote__(s_or_ByteArr, quoteChar) {
 }
 
 /**
+ * Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`), 
+ * use crdtesDLL to try and run an `.ejsx` or `.ejs` file.
+ *
+ * @function evalScript
+ *
+ * @param {string} scriptName - the name of the script to run, without file name extension or parent directory
+ * @param {string} parentScriptFile - the name of the script from which we're calling this (pass in $.fileName).
+ * If this is missing, evaluate the path relative to the parent of CreativeDeveloperTools_ES
+ * @returns {any} the returned value
+ */
+function evalScript(scriptName, parentScriptFile) {
+
+    var retVal = undefined;
+
+    try {
+
+        var parentScriptFolder;
+        if (! parentScriptFile) {
+            // Use parent of parent of crdtes.jsx
+            parentScriptFolder = File($.fileName).parent.parent;
+        }
+        else {
+            if ("string" == typeof(parentScriptFile)) {
+                parentScriptFile = File(parentScriptFile);
+            }
+            parentScriptFolder = parentScriptFile.parent;
+        }
+
+        var unencryptedScriptFile = File(parentScriptFolder + "/" + scriptName + ".jsx");
+        if (! unencryptedScriptFile.exists) {
+            unencryptedScriptFile = File(parentScriptFolder + "/" + scriptName + ".js");
+        }
+        if (! unencryptedScriptFile.exists) {
+            crdtesDLL.evalScript(scriptName, parentScriptFile);
+        }
+        else {
+            $.evalFile(unencryptedScriptFile);
+        }
+    } 
+    catch (e) {
+    }
+
+    return retVal;
+}
+crdtes.evalScript = evalScript;
+
+/**
  * Send a TQL script to the DLL
  *
  * @function evalTQL
