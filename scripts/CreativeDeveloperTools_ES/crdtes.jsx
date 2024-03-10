@@ -518,6 +518,25 @@ function deQuote(quotedString) {
 crdtes.deQuote = deQuote;
 
 /**
+ * Create a directory.
+ *
+ * Not limited to the UXP security sandbox.
+ *
+ * @function dirCreate
+ *
+ * @param {string} filePath
+ * @returns {array} list if items in directory
+ */
+
+function dirCreate(filePath) {
+
+    var retVal = evalTQL("dirCreate(" + dQ(filePath) + ")");
+
+    return retVal;
+}
+crdtes.dirCreate = dirCreate;
+
+/**
  * Delete a directory.
  *
  * Be very careful with the `recurse` parameter! It is very easy to delete the wrong directory.
@@ -559,25 +578,6 @@ function dirExists(dirPath) {
     return retVal;
 }
 crdtes.dirExists = dirExists;
-
-/**
- * Create a directory.
- *
- * Not limited to the UXP security sandbox.
- *
- * @function dirCreate
- *
- * @param {string} filePath
- * @returns {array} list if items in directory
- */
-
-function dirCreate(filePath) {
-
-    var retVal = evalTQL("dirCreate(" + dQ(filePath) + ")");
-
-    return retVal;
-}
-crdtes.dirCreate = dirCreate;
 
 /**
  * Scan a directory.
@@ -748,7 +748,7 @@ function evalScript(scriptName, parentScriptFile) {
             unencryptedScriptFile = File(parentScriptFolder + "/" + scriptName + ".js");
         }
         if (! unencryptedScriptFile.exists) {
-            crdtesDLL.evalScript(scriptName, parentScriptFile);
+            crdtesDLL.evalScript(scriptName, parentScriptFolder.fsName);
         }
         else {
             $.evalFile(unencryptedScriptFile);
@@ -931,18 +931,21 @@ function fileWrite(fileHandle, s_or_ByteArr) {
 crdtes.fileWrite = fileWrite;
 
 /**
- * See whether some software is currently activated or not
+ * See whether or what features of some software are currently activated or not
  *
  * @function getCapability
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
- * @param {string} productCode - a product code for the software product to be activated (as determined by the developer)
- * @param {string} password - the password (created by the developer) needed to decode the capability data
- * @returns {string} a JSON structure with capability data (customer GUID, decrypted data from the activation file)
+ * @param {string} activationProductCode - a product code for the software product to be activated (as determined by the developer).
+ * `activationProductCode` is not necessarily the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
+ * a single `activationProductCode` (e.g. `activationProductCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
+ * @param {string} password - the secret `password` (created by the developer) needed to decode the capability data. You want to make
+ * sure this password is obfuscated and contained within encrypted script code.
+ * @returns {string} a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)
  */
 function getCapability(issuer, productCode, password) {
 
-    var retVal = crdtesDLL.getCapability(issuer, productCode, password);
+    var retVal = crdtesDLL.getCapability(issuer, activationProductCode, password);
 
     return retVal;
 }

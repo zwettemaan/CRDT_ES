@@ -51,6 +51,7 @@ https://www.rorohiko.com/crdt
     * [~dirScan(filePath)](#module_crdtes..dirScan) ⇒ <code>array</code>
     * [~dQ(s_or_ByteArr)](#module_crdtes..dQ) ⇒ <code>string</code>
     * [~encrypt(s_or_ByteArr, aesKey)](#module_crdtes..encrypt) ⇒ <code>string</code>
+    * [~evalScript(scriptName, parentScriptFile)](#module_crdtes..evalScript) ⇒ <code>any</code>
     * [~evalTQL(tqlScript, tqlScopeName)](#module_crdtes..evalTQL) ⇒ <code>any</code>
     * [~fileClose(fileHandle)](#module_crdtes..fileClose) ⇒ <code>boolean</code>
     * [~fileDelete(filePath)](#module_crdtes..fileDelete) ⇒ <code>boolean</code>
@@ -342,6 +343,20 @@ be different every time.
 | --- | --- | --- |
 | s_or_ByteArr | <code>string</code> | a string or an array of bytes |
 | aesKey | <code>string</code> | a string or an array of bytes |
+
+<a name="module_crdtes..evalScript"></a>
+
+### crdtes~evalScript(scriptName, parentScriptFile) ⇒ <code>any</code>
+Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`), 
+use crdtesDLL to try and run an `.ejsx` or `.ejs` file.
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>any</code> - the returned value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| scriptName | <code>string</code> | the name of the script to run, without file name extension or parent directory |
+| parentScriptFile | <code>string</code> | the name of the script from which we're calling this (pass in $.fileName). If this is missing, evaluate the path relative to the parent of CreativeDeveloperTools_ES |
 
 <a name="module_crdtes..evalTQL"></a>
 
