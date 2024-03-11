@@ -936,16 +936,17 @@ crdtes.fileWrite = fileWrite;
  * @function getCapability
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
- * @param {string} activationProductCode - a product code for the software product to be activated (as determined by the developer).
- * `activationProductCode` is not necessarily the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
- * a single `activationProductCode` (e.g. `activationProductCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
- * @param {string} password - the secret `password` (created by the developer) needed to decode the capability data. You want to make
- * sure this password is obfuscated and contained within encrypted script code.
- * @returns {string} a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)
+ * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer).
+ * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
+ * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ' -> `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
+ * @param {string} encryptionKey - the secret encryption key (created by the developer) needed to decode the capability data. You want to make
+ * sure this encryptionKey is obfuscated and contained within encrypted script code.
+ * @returns {string} a JSON-encoded object with meta object (containing customer GUID, seatIndex, decrypted developer-provided data from the activation file).
+ * The decrypted developer data is embedded as a string, so might be two levels of JSON-encoding to be dealt with to get to any JSON-encoded decrypted data
  */
-function getCapability(issuer, productCode, password) {
+function getCapability(issuer, capabilityCode, encryptionKey) {
 
-    var retVal = crdtesDLL.getCapability(issuer, activationProductCode, password);
+    var retVal = crdtesDLL.getCapability(issuer, capabilityCode, encryptionKey);
 
     return retVal;
 }
