@@ -45,9 +45,9 @@ https://www.rorohiko.com/crdt
     * [~binaryUTF8ToStr(in_byteArray)](#module_crdtes..binaryUTF8ToStr) ⇒ <code>string</code>
     * [~decrypt(s_or_ByteArr, aesKey)](#module_crdtes..decrypt) ⇒ <code>array</code>
     * [~deQuote(quotedString)](#module_crdtes..deQuote) ⇒ <code>array</code>
+    * [~dirCreate(filePath)](#module_crdtes..dirCreate) ⇒ <code>array</code>
     * [~dirDelete(filePath, recurse)](#module_crdtes..dirDelete) ⇒ <code>boolean</code>
     * [~dirExists(dirPath)](#module_crdtes..dirExists) ⇒ <code>boolean</code>
-    * [~dirCreate(filePath)](#module_crdtes..dirCreate) ⇒ <code>array</code>
     * [~dirScan(filePath)](#module_crdtes..dirScan) ⇒ <code>array</code>
     * [~dQ(s_or_ByteArr)](#module_crdtes..dQ) ⇒ <code>string</code>
     * [~encrypt(s_or_ByteArr, aesKey)](#module_crdtes..encrypt) ⇒ <code>string</code>
@@ -59,7 +59,7 @@ https://www.rorohiko.com/crdt
     * [~fileOpen(fileName, mode)](#module_crdtes..fileOpen) ⇒ <code>number</code>
     * [~fileRead(fileHandle, isBinary)](#module_crdtes..fileRead) ⇒ <code>any</code>
     * [~fileWrite(fileHandle, s_or_ByteArr)](#module_crdtes..fileWrite) ⇒ <code>boolean</code>
-    * [~getCapability(issuer, productCode, password)](#module_crdtes..getCapability) ⇒ <code>string</code>
+    * [~getCapability(issuer, activationProductCode, password)](#module_crdtes..getCapability) ⇒ <code>string</code>
     * [~getDir(dirTag)](#module_crdtes..getDir) ⇒ <code>string</code>
     * [~getEnvironment(envVarName)](#module_crdtes..getEnvironment) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
@@ -247,6 +247,20 @@ these are first re-encoded using UTF-8 before storing them into the byte array.
 | --- | --- | --- |
 | quotedString | <code>string</code> | a quoted string |
 
+<a name="module_crdtes..dirCreate"></a>
+
+### crdtes~dirCreate(filePath) ⇒ <code>array</code>
+Create a directory.
+
+Not limited to the UXP security sandbox.
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>array</code> - list if items in directory  
+
+| Param | Type |
+| --- | --- |
+| filePath | <code>string</code> | 
+
 <a name="module_crdtes..dirDelete"></a>
 
 ### crdtes~dirDelete(filePath, recurse) ⇒ <code>boolean</code>
@@ -277,20 +291,6 @@ Not limited to the UXP security sandbox.
 | Param | Type | Description |
 | --- | --- | --- |
 | dirPath | <code>string</code> | a path to a directory |
-
-<a name="module_crdtes..dirCreate"></a>
-
-### crdtes~dirCreate(filePath) ⇒ <code>array</code>
-Create a directory.
-
-Not limited to the UXP security sandbox.
-
-**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>array</code> - list if items in directory  
-
-| Param | Type |
-| --- | --- |
-| filePath | <code>string</code> | 
 
 <a name="module_crdtes..dirScan"></a>
 
@@ -462,17 +462,17 @@ Not limited to the UXP security sandbox.
 
 <a name="module_crdtes..getCapability"></a>
 
-### crdtes~getCapability(issuer, productCode, password) ⇒ <code>string</code>
-See whether some software is currently activated or not
+### crdtes~getCapability(issuer, activationProductCode, password) ⇒ <code>string</code>
+See whether or what features of some software are currently activated or not
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>string</code> - a JSON structure with capability data (customer GUID, decrypted data from the activation file)  
+**Returns**: <code>string</code> - a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | issuer | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
-| productCode | <code>string</code> | a product code for the software product to be activated (as determined by the developer) |
-| password | <code>string</code> | the password (created by the developer) needed to decode the capability data |
+| activationProductCode | <code>string</code> | a product code for the software product to be activated (as determined by the developer). `activationProductCode` is not necessarily the same as `orderProductCode` - there can be multiple `orderProductCode` associated with  a single `activationProductCode` (e.g. `activationProductCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
+| password | <code>string</code> | the secret `password` (created by the developer) needed to decode the capability data. You want to make sure this password is obfuscated and contained within encrypted script code. |
 
 <a name="module_crdtes..getDir"></a>
 
