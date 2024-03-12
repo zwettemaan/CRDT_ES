@@ -938,11 +938,10 @@ crdtes.fileWrite = fileWrite;
  * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
  * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer).
  * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
- * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ' -> `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
+ * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
  * @param {string} encryptionKey - the secret encryption key (created by the developer) needed to decode the capability data. You want to make
  * sure this encryptionKey is obfuscated and contained within encrypted script code.
- * @returns {string} a JSON-encoded object with meta object (containing customer GUID, seatIndex, decrypted developer-provided data from the activation file).
- * The decrypted developer data is embedded as a string, so might be two levels of JSON-encoding to be dealt with to get to any JSON-encoded decrypted data
+ * @returns {string} a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)
  */
 function getCapability(issuer, capabilityCode, encryptionKey) {
 
@@ -999,6 +998,22 @@ function getEnvironment(envVarName) {
     return retVal;
 }
 crdtes.getEnvironment = getEnvironment;
+
+/**
+ * Get file path to License Manager if it is installed
+ *
+ * @function getLicenseManagerPath
+ * 
+ * @returns {string} file path
+*/
+
+function getLicenseManagerPath() {
+
+    var retVal = crdtesDLL.getLicenseManagerPath();
+
+    return retVal;
+}
+crdtes.getLicenseManagerPath = getLicenseManagerPath;
 
 /**
  * Fetch some persistent data
@@ -1151,6 +1166,22 @@ function leftPad(s, padChar, len) {
     return retVal;
 }
 crdtes.leftPad = leftPad;
+
+/**
+ * Attempt to launch the License Manager if it is installed
+ *
+ * @function licenseManager
+ * 
+ * @returns {boolean} success or failure
+*/
+
+function licenseManager() {
+
+    var retVal = crdtesDLL.licenseManager();
+
+    return retVal;
+}
+crdtes.licenseManager = licenseManager;
 
 /**
  * Make a log entry of the call of a function. Pass in the `arguments` keyword as a parameter.
