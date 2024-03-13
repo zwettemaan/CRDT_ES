@@ -41,6 +41,41 @@ if ("undefined" == typeof crdtes) {
  */
 const TQL_SCOPE_NAME_DEFAULT = "defaultScope";
 
+const STATE_IDLE                               =  0;
+const STATE_SEEN_OPEN_SQUARE_BRACKET           =  1;
+const STATE_SEEN_NON_WHITE                     =  2;
+const STATE_AFTER_NON_WHITE                    =  3;
+const STATE_SEEN_EQUAL                         =  4;
+const STATE_ERROR                              =  5;
+const STATE_SEEN_CLOSE_SQUARE_BRACKET          =  6;
+const STATE_IN_COMMENT                         =  7;
+
+const REGEXP_TRIM                              = /^\s*(\S?.*?)\s*$/;
+const REGEXP_TRIM_REPLACE                      = "$1";
+const REGEXP_DESPACE                           = /\s+/g;
+const REGEXP_DESPACE_REPLACE                   = "";
+const REGEXP_ALPHA_ONLY                        = /[^-a-zA-Z0-9_$]+/g;
+const REGEXP_ALPHA_ONLY_REPLACE                = "";
+const REGEXP_NUMBER_ONLY                       = /^([\d\.]+).*$/;
+const REGEXP_NUMBER_ONLY_REPLACE               = "$1";
+const REGEXP_UNIT_ONLY                         = /^[\d\.]+\s*(.*)$/;
+const REGEXP_UNIT_ONLY_REPLACE                 = "$1";
+const REGEXP_PICAS                             = /^([\d]+)p(([\d]*)(\.([\d]+)?)?)?$/;
+const REGEXP_PICAS_REPLACE                     = "$1";
+const REGEXP_PICAS_POINTS_REPLACE              = "$2";
+const REGEXP_CICEROS                           = /^([\d]+)c(([\d]*)(\.([\d]+)?)?)?$/;
+const REGEXP_CICEROS_REPLACE                   = "$1";
+const REGEXP_CICEROS_POINTS_REPLACE            = "$2";
+
+crdtes.UNIT_NAME_NONE                           = "NONE";
+crdtes.UNIT_NAME_INCH                           = "\"";
+crdtes.UNIT_NAME_CM                             = "cm";
+crdtes.UNIT_NAME_MM                             = "mm";
+crdtes.UNIT_NAME_CICERO                         = "cicero";
+crdtes.UNIT_NAME_PICA                           = "pica";
+crdtes.UNIT_NAME_PIXEL                          = "px";
+crdtes.UNIT_NAME_POINT                          = "pt";
+
 crdtes.IS_MAC = $.os.substring(0,3).toLowerCase() == "mac";
 crdtes.IS_WINDOWS = ! crdtes.IS_MAC;
 
@@ -1000,6 +1035,151 @@ function getEnvironment(envVarName) {
 crdtes.getEnvironment = getEnvironment;
 
 /**
+ * Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
+ *
+ * @function getBooleanFromINI
+ * 
+ * @param {string} in_value - ini value
+ * @returns {boolean} value
+ */
+
+function getBooleanFromINI(in_value) {
+    var retVal = false;
+
+    if (in_value) {
+        var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
+        var firstChar = value.charAt(0); 
+        var firstValue = parseInt(firstChar, 10);
+        retVal = firstChar == "y" || firstChar == "t" || (! isNaN(firstValue) && firstValue != 0);
+    }
+
+    return retVal;
+}
+crdtes.getBooleanFromINI = getBooleanFromINI;
+
+/**
+ * Interpret a string from the INI file a floating point value, followed by an optional unit
+ * If there is no unit, then no conversion is performed.
+ *
+ * @function getFloatWithUnitFromINI
+ * 
+ * @param {string} in_value - ini value
+ * @param {string} in_defaultUnit - default to use if no match is found
+ * @returns {boolean} value
+ */
+
+function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) { 
+
+    var retVal = 0.0;
+
+    do {
+
+        if (! in_valueStr) {
+            break;
+        }
+
+        var sign = 1.0;
+
+        var valueStr = in_valueStr.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
+
+        var firstChar = valueStr.charAt(0);
+        if (firstChar == '-') {
+            valueStr = valueStr.substring(1);
+            sign = -1.0;
+        }
+        else if (firstChar == '+') {
+            valueStr = valueStr.substring(1);
+        }
+
+        var picas = undefined;
+        var ciceros = undefined;
+        if (valueStr.match(REGEXP_PICAS)) {
+            picas = parseInt(valueStr.replace(REGEXP_PICAS, REGEXP_PICAS_REPLACE), 10);
+            valueStr = valueStr.replace(REGEXP_PICAS, REGEXP_PICAS_POINTS_REPLACE);
+        }
+        else if (valueStr.match(REGEXP_CICEROS)) {
+            ciceros = parseInt(valueStr.replace(REGEXP_CICEROS, REGEXP_CICEROS_REPLACE), 10);
+            valueStr = valueStr.replace(REGEXP_CICEROS, REGEXP_CICEROS_POINTS_REPLACE);
+        }
+
+        var numberOnly = valueStr.replace(REGEXP_NUMBER_ONLY, REGEXP_NUMBER_ONLY_REPLACE);
+        numberOnly = parseFloat(numberOnly);
+        if (isNaN(numberOnly)) {
+            numberOnly = 0.0;
+        }
+
+        var fromUnit;
+        if (picas !== undefined) {
+            fromUnit = crdtes.UNIT_NAME_PICA;
+            numberOnly = picas + numberOnly / 6.0;
+        }
+        else if (ciceros !== undefined) {
+            fromUnit = crdtes.UNIT_NAME_CICERO;
+            numberOnly = ciceros + numberOnly / 6.0;
+        }
+        else {
+            var unitOnly = valueStr.replace(REGEXP_UNIT_ONLY, REGEXP_UNIT_ONLY_REPLACE);
+            fromUnit = crdtes.getUnitFromINI(unitOnly);
+        }
+
+        var conversion = 1.0;
+        if (fromUnit != crdtes.UNIT_NAME_NONE && in_convertToUnit != crdtes.UNIT_NAME_NONE) {
+            conversion = crdtes.unitToInchFactor(fromUnit) / crdtes.unitToInchFactor(in_convertToUnit);
+        }
+
+        retVal = sign * numberOnly * conversion;
+    }
+    while (false);
+
+    return retVal;
+}
+crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
+
+/**
+ * Interpret a string from the INI file as a unit name
+ *
+ * @function getUnitFromINI
+ * 
+ * @param {string} in_value - ini value
+ * @param {string} in_defaultUnit - default to use if no match is found
+ * @returns {boolean} value
+ */
+
+function getUnitFromINI(in_value, in_defaultUnit) {
+
+    var defaultUnit = (in_defaultUnit !== undefined) ? in_defaultUnit : crdtes.UNIT_NAME_NONE;
+
+    var retVal = defaultUnit;
+
+    var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE).toLowerCase();
+    
+    if (value == "\"" || value.substr(0,2) == "in") {
+        retVal = crdtes.UNIT_NAME_INCH;
+    }
+    else if (value == "cm" || value == "cms" || value.substr(0,4) == "cent") {
+        retVal = crdtes.UNIT_NAME_CM;
+    }
+    else if (value == "mm" || value == "mms" || value.substr(0,4) == "mill") {
+        retVal = crdtes.UNIT_NAME_MM;
+    }
+    else if (value.substr(0,3) == "cic") {
+        retVal = crdtes.UNIT_NAME_CICERO;
+    }
+    else if (value.substr(0,3) == "pic") {
+        retVal = crdtes.UNIT_NAME_PICA;
+    }
+    else if (value.substr(0,3) == "pix" || value == "px") {
+        retVal = crdtes.UNIT_NAME_PIXEL;
+    }
+    else if (value.substr(0,3) == "poi" || value == "pt") {
+        retVal = crdtes.UNIT_NAME_POINT;
+    }
+
+    return retVal;
+}
+crdtes.getUnitFromINI = getUnitFromINI;
+
+/**
  * Get file path to License Manager if it is installed
  *
  * @function getLicenseManagerPath
@@ -1455,6 +1635,188 @@ function pushLogLevel(newLogLevel) {
 crdtes.pushLogLevel = pushLogLevel;
 
 /**
+ * Read a bunch of text and try to extract structured information in .INI format
+ * 
+ * This function is lenient and is able to extract slightly mangled INI data from the text frame
+ * content of an InDesign text frame. 
+ * 
+ * This function knows how to handle curly quotes should they be present.
+ * 
+ * The following flexibilities have been built-in:
+ * 
+ * - Attribute names are case-insensitive and anything not `a-z 0-9` is ignored. 
+ * Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are 
+ * all equivalent. Only letters and digits are retained, and converted to lowercase.
+ * 
+ * - Attribute values can be quoted with either single, double, curly quotes. 
+ * This often occurs because InDesign can be configured to convert normal quotes into 
+ * curly quotes automatically.
+ * Attribute values without quotes are trimmed (e.g. `bla =    x  ` is the same as `bla=x`)
+ * Spaces are retained in quoted attribute values.
+ * 
+ * - Any text will be ignore if not properly formatted as either a section name or an attribute-value
+ * pair with an equal sign
+ * 
+ * - Hard and soft returns are equivalent
+ * 
+ * The return value is an object with the section names at the top level, and attribute names 
+ * below that. The following .INI
+ * ```
+ * [My data]
+ * this is = " abc "
+ * that =      abc
+ * ```
+ * returns
+ * ```
+ * {
+ *   "mydata": {
+ *      "thisis": " abc ",
+ *      "that": "abc"
+ *   }
+ * }
+ * ```
+ * 
+ * @function readINI
+ *
+ * @param {string} in_text - raw text, which might or might not contain some INI-formatted data mixed with normal text
+ * @returns {object} either the ini data or `undefined`.
+ */
+
+function readINI(in_text) {
+
+    var retVal = undefined;
+
+    do {
+        try {
+
+            if (! in_text) {
+                break;
+            }
+
+            if ("string" != typeof in_text) {
+                break;
+            }
+
+            var text = in_text + "\r";
+            var state = STATE_IDLE;
+            var attr;
+            var value;
+            var attrSpaceCount;
+            var sectionName = "";
+            var section;
+
+            for (var idx = 0; state != STATE_ERROR && idx < text.length; idx++) {
+                var c = text.charAt(idx);
+                switch (state) {
+                    default:
+                        LogError("ReadIni: unexpected state");
+                        state = STATE_ERROR;
+                        break;
+                    case STATE_IDLE:
+                        if (c == '[') {
+                            state = STATE_SEEN_OPEN_SQUARE_BRACKET;
+                            sectionName = "";
+                        }
+                        else if (c == '#') {
+                            state = STATE_IN_COMMENT;
+                        }
+                        else if (c > ' ') {
+                            attr = c;
+                            attrSpaceCount = 0;
+                            state = STATE_SEEN_NON_WHITE;
+                        }
+                        break;
+                    case STATE_IN_COMMENT:
+                    case STATE_SEEN_CLOSE_SQUARE_BRACKET:
+                        if (c == '\r' || c == '\n') {
+                            state = STATE_IDLE;
+                        }
+                        break;
+                    case STATE_SEEN_OPEN_SQUARE_BRACKET:
+                        if (c == ']') {
+                            state = STATE_SEEN_CLOSE_SQUARE_BRACKET;
+                            sectionName = sectionName.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
+                            sectionName = sectionName.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);                            
+                            if (sectionName) {
+                                if (! retVal) {
+                                    retVal = {};
+                                }
+                                retVal[sectionName] = {};
+                                section = retVal[sectionName];
+                            }
+                        }
+                        else {
+                            sectionName += c;
+                        }
+                        break;
+                    case STATE_SEEN_NON_WHITE:
+                        if (c == "=") {
+                            value = "";
+                            state = STATE_SEEN_EQUAL;
+                        }
+                        else if (c == '\r' || c == '\n') {
+                            state = STATE_IDLE;
+                        }
+                        else if (c != " ") {
+                            while (attrSpaceCount > 0) {
+                                attr += " ";
+                                attrSpaceCount--;
+                            }
+                            attr += c;
+                        }
+                        else {
+                            attrSpaceCount++;
+                        }
+                        break;
+                    case STATE_SEEN_EQUAL:
+                        if (c != '\r' && c != '\n') {
+                            value += c;
+                        }
+                        else {
+                            value = value.replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
+                            if (value.length >= 2) {
+                                var firstChar = value.charAt(0);
+                                var lastChar = value.charAt(value.length - 1);
+                                if (
+                                    (firstChar == "\"" || firstChar == "“" || firstChar == "”") 
+                                && 
+                                    (lastChar == "\"" || lastChar == "“" || lastChar == "”")  
+                                ) {
+                                    value = value.substring(1, value.length - 1);
+                                }
+                                else if (
+                                    (firstChar == "'" || firstChar == "‘" || firstChar == "’") 
+                                && 
+                                    (lastChar == "'" || lastChar == "‘" || lastChar == "’")  
+                                ) {
+                                    value = value.substring(1, value.length - 1);
+                                }
+                            }
+
+                            if (section) {
+                                attr = attr.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
+                                attr = attr.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);
+                                if (attr) {
+                                    section[attr] = value;
+                                }
+                            }
+
+                            state = STATE_IDLE;
+                        }
+                        break;
+                }
+            }
+        }
+        catch (err) {            
+        }
+    }
+    while (false);
+
+    return retVal;
+}
+crdtes.readINI = readINI;
+
+/**
  * Extend or shorten a string to an exact length, adding `padChar` as needed
  *
  * @function rightPad
@@ -1680,6 +2042,44 @@ function toHex(i, numDigits) {
     return retVal;
 }
 crdtes.toHex = toHex;
+
+/**
+ * Conversion factor from a length unit into inches
+ *
+ * @function unitToInchFactor
+ *
+ * @param {string} in_unit - unit name (`crdtes.UNIT_NAME...`)
+ * @returns { number } conversion factor or 1.0 if unknown/not applicable
+ */
+
+function unitToInchFactor(in_unit) {
+
+    var retVal = 1.0;
+
+    switch (in_unit) {
+        case crdtes.UNIT_NAME_CM:
+            retVal = 1.0/2.54;
+            break;
+        case crdtes.UNIT_NAME_MM:
+            retVal = 1.0/25.4;
+            break;
+        case crdtes.UNIT_NAME_CICERO:
+            retVal = 0.17762;
+            break;
+        case crdtes.UNIT_NAME_PICA:
+            retVal = 1.0/12.0;
+            break;
+        case crdtes.UNIT_NAME_PIXEL:
+            retVal = 1.0/72.0;
+            break;
+        case crdtes.UNIT_NAME_POINT:
+            retVal = 1.0/72.0;
+            break;
+    }
+
+    return retVal;
+}
+crdtes.unitToInchFactor = unitToInchFactor;
 
 function unwrapUTF16ToUTF8__(in_str, isBinary) {
 

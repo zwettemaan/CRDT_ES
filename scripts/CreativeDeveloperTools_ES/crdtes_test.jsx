@@ -13,6 +13,47 @@ const TEST_FILE1_NAME       = "testFile1.txt";
 const TEST_FILE2_NAME       = "testFile2.txt";
 const TEST_KEY              = "my secret key";
 
+const TEST_INI              =
+"# Sample Configuration. Copy This Frame!\n" +
+"\n" + 
+"[Size Labels Configuration]\n" + 
+"\n" + 
+"# These features are available in the ‘free’ version\n" + 
+"# of SizeLabels\n" + 
+"\n" + 
+"horizontal unit = inch\n" + 
+"vertical unit = inch\n" + 
+"label frame width = 2.5 inch\n" + 
+"label frame height = 0.25 inch\n" + 
+"don’t label frames below width = 0.1 inch\n" + 
+"don’t label frames below height = 0.1 inch\n" + 
+"add image filename to label = yes\n" + 
+"\n" + 
+"# The following features are only available in the\n" + 
+"# ‘Pro’ version and during the 30-day trial period.\n" + 
+"# Use the License Manager to order licenses for \n" + 
+"# US$ 4.00/seat/year \n" + 
+"\n" + 
+"lock layer = yes\n" + 
+"scale = 1.0\n" + 
+"add unit names = yes\n" + 
+"override horizontal unit name = \n" + 
+"override vertical unit name = \n" + 
+"prefix horizontal with =\n" + 
+"prefix vertical with =\n" + 
+"label nested frames = no\n" + 
+"omit image frames = no\n" + 
+"omit text frames = no\n" + 
+"omit other frames = no\n" + 
+"ignore frame with script label = “ignore”\n" + 
+"round to decimals = 2\n" + 
+"swap width and height = yes\n" + 
+"separator between image name and size = “ - “\n" + 
+"separator between width and height = “ x “\n" + 
+"layer name for labels = “SizeLabels” \n" + 
+"apply label stylename = “SizeLabelStyle”\n" + 
+"apply label object styleName = “SizeLabelObjectStyle”";
+
 function testBase64() {
 
     var retVal = true;
@@ -259,6 +300,187 @@ function testEnvironment() {
         crdtes.logError(arguments, "HOME_DIR " + homeDir + " does not match env. var " + environmentHomeDirVariableName + " = " + environmentHomeDir);
         retVal = false;
     }
+
+    return retVal;
+}
+
+function testINI() {
+
+    var retVal = true;
+
+    do {
+
+        try {
+
+            if (crdtes.getUnitFromINI("cm") != crdtes.UNIT_NAME_CM) {
+                crdtes.logError(arguments, "cm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("centimeter") != crdtes.UNIT_NAME_CM) {
+                crdtes.logError(arguments, "cm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("centimeters") != crdtes.UNIT_NAME_CM) {
+                crdtes.logError(arguments, "cm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("mm") != crdtes.UNIT_NAME_MM) {
+                crdtes.logError(arguments, "mm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("millimeter") != crdtes.UNIT_NAME_MM) {
+                crdtes.logError(arguments, "mm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("millimeters") != crdtes.UNIT_NAME_MM) {
+                crdtes.logError(arguments, "mm unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("pica") != crdtes.UNIT_NAME_PICA) {
+                crdtes.logError(arguments, "pica unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("picas") != crdtes.UNIT_NAME_PICA) {
+                crdtes.logError(arguments, "pica unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("cicero") != crdtes.UNIT_NAME_CICERO) {
+                crdtes.logError(arguments, "cicero unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("ciceros") != crdtes.UNIT_NAME_CICERO) {
+                crdtes.logError(arguments, "cicero unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("px") != crdtes.UNIT_NAME_PIXEL) {
+                crdtes.logError(arguments, "pixel unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("pixel") != crdtes.UNIT_NAME_PIXEL) {
+                crdtes.logError(arguments, "pixel unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("pixels") != crdtes.UNIT_NAME_PIXEL) {
+                crdtes.logError(arguments, "pixel unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("pt") != crdtes.UNIT_NAME_POINT) {
+                crdtes.logError(arguments, "point unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("point") != crdtes.UNIT_NAME_POINT) {
+                crdtes.logError(arguments, "point unit incorrect");
+                retVal = false;
+            }
+
+            if (crdtes.getUnitFromINI("points") != crdtes.UNIT_NAME_POINT) {
+                crdtes.logError(arguments, "point unit incorrect");
+                retVal = false;
+            }
+
+            if (Math.abs(crdtes.getFloatWithUnitFromINI("2p1.3", crdtes.UNIT_NAME_INCH) - (2*6 + 1.3)/72) > 0.00001) {
+                crdtes.logError(arguments, "2p1.3 value incorrect in TEST_INI");
+                retVal = false;
+            }
+
+            if (Math.abs(crdtes.getFloatWithUnitFromINI("2c1.3", crdtes.UNIT_NAME_INCH) - (2*6 + 1.3)/6.0 * 0.17762) > 0.00001) {
+                crdtes.logError(arguments, "2c1.3 attr value incorrect in TEST_INI");
+                retVal = false;
+            }
+
+            if (Math.abs(crdtes.getFloatWithUnitFromINI("1\"", crdtes.UNIT_NAME_CM) - 2.54) > 0.00001) {
+                crdtes.logError(arguments, "1\" attr value incorrect in TEST_INI");
+                retVal = false;
+            }
+
+            if (Math.abs(crdtes.getFloatWithUnitFromINI("-2.54cm", crdtes.UNIT_NAME_INCH) - (-1.0)) > 0.00001) {
+                crdtes.logError(arguments, "1\" attr value incorrect in TEST_INI");
+                retVal = false;
+            }
+
+            var ini = crdtes.readINI(TEST_INI);
+            if (! ("sizelabelsconfiguration" in ini)) {
+                crdtes.logError(arguments, "section missing in TEST_INI");
+                retVal = false;
+                break;
+            }
+
+            var section = ini.sizelabelsconfiguration;
+            if (section) {
+
+                if (! ("applylabelobjectstylename" in section)) {
+                    crdtes.logError(arguments, "applylabelobjectstylename attr missing in TEST_INI");
+                    retVal = false;
+                    break;
+                }
+
+                if (section.applylabelobjectstylename != "SizeLabelObjectStyle") {
+                    crdtes.logError(arguments, "applylabelobjectstylename attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (! ("locklayer" in section)) {
+                    crdtes.logError(arguments, "locklayer attr missing in TEST_INI");
+                    retVal = false;
+                    break;
+                }
+
+                if (section.locklayer != "yes") {
+                    crdtes.logError(arguments, "locklayer attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (! crdtes.getBooleanFromINI(section.locklayer)) {
+                    crdtes.logError(arguments, "locklayer boolean attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (crdtes.getBooleanFromINI(section.labelnestedframes)) {
+                    crdtes.logError(arguments, "labelnestedframes boolean attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (Math.abs(crdtes.getFloatWithUnitFromINI(section.dontlabelframesbelowwidth, crdtes.UNIT_NAME_INCH) - 0.1) > 0.00001) {
+                    crdtes.logError(arguments, "dontlabelframesbelowwidth inches attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (Math.abs(crdtes.getFloatWithUnitFromINI(section.labelframewidth, crdtes.UNIT_NAME_CM) - 6.35) > 0.00001) {
+                    crdtes.logError(arguments, "labelframewidth cm attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (crdtes.getUnitFromINI(section.horizontalunit) != crdtes.UNIT_NAME_INCH) {
+                    crdtes.logError(arguments, "horizontalunit attr value incorrect in TEST_INI");
+                    retVal = false;
+                }
+
+                if (crdtes.getUnitFromINI("cm") != crdtes.UNIT_NAME_CM) {
+                    crdtes.logError(arguments, "cm unit incorrect");
+                    retVal = false;
+                }
+            }
+        }
+        catch (err) {   
+            crdtes.logError(arguments, "throws " + err);
+            retVal = false;     
+        }
+    }
+    while (false);
 
     return retVal;
 }
@@ -519,6 +741,7 @@ var tests = [
     testDirs,
     testEncrypt,
     testEnvironment,
+    testINI,
     testIntPow,
     testLeftRightPad,
     testPersistData,

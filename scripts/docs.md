@@ -59,13 +59,18 @@ https://www.rorohiko.com/crdt
     * [~fileOpen(fileName, mode)](#module_crdtes..fileOpen) ⇒ <code>number</code>
     * [~fileRead(fileHandle, isBinary)](#module_crdtes..fileRead) ⇒ <code>any</code>
     * [~fileWrite(fileHandle, s_or_ByteArr)](#module_crdtes..fileWrite) ⇒ <code>boolean</code>
-    * [~getCapability(issuer, activationProductCode, password)](#module_crdtes..getCapability) ⇒ <code>string</code>
+    * [~getCapability(issuer, capabilityCode, encryptionKey)](#module_crdtes..getCapability) ⇒ <code>string</code>
     * [~getDir(dirTag)](#module_crdtes..getDir) ⇒ <code>string</code>
     * [~getEnvironment(envVarName)](#module_crdtes..getEnvironment) ⇒ <code>string</code>
+    * [~getBooleanFromINI(in_value)](#module_crdtes..getBooleanFromINI) ⇒ <code>boolean</code>
+    * [~getFloatWithUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getFloatWithUnitFromINI) ⇒ <code>boolean</code>
+    * [~getUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getUnitFromINI) ⇒ <code>boolean</code>
+    * [~getLicenseManagerPath()](#module_crdtes..getLicenseManagerPath) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
     * [~intPow(i, intPower)](#module_crdtes..intPow) ⇒ <code>number</code>
     * [~isCrdtesActivated()](#module_crdtes..isCrdtesActivated) ⇒ <code>string</code>
     * [~leftPad(s, padChar, len)](#module_crdtes..leftPad) ⇒ <code>string</code>
+    * [~licenseManager()](#module_crdtes..licenseManager) ⇒ <code>boolean</code>
     * [~logEntry(reportingFunctionArguments)](#module_crdtes..logEntry)
     * [~logError(reportingFunctionArguments, message)](#module_crdtes..logError)
     * [~logExit(reportingFunctionArguments)](#module_crdtes..logExit)
@@ -76,6 +81,7 @@ https://www.rorohiko.com/crdt
     * [~machineGUID()](#module_crdtes..machineGUID) ⇒ <code>string</code>
     * [~popLogLevel()](#module_crdtes..popLogLevel) ⇒ <code>number</code>
     * [~pushLogLevel(newLogLevel)](#module_crdtes..pushLogLevel) ⇒ <code>number</code>
+    * [~readINI(in_text)](#module_crdtes..readINI) ⇒ <code>object</code>
     * [~rightPad(s, padChar, len)](#module_crdtes..rightPad) ⇒ <code>string</code>
     * [~setIssuer(issuerGUID, issuerEmail)](#module_crdtes..setIssuer)
     * [~setPersistData(issuer, attribute, password, data)](#module_crdtes..setPersistData) ⇒ <code>boolean</code>
@@ -84,6 +90,7 @@ https://www.rorohiko.com/crdt
     * [~strToBinary(in_s)](#module_crdtes..strToBinary) ⇒ <code>array</code>
     * [~sublicense(key, activation)](#module_crdtes..sublicense) ⇒ <code>boolean</code>
     * [~toHex(i, numDigits)](#module_crdtes..toHex) ⇒ <code>string</code>
+    * [~unitToInchFactor(in_unit)](#module_crdtes..unitToInchFactor) ⇒ <code>number</code>
 
 <a name="module_crdtes..TQL_SCOPE_NAME_DEFAULT"></a>
 
@@ -462,7 +469,7 @@ Not limited to the UXP security sandbox.
 
 <a name="module_crdtes..getCapability"></a>
 
-### crdtes~getCapability(issuer, activationProductCode, password) ⇒ <code>string</code>
+### crdtes~getCapability(issuer, capabilityCode, encryptionKey) ⇒ <code>string</code>
 See whether or what features of some software are currently activated or not
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -471,8 +478,8 @@ See whether or what features of some software are currently activated or not
 | Param | Type | Description |
 | --- | --- | --- |
 | issuer | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
-| activationProductCode | <code>string</code> | a product code for the software product to be activated (as determined by the developer). `activationProductCode` is not necessarily the same as `orderProductCode` - there can be multiple `orderProductCode` associated with  a single `activationProductCode` (e.g. `activationProductCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
-| password | <code>string</code> | the secret `password` (created by the developer) needed to decode the capability data. You want to make sure this password is obfuscated and contained within encrypted script code. |
+| capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with  a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
+| encryptionKey | <code>string</code> | the secret encryption key (created by the developer) needed to decode the capability data. You want to make sure this encryptionKey is obfuscated and contained within encrypted script code. |
 
 <a name="module_crdtes..getDir"></a>
 
@@ -500,6 +507,52 @@ Access the environment
 | --- | --- | --- |
 | envVarName | <code>string</code> | name of environment variable |
 
+<a name="module_crdtes..getBooleanFromINI"></a>
+
+### crdtes~getBooleanFromINI(in_value) ⇒ <code>boolean</code>
+Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_value | <code>string</code> | ini value |
+
+<a name="module_crdtes..getFloatWithUnitFromINI"></a>
+
+### crdtes~getFloatWithUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
+Interpret a string from the INI file a floating point value, followed by an optional unit
+If there is no unit, then no conversion is performed.
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_value | <code>string</code> | ini value |
+| in_defaultUnit | <code>string</code> | default to use if no match is found |
+
+<a name="module_crdtes..getUnitFromINI"></a>
+
+### crdtes~getUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
+Interpret a string from the INI file as a unit name
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_value | <code>string</code> | ini value |
+| in_defaultUnit | <code>string</code> | default to use if no match is found |
+
+<a name="module_crdtes..getLicenseManagerPath"></a>
+
+### crdtes~getLicenseManagerPath() ⇒ <code>string</code>
+Get file path to License Manager if it is installed
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>string</code> - file path  
 <a name="module_crdtes..getPersistData"></a>
 
 ### crdtes~getPersistData(issuer, attribute, password) ⇒ <code>string</code>
@@ -553,6 +606,13 @@ Extend or shorten a string to an exact length, adding `padChar` as needed
 | padChar | <code>string</code> | string to append repeatedly if length needs to extended |
 | len | <code>number</code> | desired result length |
 
+<a name="module_crdtes..licenseManager"></a>
+
+### crdtes~licenseManager() ⇒ <code>boolean</code>
+Attempt to launch the License Manager if it is installed
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - success or failure  
 <a name="module_crdtes..logEntry"></a>
 
 ### crdtes~logEntry(reportingFunctionArguments)
@@ -664,6 +724,57 @@ Save the previous log level and set a new log level
 | Param | Type | Description |
 | --- | --- | --- |
 | newLogLevel | <code>number</code> | new log level to set |
+
+<a name="module_crdtes..readINI"></a>
+
+### crdtes~readINI(in_text) ⇒ <code>object</code>
+Read a bunch of text and try to extract structured information in .INI format
+
+This function is lenient and is able to extract slightly mangled INI data from the text frame
+content of an InDesign text frame. 
+
+This function knows how to handle curly quotes should they be present.
+
+The following flexibilities have been built-in:
+
+- Attribute names are case-insensitive and anything not `a-z 0-9` is ignored. 
+Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are 
+all equivalent. Only letters and digits are retained, and converted to lowercase.
+
+- Attribute values can be quoted with either single, double, curly quotes. 
+This often occurs because InDesign can be configured to convert normal quotes into 
+curly quotes automatically.
+Attribute values without quotes are trimmed (e.g. `bla =    x  ` is the same as `bla=x`)
+Spaces are retained in quoted attribute values.
+
+- Any text will be ignore if not properly formatted as either a section name or an attribute-value
+pair with an equal sign
+
+- Hard and soft returns are equivalent
+
+The return value is an object with the section names at the top level, and attribute names 
+below that. The following .INI
+```
+[My data]
+this is = " abc "
+that =      abc
+```
+returns
+```
+{
+  "mydata": {
+     "thisis": " abc ",
+     "that": "abc"
+  }
+}
+```
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>object</code> - either the ini data or `undefined`.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_text | <code>string</code> | raw text, which might or might not contain some INI-formatted data mixed with normal text |
 
 <a name="module_crdtes..rightPad"></a>
 
@@ -783,4 +894,16 @@ Negative numbers are converted using 2-s complement (so `-15` results in `0x01`)
 | --- | --- | --- |
 | i | <code>number</code> | integer to convert to hex |
 | numDigits | <code>number</code> | How many digits. Defaults to 4 if omitted. |
+
+<a name="module_crdtes..unitToInchFactor"></a>
+
+### crdtes~unitToInchFactor(in_unit) ⇒ <code>number</code>
+Conversion factor from a length unit into inches
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>number</code> - conversion factor or 1.0 if unknown/not applicable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_unit | <code>string</code> | unit name (`crdtes.UNIT_NAME...`) |
 
