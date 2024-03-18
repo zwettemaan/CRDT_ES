@@ -786,7 +786,8 @@ function evalScript(scriptName, parentScriptFile) {
             crdtesDLL.evalScript(scriptName, parentScriptFolder.fsName);
         }
         else {
-            $.evalFile(unencryptedScriptFile);
+            var nearlyForever = 365*24*3600*1000;
+            $.evalFile(unencryptedScriptFile,nearlyForever);
         }
     } 
     catch (e) {
