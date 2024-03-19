@@ -65,12 +65,11 @@ https://www.rorohiko.com/crdt
     * [~getBooleanFromINI(in_value)](#module_crdtes..getBooleanFromINI) ⇒ <code>boolean</code>
     * [~getFloatWithUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getFloatWithUnitFromINI) ⇒ <code>boolean</code>
     * [~getUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getUnitFromINI) ⇒ <code>boolean</code>
-    * [~getLicenseManagerPath()](#module_crdtes..getLicenseManagerPath) ⇒ <code>string</code>
+    * [~getPluginInstallerPath()](#module_crdtes..getPluginInstallerPath) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
     * [~intPow(i, intPower)](#module_crdtes..intPow) ⇒ <code>number</code>
     * [~isCrdtesActivated()](#module_crdtes..isCrdtesActivated) ⇒ <code>string</code>
     * [~leftPad(s, padChar, len)](#module_crdtes..leftPad) ⇒ <code>string</code>
-    * [~licenseManager()](#module_crdtes..licenseManager) ⇒ <code>boolean</code>
     * [~logEntry(reportingFunctionArguments)](#module_crdtes..logEntry)
     * [~logError(reportingFunctionArguments, message)](#module_crdtes..logError)
     * [~logExit(reportingFunctionArguments)](#module_crdtes..logExit)
@@ -79,6 +78,7 @@ https://www.rorohiko.com/crdt
     * [~logTrace(reportingFunctionArguments, message)](#module_crdtes..logTrace)
     * [~logWarning(arguments, message)](#module_crdtes..logWarning)
     * [~machineGUID()](#module_crdtes..machineGUID) ⇒ <code>string</code>
+    * [~pluginInstaller()](#module_crdtes..pluginInstaller) ⇒ <code>boolean</code>
     * [~popLogLevel()](#module_crdtes..popLogLevel) ⇒ <code>number</code>
     * [~pushLogLevel(newLogLevel)](#module_crdtes..pushLogLevel) ⇒ <code>number</code>
     * [~readINI(in_text)](#module_crdtes..readINI) ⇒ <code>object</code>
@@ -477,7 +477,7 @@ See whether or what features of some software are currently activated or not
 
 | Param | Type | Description |
 | --- | --- | --- |
-| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
+| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
 | capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with  a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
 | encryptionKey | <code>string</code> | the secret encryption key (created by the developer) needed to decode the capability data. You want to make sure this encryptionKey is obfuscated and contained within encrypted script code. |
 
@@ -546,10 +546,10 @@ Interpret a string from the INI file as a unit name
 | in_value | <code>string</code> | ini value |
 | in_defaultUnit | <code>string</code> | default to use if no match is found |
 
-<a name="module_crdtes..getLicenseManagerPath"></a>
+<a name="module_crdtes..getPluginInstallerPath"></a>
 
-### crdtes~getLicenseManagerPath() ⇒ <code>string</code>
-Get file path to License Manager if it is installed
+### crdtes~getPluginInstallerPath() ⇒ <code>string</code>
+Get file path to PluginInstaller if it is installed
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - file path  
@@ -563,7 +563,7 @@ Fetch some persistent data
 
 | Param | Type | Description |
 | --- | --- | --- |
-| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
+| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
 | attribute | <code>string</code> | an attribute name for the data |
 | password | <code>string</code> | the password (created by the developer) needed to decode the persistent data |
 
@@ -606,13 +606,6 @@ Extend or shorten a string to an exact length, adding `padChar` as needed
 | padChar | <code>string</code> | string to append repeatedly if length needs to extended |
 | len | <code>number</code> | desired result length |
 
-<a name="module_crdtes..licenseManager"></a>
-
-### crdtes~licenseManager() ⇒ <code>boolean</code>
-Attempt to launch the License Manager if it is installed
-
-**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>boolean</code> - success or failure  
 <a name="module_crdtes..logEntry"></a>
 
 ### crdtes~logEntry(reportingFunctionArguments)
@@ -706,6 +699,13 @@ The unique `GUID` of this computer
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - a `GUID` string  
+<a name="module_crdtes..pluginInstaller"></a>
+
+### crdtes~pluginInstaller() ⇒ <code>boolean</code>
+Attempt to launch the PluginInstaller if it is installed
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - success or failure  
 <a name="module_crdtes..popLogLevel"></a>
 
 ### crdtes~popLogLevel() ⇒ <code>number</code>
@@ -802,8 +802,8 @@ Needs to be followed by a `sublicense()` call
 
 | Param | Type | Description |
 | --- | --- | --- |
-| issuerGUID | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
-| issuerEmail | <code>string</code> | the email for the developer account as seen in the License Manager |
+| issuerGUID | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
+| issuerEmail | <code>string</code> | the email for the developer account as seen in the PluginInstaller |
 
 <a name="module_crdtes..setPersistData"></a>
 
@@ -815,7 +815,7 @@ Store some persistent data (e.g. a time stamp to determine a demo version lapsin
 
 | Param | Type | Description |
 | --- | --- | --- |
-| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the License Manager |
+| issuer | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
 | attribute | <code>string</code> | an attribute name for the data |
 | password | <code>string</code> | the password (created by the developer) needed to decode the persistent data |
 | data | <code>string</code> | any data to persist |
@@ -869,7 +869,7 @@ Encode a string into an byte array using the 8 lowest bits of each UTF-16 charac
 <a name="module_crdtes..sublicense"></a>
 
 ### crdtes~sublicense(key, activation) ⇒ <code>boolean</code>
-Send in sublicense info generated in the License Manager so we can determine whether some software is currently activated or not.
+Send in sublicense info generated in the PluginInstaller so we can determine whether some software is currently activated or not.
 
 Needs to be preceded by a `setIssuer()` call.
 
