@@ -5,23 +5,23 @@ ExtendScript enhancement, enhancing the ExtendScript language for various AdobeÂ
 Â© 2020-2024, Rorohiko Ltd. - Kris Coppieters
 kris@rorohiko.com
 
-To run _Creative Developer Tools for ExtendScript_, you need to activate the software by way of the included _License Manager_.
+To run _Creative Developer Tools for ExtendScript_, you need to activate the software by way of the included _PluginInstaller_.
 
-We have free trial licenses available - you can use the _License Manager_ to order free trial licenses.
+We have free trial licenses available - you can use the _PluginInstaller_ to order free trial licenses.
 
-## License Manager
+## PluginInstaller
 
-The _License Manager_ is provided in the _Helpers_ subfolder.
+The _PluginInstaller_ is provided in the _Helpers_ subfolder.
 
 You may relocate it to a convenient location (e.g., `/Applications` or `C:\Program Files`).
 
-After downloading, and each time you move the _License Manager_ application to a different location on your computer, you need to launch the app once, so it can reconfigure itself.
+After downloading, and each time you move the _PluginInstaller_ application to a different location on your computer, you need to launch the app once, so it can reconfigure itself.
 
-The _LicenseManager_ folder on Windows contains a lot of items, and you'll need to scroll down a bit to see `LicenseManager.exe`
+The _PluginInstaller_ folder on Windows contains a lot of items, and you'll need to scroll down a bit to see `PluginInstaller.exe`
 
 ## Demo
 
-Make sure you've run the _License Manager_ from its current location.
+Make sure you've run the _PluginInstaller_ from its current location.
 
 Make sure you've created a standard account and have acquired and activated a license for Creative Developer Tools.
 
@@ -47,19 +47,19 @@ Modify your script and at the top, add the lines
 //@include "CreativeDeveloperTools_ES/crdtes.jsx"
 ```
 
-## Installing License Manager
+## Installing PluginInstaller
 
 ### Mac
 
-If desired, move the `LicenseManager` application file to its desired location.
+If desired, move the _PluginInstaller_ application file to its desired location.
 
-Double-click the `LicenseManager` application icon to run the app from its current location at least once.
+Double-click the _PluginInstaller_ application icon to run the app from its current location at least once.
 
 ### Windows
 
-If desired, move the `LicenseManager` folder for your Windows platform (arm64 vs x86_64) to its desired location.
+If desired, move the _PluginInstaller_ folder for your Windows platform (arm64 vs x86_64) to its desired location.
 
-Navigate into the `LicenseManager` folder and double-click the `LicenseManager.exe` icon to run the app from its new location at least once.
+Navigate into the _PluginInstaller_ folder and double-click the `PluginInstaller.exe` icon to run the app from its new location at least once.
 
 ## Activating
 
@@ -67,7 +67,7 @@ Navigate into the `LicenseManager` folder and double-click the `LicenseManager.e
 
 You need a Standard Account to activate the software.
 
-Start the _License Manager_.
+Start the _PluginInstaller_.
 
 Create a standard account by clicking the _New_ button, bottom right of the _Accounts_ window.
 
@@ -85,9 +85,9 @@ If the email does not arrive, make sure to check your email spam filter!
 
 On the _Accounts_ window, there is a checkbox _Save Unlock Code_.
 
-If you're on a secure personal computer, you should tick this checkbox, to save the unlock code. That way you don't have to re-enter the code each time you launch the _License Manager_.
+If you're on a secure personal computer, you should tick this checkbox, to save the unlock code. That way you don't have to re-enter the code each time you launch the _PluginInstaller_.
 
-If you don't save the unlock code, you will need to re-enter the code each time you start the _License Manager_.
+If you don't save the unlock code, you will need to re-enter the code each time you start the _PluginInstaller_.
 
 ### Multiple Accounts
 
@@ -101,13 +101,13 @@ Make sure to use good descriptive names, so you can tell the accounts apart.
 
 For example, you might use one account that you keep for your own personal use, and one or more additional accounts that you could use for ordering embeddable _Creative Developer Tools_ activations to pass on to your customers or colleagues.
 
-Always make sure your account is unlocked. If you did not save your unlock code, you will need to re-enter the code in _License Manager_.
+Always make sure your account is unlocked. If you did not save your unlock code, you will need to re-enter the code in _PluginInstaller_.
 
 ### Fetch Product Info
 
-Use the _Store_ window in the _License Manager_, and browse into the _Rorohiko_ Catalog in order to add the product information for the software to be acquired.
+Use the _Store_ window in the _PluginInstaller_, and browse into the _Rorohiko_ Catalog in order to add the product information for the software to be acquired.
 
-Click one of the entries for `Creative Developer Tools` (free trial or commercial activation code). This will open the _Order a License_ window in the _License Manager_.
+Click one of the entries for `Creative Developer Tools` (free trial or commercial activation code). This will open the _Order a License_ window in the _PluginInstaller_.
 
 ### Create an Order
 
@@ -131,7 +131,7 @@ In your email, make sure to mention any additional details that might be relevan
 
 Payment processing is not yet automated - if you're not entitled to a free license you need to manually send payment of US$29/seat using PayPal, to `sales@rorohiko.com`, which covers a year of use.
 
-With your payment, make sure to mention the order reference that you used in the _License Manager_, so we can match your payment to the order info embedded in the _License Request_.
+With your payment, make sure to mention the order reference that you used in the _PluginInstaller_, so we can match your payment to the order info embedded in the _License Request_.
 ```
     https://www.paypal.com
 ```
@@ -142,11 +142,11 @@ Once we have received your payment, we will email you an activation file for the
 
 Make sure to check your email spam filter!
 
-Start the _License Manager_ and go to the _Licenses, Activations and Pending Orders_ window.
+Start the _PluginInstaller_ and go to the _Licenses, Activations and Pending Orders_ window.
 
 Click _Import_ and import the `.capb` file.
 
-The _License Manager_ will match this activation file to the corresponding pending order.
+The _PluginInstaller_ will match this activation file to the corresponding pending order.
 
 ### Activate
 
@@ -162,11 +162,11 @@ In addition to your standard account (incoming), you also need a second develope
 
 The incoming license info will be ordered from Rorohiko using your standard account for purchasing. The outgoing sublicense will be tied to your developer account.
 
-First, switch the _License Manager_ to _Standard_ mode via the _File - License Manager Mode_ menu.
+First, switch the _PluginInstaller_ to _Standard_ mode via the _File - PluginInstaller Mode_ menu.
 
 Purchase a license for _Creative Developer Tools_ as documented in the previous section.
 
-Once the order is validated and the activation file has been imported, switch the _License Manager_ to _Developer/Publisher_ mode.
+Once the order is validated and the activation file has been imported, switch the _PluginInstaller_ to _Developer/Publisher_ mode.
 
 If you don't have a developer account yet, create and register one. Wait for a confirmation email, and make sure to check your spam filter.
 
@@ -223,7 +223,7 @@ The software will now auto-activate when your customer runs it and the user won'
 
 When you need to activate on another computer you can transfer and re-use the same licensing info. Activations can be transferred over.
 
-If you activate your copy of _Creative Developer Tools_ by way of the _License Manager_: you can export and import all your account and activation data between computers. Use the _File - Export License Info..._ and _File - Import License Info..._ to manage a transfer.
+If you activate your copy of _Creative Developer Tools_ by way of the _PluginInstaller_: you can export and import all your account and activation data between computers. Use the _File - Export License Info..._ and _File - Import License Info..._ to manage a transfer.
 
 If you activate your copy by way of the sublicensing mechanism, then the activation will transport automatically.
 

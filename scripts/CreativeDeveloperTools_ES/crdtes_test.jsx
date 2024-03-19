@@ -31,7 +31,7 @@ const TEST_INI              =
 "\n" + 
 "# The following features are only available in the\n" + 
 "# ‘Pro’ version and during the 30-day trial period.\n" + 
-"# Use the License Manager to order licenses for \n" + 
+"# Use the PluginInstaller to order licenses for \n" + 
 "# US$ 4.00/seat/year \n" + 
 "\n" + 
 "lock layer = yes\n" + 

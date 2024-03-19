@@ -44,29 +44,29 @@ rm -rf ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
 rm -rf "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
 mkdir "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
 
-cp "${TIGHTENER_RELEASE_ROOT}Apps/LicenseManager.tgz" "${CRDT_ES_RELEASE_DIR_TEMP}Helpers"
+cp "${TIGHTENER_RELEASE_ROOT}Apps/PluginInstaller.tgz" "${CRDT_ES_RELEASE_DIR_TEMP}Helpers"
 
 cd "${CRDT_ES_RELEASE_DIR_TEMP}Helpers"
-tar -zxf LicenseManager.tgz
-rm -f LicenseManager.tgz
+tar -zxf PluginInstaller.tgz
+rm -f PluginInstaller.tgz
 
-cd LicenseManager
+cd PluginInstaller
 
-unzip MacOS_Intel_And_M1/LicenseManager.zip > /dev/null
-mv    LicenseManager.app     "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Mac"
-mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Mac/LicenseManager_README.md"
+unzip MacOS_Intel_And_M1/PluginInstaller.zip > /dev/null
+mv    PluginInstaller.app    "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Mac"
+mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Mac/PluginInstaller_README.md"
 
-unzip Windows_Intel_x86_64/LicenseManager.zip > /dev/null
-mv    LicenseManager         "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_x86_64"
-mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_x86_64/LicenseManager_README.md"
+unzip Windows_Intel_x86_64/PluginInstaller.zip > /dev/null
+mv    PluginInstaller        "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_x86_64"
+mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_x86_64/PluginInstaller_README.md"
 
-unzip Windows_ARM64/LicenseManager.zip > /dev/null
-mv    LicenseManager         "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_arm64"
-mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_arm64/LicenseManager_README.md"
+unzip Windows_ARM64/PluginInstaller.zip > /dev/null
+mv    PluginInstaller        "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_arm64"
+mv    README.md              "${CRDT_ES_RELEASE_DIR_TEMP}Helpers/Windows_arm64/PluginInstaller_README.md"
 
 cd ..
 
-rm -rf LicenseManager
+rm -rf PluginInstaller
 
 cd "${SCRIPT_DIR}"
 

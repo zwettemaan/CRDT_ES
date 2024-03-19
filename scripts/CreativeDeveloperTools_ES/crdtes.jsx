@@ -971,7 +971,7 @@ crdtes.fileWrite = fileWrite;
  *
  * @function getCapability
  *
- * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
+ * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer).
  * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
  * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
@@ -1181,27 +1181,27 @@ function getUnitFromINI(in_value, in_defaultUnit) {
 crdtes.getUnitFromINI = getUnitFromINI;
 
 /**
- * Get file path to License Manager if it is installed
+ * Get file path to PluginInstaller if it is installed
  *
- * @function getLicenseManagerPath
+ * @function getPluginInstallerPath
  * 
  * @returns {string} file path
 */
 
-function getLicenseManagerPath() {
+function getPluginInstallerPath() {
 
-    var retVal = crdtesDLL.getLicenseManagerPath();
+    var retVal = crdtesDLL.getPluginInstallerPath();
 
     return retVal;
 }
-crdtes.getLicenseManagerPath = getLicenseManagerPath;
+crdtes.getPluginInstallerPath = getPluginInstallerPath;
 
 /**
  * Fetch some persistent data
  *
  * @function getPersistData
  *
- * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
+ * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} attribute - an attribute name for the data
  * @param {string} password - the password (created by the developer) needed to decode the persistent data
  * @returns {string} whatever persistent data is stored for the given attribute
@@ -1347,22 +1347,6 @@ function leftPad(s, padChar, len) {
     return retVal;
 }
 crdtes.leftPad = leftPad;
-
-/**
- * Attempt to launch the License Manager if it is installed
- *
- * @function licenseManager
- * 
- * @returns {boolean} success or failure
-*/
-
-function licenseManager() {
-
-    var retVal = crdtesDLL.licenseManager();
-
-    return retVal;
-}
-crdtes.licenseManager = licenseManager;
 
 /**
  * Make a log entry of the call of a function. Pass in the `arguments` keyword as a parameter.
@@ -1589,6 +1573,22 @@ function machineGUID() {
     return retVal;
 }
 crdtes.machineGUID = machineGUID;
+
+/**
+ * Attempt to launch the PluginInstaller if it is installed
+ *
+ * @function pluginInstaller
+ * 
+ * @returns {boolean} success or failure
+*/
+
+function pluginInstaller() {
+
+    var retVal = crdtesDLL.pluginInstaller();
+
+    return retVal;
+}
+crdtes.pluginInstaller = pluginInstaller;
 
 /**
  * Restore the log level to what it was when pushLogLevel was called
@@ -1867,8 +1867,8 @@ crdtes.rightPad = rightPad;
  *
  * @function setIssuer
  *
- * @param {string} issuerGUID - a GUID identifier for the developer account as seen in the License Manager
- * @param {string} issuerEmail - the email for the developer account as seen in the License Manager
+ * @param {string} issuerGUID - a GUID identifier for the developer account as seen in the PluginInstaller
+ * @param {string} issuerEmail - the email for the developer account as seen in the PluginInstaller
  * @returnss { boolean } - success or failure
  */
 function setIssuer(issuerGUID, issuerEmail) {
@@ -1884,7 +1884,7 @@ crdtes.setIssuer = setIssuer;
  *
  * @function setPersistData
  *
- * @param {string} issuer - a GUID identifier for the developer account as seen in the License Manager
+ * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} attribute - an attribute name for the data
  * @param {string} password - the password (created by the developer) needed to decode the persistent data
  * @param {string} data - any data to persist
@@ -1982,7 +1982,7 @@ function strToBinary(in_s) {
 crdtes.strToBinary = strToBinary;
 
 /**
- * Send in sublicense info generated in the License Manager so we can determine whether some software is currently activated or not.
+ * Send in sublicense info generated in the PluginInstaller so we can determine whether some software is currently activated or not.
  *
  * Needs to be preceded by a `setIssuer()` call.
  *
