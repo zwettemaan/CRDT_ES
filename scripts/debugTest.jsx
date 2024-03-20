@@ -1,6 +1,6 @@
 ﻿// Debugging works with the Debug version of InDesign and
-// running it from the command line - the stderr output of
-// curl is visible in the console.
+// running it from the command line - the stderr output
+// is visible in the console.
 //
 // Launch InDesign debug, then 'Attach' to in Xcode to do
 // source code debugging, then trigger the JSX code.
