@@ -180,6 +180,7 @@ var LOG_ENTRY_EXIT            = false;
 var LOG_LEVEL                 = LOG_LEVEL_OFF;
 var IN_LOGGER                 = false;
 var LOG_TO_ESTK_CONSOLE       = true;
+var LOG_TO_CRDT               = false;
 var LOG_TO_FILEPATH           = undefined;
 
 var SYS_INFO;
@@ -368,6 +369,50 @@ function charCodeToUTF8__(in_charCode) {
 
     return retVal;
 }
+
+/**
+ * Configure the logger
+ *
+ * @function configLogger
+ *
+ * @param {object} logInfo - object with logger setup info
+ *     logLevel: 0-4
+ *     logEntryExit: boolean
+ *     logToESTKConsole: boolean
+ *     logToCRDT: boolean
+ *     logToFilePath: undefined or a file path for logging
+ *
+ * @returns {boolean} success/failure
+ */
+function configLogger(logInfo) {
+
+    var retVal = false;
+    try {
+        if (logInfo) {
+            if ("logLevel" in logInfo) {
+                LOG_LEVEL = logInfo.logLevel;
+            }
+            if ("logEntryExit" in logInfo) {
+                LOG_ENTRY_EXIT = logInfo.logEntryExit;
+            }
+            if ("logToESTKConsole" in logInfo) {
+                LOG_TO_ESTK_CONSOLE = logInfo.logToESTKConsole;
+            }
+            if ("logToCRDT" in logInfo) {
+                LOG_TO_CRDT = logInfo.logToCRDT;
+            }
+            if ("logToFilePath" in logInfo) {
+                LOG_TO_FILEPATH = logInfo.logToFilePath;
+            }
+            retVal = true;
+        }
+    }
+    catch (err) {
+    }
+
+    return retVal;
+}
+crdtes.configLogger = configLogger;
 
 /**
  * Reverse the operation of the `encrypt()` function.
@@ -750,7 +795,7 @@ function enQuote__(s_or_ByteArr, quoteChar) {
 }
 
 /**
- * Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`), 
+ * Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`),
  * use crdtesDLL to try and run an `.ejsx` or `.ejs` file.
  *
  * @function evalScript
@@ -789,7 +834,7 @@ function evalScript(scriptName, parentScriptFile) {
             var nearlyForever = 365*24*3600*1000;
             $.evalFile(unencryptedScriptFile,nearlyForever);
         }
-    } 
+    }
     catch (e) {
     }
 
@@ -803,7 +848,7 @@ crdtes.evalScript = evalScript;
  * @function evalTQL
  *
  * @param {string} tqlScript - a script to run
- * @param {string} tqlScopeName - a scope name to use. 
+ * @param {string} tqlScopeName - a scope name to use.
  * be used to pass data between different processes
  * @returns {any} the returned value
  */
@@ -973,11 +1018,11 @@ crdtes.fileWrite = fileWrite;
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer).
- * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with 
+ * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with
  * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
  * @param {string} encryptionKey - the secret encryption key (created by the developer) needed to decode the capability data. You want to make
  * sure this encryptionKey is obfuscated and contained within encrypted script code.
- * @returns {string} a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)
+ * @returns {string} either "NOT_ACTIVATED" or a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file).
  */
 function getCapability(issuer, capabilityCode, encryptionKey) {
 
@@ -1039,7 +1084,7 @@ crdtes.getEnvironment = getEnvironment;
  * Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
  *
  * @function getBooleanFromINI
- * 
+ *
  * @param {string} in_value - ini value
  * @returns {boolean} value
  */
@@ -1049,7 +1094,7 @@ function getBooleanFromINI(in_value) {
 
     if (in_value) {
         var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
-        var firstChar = value.charAt(0); 
+        var firstChar = value.charAt(0);
         var firstValue = parseInt(firstChar, 10);
         retVal = firstChar == "y" || firstChar == "t" || (! isNaN(firstValue) && firstValue != 0);
     }
@@ -1063,13 +1108,13 @@ crdtes.getBooleanFromINI = getBooleanFromINI;
  * If there is no unit, then no conversion is performed.
  *
  * @function getFloatWithUnitFromINI
- * 
+ *
  * @param {string} in_value - ini value
  * @param {string} in_defaultUnit - default to use if no match is found
  * @returns {boolean} value
  */
 
-function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) { 
+function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
 
     var retVal = 0.0;
 
@@ -1140,7 +1185,7 @@ crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
  * Interpret a string from the INI file as a unit name
  *
  * @function getUnitFromINI
- * 
+ *
  * @param {string} in_value - ini value
  * @param {string} in_defaultUnit - default to use if no match is found
  * @returns {boolean} value
@@ -1153,7 +1198,7 @@ function getUnitFromINI(in_value, in_defaultUnit) {
     var retVal = defaultUnit;
 
     var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE).toLowerCase();
-    
+
     if (value == "\"" || value.substr(0,2) == "in") {
         retVal = crdtes.UNIT_NAME_INCH;
     }
@@ -1184,7 +1229,7 @@ crdtes.getUnitFromINI = getUnitFromINI;
  * Get file path to PluginInstaller if it is installed
  *
  * @function getPluginInstallerPath
- * 
+ *
  * @returns {string} file path
 */
 
@@ -1378,7 +1423,7 @@ function logError(reportingFunctionArguments, message) {
             message = reportingFunctionArguments;
             reportingFunctionArguments = undefined;
         }
-        logMessage__(reportingFunctionArguments, "ERROR", message);
+        logMessage(reportingFunctionArguments, LOG_LEVEL_ERROR, message);
     }
 }
 crdtes.logError = logError;
@@ -1423,9 +1468,17 @@ function functionNameFromArguments(functionArguments) {
 crdtes.functionNameFromArguments = functionNameFromArguments;
 
 
-// Internal use: write out a log message
+/**
+ * Output a log message. Pass in the `arguments` keyword as the first parameter.
+ *
+ * @function logMessage
+ *
+ * @param {array} reportingFunctionArguments - pass in the current `arguments` to the function. This is used to determine the function's name for the log
+ * @param {number} logLevel - log level
+ * @param {string} message - the note to output
+ */
 
-function logMessage__(reportingFunctionArguments, levelPrefix, message) {
+function logMessage(reportingFunctionArguments, logLevel, message) {
 
     var savedInLogger = IN_LOGGER;
 
@@ -1439,25 +1492,25 @@ function logMessage__(reportingFunctionArguments, levelPrefix, message) {
             IN_LOGGER = true;
 
             var functionPrefix = "";
+            var functionName = "";
 
             if (! message) {
 
-                  message = reportingFunctionArguments;
-                  reportingFunctionArguments = undefined;
+                message = reportingFunctionArguments;
+                reportingFunctionArguments = undefined;
 
             }
             else if (reportingFunctionArguments) {
 
                 if ("string" == typeof reportingFunctionArguments) {
-
-                    functionPrefix += reportingFunctionArguments + ": ";
-
+                    functionName = reportingFunctionArguments;
                 }
                 else {
-
-                    functionPrefix += functionNameFromArguments(reportingFunctionArguments) + ": ";
-
+                    functionName = functionNameFromArguments(reportingFunctionArguments);
                 }
+
+                functionPrefix += functionName + ": ";
+
             }
 
             var now = new Date();
@@ -1477,7 +1530,29 @@ function logMessage__(reportingFunctionArguments, levelPrefix, message) {
 
             var platformPrefix = "E ";
 
-            var logLine = platformPrefix + timePrefix + "- " + levelPrefix + ": " + functionPrefix + message;
+            switch (logLevel) {
+                case LOG_LEVEL_ERROR:
+                    logLevelPrefix = "ERROR";
+                    break;
+                case LOG_LEVEL_WARNING:
+                    logLevelPrefix = "WARN ";
+                    break;
+                case LOG_LEVEL_NOTE:
+                    logLevelPrefix = "NOTE ";
+                    break;
+                case LOG_LEVEL_TRACE:
+                    logLevelPrefix = "TRACE";
+                    break;
+                default:
+                    logLevelPrefix = "     ";
+                    break;
+            }
+
+            var logLine = platformPrefix + timePrefix + "- " + logLevelPrefix + ": " + functionPrefix + message;
+
+            if (LOG_TO_CRDT) {
+                crdtesDLL.logMessage(logLevel, functionName, message)
+            }
 
             if (LOG_TO_ESTK_CONSOLE) {
                 $.writeln(logLine);
@@ -1498,6 +1573,7 @@ function logMessage__(reportingFunctionArguments, levelPrefix, message) {
 
     IN_LOGGER = savedInLogger;
 }
+crdtes.logMessage = logMessage;
 
 /**
  * Make a log entry of a note. Pass in the `arguments` keyword as the first parameter.
@@ -1514,7 +1590,7 @@ function logNote(reportingFunctionArguments, message) {
             message = reportingFunctionArguments;
             reportingFunctionArguments = undefined;
         }
-        logMessage__(reportingFunctionArguments, "NOTE ", message);
+        logMessage(reportingFunctionArguments, LOG_LEVEL_NOTE, message);
     }
 }
 crdtes.logNote = logNote;
@@ -1534,7 +1610,7 @@ function logTrace(reportingFunctionArguments, message) {
             message = reportingFunctionArguments;
             reportingFunctionArguments = undefined;
         }
-        logMessage__(reportingFunctionArguments, "TRACE", message);
+        logMessage(reportingFunctionArguments, LOG_LEVEL_TRACE, message);
     }
 }
 crdtes.logTrace = logTrace;
@@ -1554,7 +1630,7 @@ function logWarning(reportingFunctionArguments, message) {
             message = reportingFunctionArguments;
             reportingFunctionArguments = undefined;
         }
-        logMessage__(reportingFunctionArguments, "WARN ", message);
+        logMessage(reportingFunctionArguments, LOG_LEVEL_WARNING, message);
     }
 }
 crdtes.logWarning = logWarning;
@@ -1578,13 +1654,19 @@ crdtes.machineGUID = machineGUID;
  * Attempt to launch the PluginInstaller if it is installed
  *
  * @function pluginInstaller
- * 
+ *
  * @returns {boolean} success or failure
 */
 
 function pluginInstaller() {
 
-    var retVal = crdtesDLL.pluginInstaller();
+    var retVal = false;
+
+    var pluginInstallerFilePath = crdtesDLL.getPluginInstallerPath();
+    var pluginInstallerFile = File(pluginInstallerFilePath);
+    if (pluginInstallerFile.exists) {
+        retVal = pluginInstallerFile.execute();
+    }
 
     return retVal;
 }
@@ -1637,30 +1719,30 @@ crdtes.pushLogLevel = pushLogLevel;
 
 /**
  * Read a bunch of text and try to extract structured information in .INI format
- * 
+ *
  * This function is lenient and is able to extract slightly mangled INI data from the text frame
- * content of an InDesign text frame. 
- * 
+ * content of an InDesign text frame.
+ *
  * This function knows how to handle curly quotes should they be present.
- * 
+ *
  * The following flexibilities have been built-in:
- * 
- * - Attribute names are case-insensitive and anything not `a-z 0-9` is ignored. 
- * Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are 
+ *
+ * - Attribute names are case-insensitive and anything not `a-z 0-9` is ignored.
+ * Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are
  * all equivalent. Only letters and digits are retained, and converted to lowercase.
- * 
- * - Attribute values can be quoted with either single, double, curly quotes. 
- * This often occurs because InDesign can be configured to convert normal quotes into 
+ *
+ * - Attribute values can be quoted with either single, double, curly quotes.
+ * This often occurs because InDesign can be configured to convert normal quotes into
  * curly quotes automatically.
  * Attribute values without quotes are trimmed (e.g. `bla =    x  ` is the same as `bla=x`)
  * Spaces are retained in quoted attribute values.
- * 
+ *
  * - Any text will be ignore if not properly formatted as either a section name or an attribute-value
  * pair with an equal sign
- * 
+ *
  * - Hard and soft returns are equivalent
- * 
- * The return value is an object with the section names at the top level, and attribute names 
+ *
+ * The return value is an object with the section names at the top level, and attribute names
  * below that. The following .INI
  * ```
  * [My data]
@@ -1676,7 +1758,7 @@ crdtes.pushLogLevel = pushLogLevel;
  *   }
  * }
  * ```
- * 
+ *
  * @function readINI
  *
  * @param {string} in_text - raw text, which might or might not contain some INI-formatted data mixed with normal text
@@ -1737,7 +1819,7 @@ function readINI(in_text) {
                         if (c == ']') {
                             state = STATE_SEEN_CLOSE_SQUARE_BRACKET;
                             sectionName = sectionName.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
-                            sectionName = sectionName.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);                            
+                            sectionName = sectionName.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);
                             if (sectionName) {
                                 if (! retVal) {
                                     retVal = {};
@@ -1779,16 +1861,16 @@ function readINI(in_text) {
                                 var firstChar = value.charAt(0);
                                 var lastChar = value.charAt(value.length - 1);
                                 if (
-                                    (firstChar == "\"" || firstChar == "“" || firstChar == "”") 
-                                && 
-                                    (lastChar == "\"" || lastChar == "“" || lastChar == "”")  
+                                    (firstChar == "\"" || firstChar == "“" || firstChar == "”")
+                                &&
+                                    (lastChar == "\"" || lastChar == "“" || lastChar == "”")
                                 ) {
                                     value = value.substring(1, value.length - 1);
                                 }
                                 else if (
-                                    (firstChar == "'" || firstChar == "‘" || firstChar == "’") 
-                                && 
-                                    (lastChar == "'" || lastChar == "‘" || lastChar == "’")  
+                                    (firstChar == "'" || firstChar == "‘" || firstChar == "’")
+                                &&
+                                    (lastChar == "'" || lastChar == "‘" || lastChar == "’")
                                 ) {
                                     value = value.substring(1, value.length - 1);
                                 }
@@ -1808,7 +1890,7 @@ function readINI(in_text) {
                 }
             }
         }
-        catch (err) {            
+        catch (err) {
         }
     }
     while (false);
