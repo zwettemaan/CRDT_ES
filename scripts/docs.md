@@ -43,6 +43,7 @@ https://www.rorohiko.com/crdt
     * [~base64encode(s_or_ByteArr)](#module_crdtes..base64encode) ⇒ <code>string</code>
     * [~binaryToStr(in_byteArray)](#module_crdtes..binaryToStr) ⇒ <code>string</code>
     * [~binaryUTF8ToStr(in_byteArray)](#module_crdtes..binaryUTF8ToStr) ⇒ <code>string</code>
+    * [~configLogger(logInfo)](#module_crdtes..configLogger) ⇒ <code>boolean</code>
     * [~decrypt(s_or_ByteArr, aesKey)](#module_crdtes..decrypt) ⇒ <code>array</code>
     * [~deQuote(quotedString)](#module_crdtes..deQuote) ⇒ <code>array</code>
     * [~dirCreate(filePath)](#module_crdtes..dirCreate) ⇒ <code>array</code>
@@ -74,6 +75,7 @@ https://www.rorohiko.com/crdt
     * [~logError(reportingFunctionArguments, message)](#module_crdtes..logError)
     * [~logExit(reportingFunctionArguments)](#module_crdtes..logExit)
     * [~functionNameFromArguments(functionArguments)](#module_crdtes..functionNameFromArguments) ⇒ <code>string</code>
+    * [~logMessage(reportingFunctionArguments, logLevel, message)](#module_crdtes..logMessage)
     * [~logNote(reportingFunctionArguments, message)](#module_crdtes..logNote)
     * [~logTrace(reportingFunctionArguments, message)](#module_crdtes..logTrace)
     * [~logWarning(arguments, message)](#module_crdtes..logWarning)
@@ -228,6 +230,18 @@ Decode an array of bytes that contains a UTF-8 encoded string.
 | --- | --- | --- |
 | in_byteArray | <code>array</code> | an array containing bytes (0-255) for a string that was encoded using UTF-8 encoding. |
 
+<a name="module_crdtes..configLogger"></a>
+
+### crdtes~configLogger(logInfo) ⇒ <code>boolean</code>
+Configure the logger
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>boolean</code> - success/failure  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| logInfo | <code>object</code> | object with logger setup info     logLevel: 0-4     logEntryExit: boolean     logToESTKConsole: boolean     logToCRDT: boolean     logToFilePath: undefined or a file path for logging |
+
 <a name="module_crdtes..decrypt"></a>
 
 ### crdtes~decrypt(s_or_ByteArr, aesKey) ⇒ <code>array</code>
@@ -354,7 +368,7 @@ be different every time.
 <a name="module_crdtes..evalScript"></a>
 
 ### crdtes~evalScript(scriptName, parentScriptFile) ⇒ <code>any</code>
-Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`), 
+Evaluate a script file. If the unencrypted script file is not available (`.jsx` or `.js`),
 use crdtesDLL to try and run an `.ejsx` or `.ejs` file.
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -376,7 +390,7 @@ Send a TQL script to the DLL
 | Param | Type | Description |
 | --- | --- | --- |
 | tqlScript | <code>string</code> | a script to run |
-| tqlScopeName | <code>string</code> | a scope name to use.  be used to pass data between different processes |
+| tqlScopeName | <code>string</code> | a scope name to use. be used to pass data between different processes |
 
 <a name="module_crdtes..fileClose"></a>
 
@@ -473,12 +487,12 @@ Not limited to the UXP security sandbox.
 See whether or what features of some software are currently activated or not
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>string</code> - a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file)  
+**Returns**: <code>string</code> - either "NOT_ACTIVATED" or a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file).  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | issuer | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
-| capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with  a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
+| capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
 | encryptionKey | <code>string</code> | the secret encryption key (created by the developer) needed to decode the capability data. You want to make sure this encryptionKey is obfuscated and contained within encrypted script code. |
 
 <a name="module_crdtes..getDir"></a>
@@ -653,6 +667,19 @@ Extract the function name from its arguments
 | --- | --- | --- |
 | functionArguments | <code>object</code> | pass in the current `arguments` to the function. This is used to determine the function's name |
 
+<a name="module_crdtes..logMessage"></a>
+
+### crdtes~logMessage(reportingFunctionArguments, logLevel, message)
+Output a log message. Pass in the `arguments` keyword as the first parameter.
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportingFunctionArguments | <code>array</code> | pass in the current `arguments` to the function. This is used to determine the function's name for the log |
+| logLevel | <code>number</code> | log level |
+| message | <code>string</code> | the note to output |
+
 <a name="module_crdtes..logNote"></a>
 
 ### crdtes~logNote(reportingFunctionArguments, message)
@@ -731,18 +758,18 @@ Save the previous log level and set a new log level
 Read a bunch of text and try to extract structured information in .INI format
 
 This function is lenient and is able to extract slightly mangled INI data from the text frame
-content of an InDesign text frame. 
+content of an InDesign text frame.
 
 This function knows how to handle curly quotes should they be present.
 
 The following flexibilities have been built-in:
 
-- Attribute names are case-insensitive and anything not `a-z 0-9` is ignored. 
-Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are 
+- Attribute names are case-insensitive and anything not `a-z 0-9` is ignored.
+Entries like `this or that = ...` or `thisOrThat = ...` or `this'orThat = ...` are
 all equivalent. Only letters and digits are retained, and converted to lowercase.
 
-- Attribute values can be quoted with either single, double, curly quotes. 
-This often occurs because InDesign can be configured to convert normal quotes into 
+- Attribute values can be quoted with either single, double, curly quotes.
+This often occurs because InDesign can be configured to convert normal quotes into
 curly quotes automatically.
 Attribute values without quotes are trimmed (e.g. `bla =    x  ` is the same as `bla=x`)
 Spaces are retained in quoted attribute values.
@@ -752,7 +779,7 @@ pair with an equal sign
 
 - Hard and soft returns are equivalent
 
-The return value is an object with the section names at the top level, and attribute names 
+The return value is an object with the section names at the top level, and attribute names
 below that. The following .INI
 ```
 [My data]
