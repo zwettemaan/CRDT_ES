@@ -209,18 +209,18 @@ crdtes.base64decode = base64decode;
  *
  * @function base64encode
  *
- * @param {string} s_or_ByteArr - either a string or an array containing bytes (0-255).
+ * @param {string} str_or_ByteArr - either a string or an array containing bytes (0-255).
  * @returns {string} encoded string
  *
  */
-function base64encode(s_or_ByteArr) {
+function base64encode(str_or_ByteArr) {
 
     var byteArray;
-    if ("string" == typeof(s_or_ByteArr)) {
-        byteArray = strToUTF8(s_or_ByteArr);
+    if ("string" == typeof(str_or_ByteArr)) {
+        byteArray = strToUTF8(str_or_ByteArr);
     }
     else {
-        byteArray = s_or_ByteArr;
+        byteArray = str_or_ByteArr;
     }
 
     // ExtendScript DLL interface does not handle binary zeroes in strings, we need to enquote and dequote
@@ -417,21 +417,23 @@ crdtes.configLogger = configLogger;
 /**
  * Reverse the operation of the `encrypt()` function.
  *
+ * Only available to paid developer accounts
+ *
  * @function decrypt
  *
- * @param {string} s_or_ByteArr - a string or an array of bytes
+ * @param {string} str_or_ByteArr - a string or an array of bytes
  * @param {string} aesKey - a string or an array of bytes
  * @returns {array} an array of bytes
  */
 
-function decrypt(s_or_ByteArr, aesKey, aesIV) {
+function decrypt(str_or_ByteArr, aesKey, aesIV) {
 
     var byteArray;
-    if ("string" == typeof(s_or_ByteArr)) {
-        byteArray = strToUTF8(s_or_ByteArr);
+    if ("string" == typeof(str_or_ByteArr)) {
+        byteArray = strToUTF8(str_or_ByteArr);
     }
     else {
-        byteArray = s_or_ByteArr;
+        byteArray = str_or_ByteArr;
     }
 
     if (! aesIV) {
@@ -600,7 +602,8 @@ crdtes.deQuote = deQuote;
 /**
  * Create a directory.
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirCreate
  *
@@ -619,7 +622,8 @@ crdtes.dirCreate = dirCreate;
 /**
  * Delete a directory.
  *
- * Be very careful with the `recurse` parameter! It is very easy to delete the wrong directory.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirDelete
  *
@@ -643,7 +647,8 @@ crdtes.dirDelete = dirDelete;
  *
  * Also see `fileExists()`.
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirExists
  *
@@ -662,7 +667,8 @@ crdtes.dirExists = dirExists;
 /**
  * Scan a directory.
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirScan
  *
@@ -691,14 +697,14 @@ crdtes.dirScan = dirScan;
  *
  * @function dQ
  *
- * @param {string} s_or_ByteArr - a Unicode string or an array of bytes
+ * @param {string} str_or_ByteArr - a Unicode string or an array of bytes
  * @returns {string} a string enclosed in double quotes. This string is pure 7-bit
  * ASCII and can be inserted into generated script code
  * Example:
  * `var script = "a=b(" + dQ(somedata) + ");";`
  */
-function dQ(s_or_ByteArr) {
-    return enQuote__(s_or_ByteArr, "\"");
+function dQ(str_or_ByteArr) {
+    return enQuote__(str_or_ByteArr, "\"");
 }
 crdtes.dQ = dQ;
 
@@ -707,23 +713,25 @@ crdtes.dQ = dQ;
  * is added into the mix, so even when passing in the same parameter values, the result will
  * be different every time.
  *
+ * Only available to paid developer accounts
+ * 
  * @function encrypt
  *
- * @param {string} s_or_ByteArr - a string or an array of bytes
+ * @param {string} str_or_ByteArr - a string or an array of bytes
  * @param {string} aesKey - a string or an array of bytes
  * @returns {string} a base-64 encoded encrypted string.
  */
 
-function encrypt(s_or_ByteArr, aesKey, aesIV) {
+function encrypt(str_or_ByteArr, aesKey, aesIV) {
 
     var retVal;
 
     var s;
-    if ("string" == typeof(s_or_ByteArr)) {
-        s = s_or_ByteArr;
+    if ("string" == typeof(str_or_ByteArr)) {
+        s = str_or_ByteArr;
     }
     else {
-        s = binaryToStr(s_or_ByteArr);
+        s = binaryToStr(str_or_ByteArr);
     }
 
     var aesKeyByteArray = strToUTF8(aesKey);
@@ -746,22 +754,22 @@ crdtes.encrypt = encrypt;
 //
 // enQuote__: Internal helper function. Escape and wrap a string in quotes
 //
-function enQuote__(s_or_ByteArr, quoteChar) {
+function enQuote__(str_or_ByteArr, quoteChar) {
 
     var retVal = "";
 
     var quoteCharCode = quoteChar.charCodeAt(0);
 
-    var isString = ("string" == typeof s_or_ByteArr);
+    var isString = ("string" == typeof str_or_ByteArr);
     var escapedS = "";
-    var sLen = s_or_ByteArr.length;
+    var sLen = str_or_ByteArr.length;
     for (var charIdx = 0; charIdx < sLen; charIdx++) {
         var cCode;
         if (isString) {
-            cCode = s_or_ByteArr.charCodeAt(charIdx);
+            cCode = str_or_ByteArr.charCodeAt(charIdx);
         }
         else {
-            cCode = s_or_ByteArr[charIdx];
+            cCode = str_or_ByteArr[charIdx];
         }
         if (cCode == 0x5C) {
             escapedS += '\\\\';
@@ -849,7 +857,7 @@ crdtes.evalScript = evalScript;
  *
  * @param {string} tqlScript - a script to run
  * @param {string} tqlScopeName - a scope name to use.
- * be used to pass data between different processes
+ * Such scope can be used to pass data between different processes
  * @returns {any} the returned value
  */
 function evalTQL(tqlScript, tqlScopeName) {
@@ -874,7 +882,8 @@ crdtes.evalTQL = evalTQL;
 /**
  * Close a currently open file
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileClose
  *
@@ -893,7 +902,8 @@ crdtes.fileClose = fileClose;
 /**
  * Delete a file
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileDelete
  *
@@ -914,7 +924,8 @@ crdtes.fileDelete = fileDelete;
  *
  * Also see `dirExists()`.
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileExists
  *
@@ -933,7 +944,8 @@ crdtes.fileExists = fileExists;
 /**
  * Open a binary file and return a handle
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileOpen
  *
@@ -960,7 +972,8 @@ crdtes.fileOpen = fileOpen;
 /**
  * Read a file into memory
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileRead
  *
@@ -987,23 +1000,24 @@ crdtes.fileRead = fileRead;
 /**
  * Binary write to a file. Strings are written as UTF-8
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileWrite
  *
  * @param {number} fileHandle - a file handle as returned by `fileOpen()`.
- * @param {string} s_or_ByteArr - data to write to the file
+ * @param {string} str_or_ByteArr - data to write to the file
  * @returns {boolean} success or failure
  */
 
-function fileWrite(fileHandle, s_or_ByteArr) {
+function fileWrite(fileHandle, str_or_ByteArr) {
 
     var byteArray;
-    if ("string" == typeof s_or_ByteArr) {
-        byteArray = strToUTF8(s_or_ByteArr);
+    if ("string" == typeof str_or_ByteArr) {
+        byteArray = strToUTF8(str_or_ByteArr);
     }
     else {
-        byteArray = s_or_ByteArr;
+        byteArray = str_or_ByteArr;
     }
 
     var retVal = evalTQL("fileWrite(" + fileHandle + "," + dQ(byteArray) + ")");
@@ -1012,16 +1026,16 @@ function fileWrite(fileHandle, s_or_ByteArr) {
 crdtes.fileWrite = fileWrite;
 
 /**
- * See whether or what features of some software are currently activated or not
+ * Determine whether, or which, features of some software or module are currently activated or not
  *
  * @function getCapability
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
- * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer).
+ * @param {string} capabilityCode - a code for the software features to be activated (as determined by the developer who owns the account).
  * `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with
  * a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...).
- * @param {string} encryptionKey - the secret encryption key (created by the developer) needed to decode the capability data. You want to make
- * sure this encryptionKey is obfuscated and contained within encrypted script code.
+ * @param {string} encryptionKey - the secret encryption key (created by the developer) needed to decode the capability data. As a developer you want to make
+ * sure this encryptionKey is obfuscated and only contained within encrypted script code.
  * @returns {string} either "NOT_ACTIVATED" or a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file).
  */
 function getCapability(issuer, capabilityCode, encryptionKey) {
@@ -1035,7 +1049,8 @@ crdtes.getCapability = getCapability;
 /**
  * Get the path of a system directory
  *
- * Not limited to the UXP security sandbox.
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function getDir
  *
@@ -1067,6 +1082,9 @@ crdtes.getDir = getDir;
 /**
  * Access the environment
  *
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+ * provided to offer some compatibility with the UXP version of CRDT
+ *
  * @function getEnvironment
  *
  * @param {string} envVarName - name of environment variable
@@ -1081,7 +1099,7 @@ function getEnvironment(envVarName) {
 crdtes.getEnvironment = getEnvironment;
 
 /**
- * Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
+ * Interpret a value extracted from some INI data as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
  *
  * @function getBooleanFromINI
  *
@@ -1104,7 +1122,7 @@ function getBooleanFromINI(in_value) {
 crdtes.getBooleanFromINI = getBooleanFromINI;
 
 /**
- * Interpret a string from the INI file a floating point value, followed by an optional unit
+ * Interpret a string extracted from some INI data as a floating point value, followed by an optional unit
  * If there is no unit, then no conversion is performed.
  *
  * @function getFloatWithUnitFromINI
@@ -1182,7 +1200,7 @@ function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
 crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
 
 /**
- * Interpret a string from the INI file as a unit name
+ * Interpret a string extracted from some INI data as a unit name
  *
  * @function getUnitFromINI
  *
@@ -1244,6 +1262,8 @@ crdtes.getPluginInstallerPath = getPluginInstallerPath;
 /**
  * Fetch some persistent data
  *
+ * Only available to paid developer accounts
+ * 
  * @function getPersistData
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
@@ -1335,9 +1355,10 @@ function intPow(i, intPower) {
 crdtes.intPow = intPow;
 
 /**
- * Determine if Creative Developer Tools is currently activated.
+ * Determine if this is a paid developer account.
  *
- * Some functions will not work without an activation
+ * Some functions, marked with "Only available to paid developer accounts" 
+ * will not work with standard CRDT
  *
  * @function isCrdtesActivated
  *
@@ -1638,6 +1659,8 @@ crdtes.logWarning = logWarning;
 /**
  * The unique `GUID` of this computer
  *
+ * Only available to paid developer accounts
+ * 
  * @function machineGUID
  *
  * @returns {string} a `GUID` string
@@ -1964,6 +1987,8 @@ crdtes.setIssuer = setIssuer;
 /**
  * Store some persistent data (e.g. a time stamp to determine a demo version lapsing)
  *
+ * Only available to paid developer accounts
+ *
  * @function setPersistData
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
@@ -1992,14 +2017,14 @@ crdtes.setPersistData = setPersistData;
  *
  * @function sQ
  *
- * @param {string} s_or_ByteArr - a Unicode string or an array of bytes
+ * @param {string} str_or_ByteArr - a Unicode string or an array of bytes
  * @returns {string} a string enclosed in double quotes. This string is pure 7-bit
  * ASCII and can be used into generated script code
  * Example:
  * `var script = "a=b(" + sQ(somedata) + ");";`
  */
-function sQ(s_or_ByteArr) {
-    return enQuote__(s_or_ByteArr, "'");
+function sQ(str_or_ByteArr) {
+    return enQuote__(str_or_ByteArr, "'");
 }
 crdtes.sQ = sQ;
 
@@ -2168,8 +2193,9 @@ function unwrapUTF16ToUTF8__(in_str, isBinary) {
 
     var retVal;
 
-    // in_str is a UTF-16 string with 0-255 charcode values
-    // which might need to be re-interpreted as UTF-8 sequences
+    // A UTF-8 encoded string or a byte array can be wrapped 'as-is' into a UTF-16 wrapper string, where each
+    // 16-bit character in the UTF-16 wrapper corresponds to a single byte in the UTF-8 string or byte array.
+    // In such a UTF-16 string all characters will have 0-255 charcode values and the high byte always 0.
 
     var byteArray = strToBinary(in_str);
 

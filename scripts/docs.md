@@ -353,7 +353,7 @@ Example:
 <a name="module_crdtes..encrypt"></a>
 
 ### crdtes~encrypt(s_or_ByteArr, aesKey) ⇒ <code>string</code>
-Encrypt a string or array of bytes using a key. A random salt
+(Licensed) Encrypt a string or array of bytes using a key. A random salt
 is added into the mix, so even when passing in the same parameter values, the result will
 be different every time.
 
@@ -570,7 +570,7 @@ Get file path to PluginInstaller if it is installed
 <a name="module_crdtes..getPersistData"></a>
 
 ### crdtes~getPersistData(issuer, attribute, password) ⇒ <code>string</code>
-Fetch some persistent data
+(Licensed) Fetch some persistent data
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - whatever persistent data is stored for the given attribute  
@@ -602,7 +602,7 @@ to handle `Math.pow()`
 ### crdtes~isCrdtesActivated() ⇒ <code>string</code>
 Determine if Creative Developer Tools is currently activated.
 
-Some functions will not work without an activation
+Some functions, marked as (Licensed) will not work without an activation
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - `true` or `false`  
@@ -722,7 +722,7 @@ If the error level is below `LOG_LEVEL_WARNING` nothing happens
 <a name="module_crdtes..machineGUID"></a>
 
 ### crdtes~machineGUID() ⇒ <code>string</code>
-The unique `GUID` of this computer
+(Licensed) The unique `GUID` of this computer
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - a `GUID` string  
@@ -835,7 +835,7 @@ Needs to be followed by a `sublicense()` call
 <a name="module_crdtes..setPersistData"></a>
 
 ### crdtes~setPersistData(issuer, attribute, password, data) ⇒ <code>boolean</code>
-Store some persistent data (e.g. a time stamp to determine a demo version lapsing)
+(Licensed) Store some persistent data (e.g. a time stamp to determine a demo version lapsing)
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
