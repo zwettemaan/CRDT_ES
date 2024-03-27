@@ -40,18 +40,18 @@ https://www.rorohiko.com/crdt
     * [~TMP_DIR](#module_crdtes..TMP_DIR) : <code>string</code>
     * [~USERDATA_DIR](#module_crdtes..USERDATA_DIR) : <code>string</code>
     * [~base64decode(base64Str)](#module_crdtes..base64decode) ⇒ <code>string</code>
-    * [~base64encode(s_or_ByteArr)](#module_crdtes..base64encode) ⇒ <code>string</code>
+    * [~base64encode(str_or_ByteArr)](#module_crdtes..base64encode) ⇒ <code>string</code>
     * [~binaryToStr(in_byteArray)](#module_crdtes..binaryToStr) ⇒ <code>string</code>
     * [~binaryUTF8ToStr(in_byteArray)](#module_crdtes..binaryUTF8ToStr) ⇒ <code>string</code>
     * [~configLogger(logInfo)](#module_crdtes..configLogger) ⇒ <code>boolean</code>
-    * [~decrypt(s_or_ByteArr, aesKey)](#module_crdtes..decrypt) ⇒ <code>array</code>
+    * [~decrypt(str_or_ByteArr, aesKey)](#module_crdtes..decrypt) ⇒ <code>array</code>
     * [~deQuote(quotedString)](#module_crdtes..deQuote) ⇒ <code>array</code>
     * [~dirCreate(filePath)](#module_crdtes..dirCreate) ⇒ <code>array</code>
     * [~dirDelete(filePath, recurse)](#module_crdtes..dirDelete) ⇒ <code>boolean</code>
     * [~dirExists(dirPath)](#module_crdtes..dirExists) ⇒ <code>boolean</code>
     * [~dirScan(filePath)](#module_crdtes..dirScan) ⇒ <code>array</code>
-    * [~dQ(s_or_ByteArr)](#module_crdtes..dQ) ⇒ <code>string</code>
-    * [~encrypt(s_or_ByteArr, aesKey)](#module_crdtes..encrypt) ⇒ <code>string</code>
+    * [~dQ(str_or_ByteArr)](#module_crdtes..dQ) ⇒ <code>string</code>
+    * [~encrypt(str_or_ByteArr, aesKey)](#module_crdtes..encrypt) ⇒ <code>string</code>
     * [~evalScript(scriptName, parentScriptFile)](#module_crdtes..evalScript) ⇒ <code>any</code>
     * [~evalTQL(tqlScript, tqlScopeName)](#module_crdtes..evalTQL) ⇒ <code>any</code>
     * [~fileClose(fileHandle)](#module_crdtes..fileClose) ⇒ <code>boolean</code>
@@ -59,7 +59,7 @@ https://www.rorohiko.com/crdt
     * [~fileExists(filePath)](#module_crdtes..fileExists) ⇒ <code>boolean</code>
     * [~fileOpen(fileName, mode)](#module_crdtes..fileOpen) ⇒ <code>number</code>
     * [~fileRead(fileHandle, isBinary)](#module_crdtes..fileRead) ⇒ <code>any</code>
-    * [~fileWrite(fileHandle, s_or_ByteArr)](#module_crdtes..fileWrite) ⇒ <code>boolean</code>
+    * [~fileWrite(fileHandle, str_or_ByteArr)](#module_crdtes..fileWrite) ⇒ <code>boolean</code>
     * [~getCapability(issuer, capabilityCode, encryptionKey)](#module_crdtes..getCapability) ⇒ <code>string</code>
     * [~getDir(dirTag)](#module_crdtes..getDir) ⇒ <code>string</code>
     * [~getEnvironment(envVarName)](#module_crdtes..getEnvironment) ⇒ <code>string</code>
@@ -87,7 +87,7 @@ https://www.rorohiko.com/crdt
     * [~rightPad(s, padChar, len)](#module_crdtes..rightPad) ⇒ <code>string</code>
     * [~setIssuer(issuerGUID, issuerEmail)](#module_crdtes..setIssuer)
     * [~setPersistData(issuer, attribute, password, data)](#module_crdtes..setPersistData) ⇒ <code>boolean</code>
-    * [~sQ(s_or_ByteArr)](#module_crdtes..sQ) ⇒ <code>string</code>
+    * [~sQ(str_or_ByteArr)](#module_crdtes..sQ) ⇒ <code>string</code>
     * [~strToUTF8(in_s)](#module_crdtes..strToUTF8) ⇒ <code>array</code>
     * [~strToBinary(in_s)](#module_crdtes..strToBinary) ⇒ <code>array</code>
     * [~sublicense(key, activation)](#module_crdtes..sublicense) ⇒ <code>boolean</code>
@@ -194,7 +194,7 @@ Decode a string that was encoded using base64.
 
 <a name="module_crdtes..base64encode"></a>
 
-### crdtes~base64encode(s_or_ByteArr) ⇒ <code>string</code>
+### crdtes~base64encode(str_or_ByteArr) ⇒ <code>string</code>
 Encode a string or an array of bytes using Base 64 encoding.
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -202,7 +202,7 @@ Encode a string or an array of bytes using Base 64 encoding.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| s_or_ByteArr | <code>string</code> | either a string or an array containing bytes (0-255). |
+| str_or_ByteArr | <code>string</code> | either a string or an array containing bytes (0-255). |
 
 <a name="module_crdtes..binaryToStr"></a>
 
@@ -244,15 +244,17 @@ Configure the logger
 
 <a name="module_crdtes..decrypt"></a>
 
-### crdtes~decrypt(s_or_ByteArr, aesKey) ⇒ <code>array</code>
+### crdtes~decrypt(str_or_ByteArr, aesKey) ⇒ <code>array</code>
 Reverse the operation of the `encrypt()` function.
+
+Only available to paid developer accounts
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>array</code> - an array of bytes  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| s_or_ByteArr | <code>string</code> | a string or an array of bytes |
+| str_or_ByteArr | <code>string</code> | a string or an array of bytes |
 | aesKey | <code>string</code> | a string or an array of bytes |
 
 <a name="module_crdtes..deQuote"></a>
@@ -273,7 +275,8 @@ these are first re-encoded using UTF-8 before storing them into the byte array.
 ### crdtes~dirCreate(filePath) ⇒ <code>array</code>
 Create a directory.
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>array</code> - list if items in directory  
@@ -287,7 +290,8 @@ Not limited to the UXP security sandbox.
 ### crdtes~dirDelete(filePath, recurse) ⇒ <code>boolean</code>
 Delete a directory.
 
-Be very careful with the `recurse` parameter! It is very easy to delete the wrong directory.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
@@ -304,7 +308,8 @@ Verify whether a directory exists. Will return `false` if the path points to a f
 
 Also see `fileExists()`.
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - true or false  
@@ -318,7 +323,8 @@ Not limited to the UXP security sandbox.
 ### crdtes~dirScan(filePath) ⇒ <code>array</code>
 Scan a directory.
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>array</code> - list if items in directory  
@@ -329,7 +335,7 @@ Not limited to the UXP security sandbox.
 
 <a name="module_crdtes..dQ"></a>
 
-### crdtes~dQ(s_or_ByteArr) ⇒ <code>string</code>
+### crdtes~dQ(str_or_ByteArr) ⇒ <code>string</code>
 Wrap a string or a byte array into double quotes, encoding any
 binary data as a string. Knows how to handle Unicode characters
 or binary zeroes.
@@ -348,21 +354,23 @@ Example:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| s_or_ByteArr | <code>string</code> | a Unicode string or an array of bytes |
+| str_or_ByteArr | <code>string</code> | a Unicode string or an array of bytes |
 
 <a name="module_crdtes..encrypt"></a>
 
-### crdtes~encrypt(s_or_ByteArr, aesKey) ⇒ <code>string</code>
-(Licensed) Encrypt a string or array of bytes using a key. A random salt
+### crdtes~encrypt(str_or_ByteArr, aesKey) ⇒ <code>string</code>
+Encrypt a string or array of bytes using a key. A random salt
 is added into the mix, so even when passing in the same parameter values, the result will
 be different every time.
+
+Only available to paid developer accounts
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - a base-64 encoded encrypted string.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| s_or_ByteArr | <code>string</code> | a string or an array of bytes |
+| str_or_ByteArr | <code>string</code> | a string or an array of bytes |
 | aesKey | <code>string</code> | a string or an array of bytes |
 
 <a name="module_crdtes..evalScript"></a>
@@ -390,14 +398,15 @@ Send a TQL script to the DLL
 | Param | Type | Description |
 | --- | --- | --- |
 | tqlScript | <code>string</code> | a script to run |
-| tqlScopeName | <code>string</code> | a scope name to use. be used to pass data between different processes |
+| tqlScopeName | <code>string</code> | a scope name to use. Such scope can be used to pass data between different processes |
 
 <a name="module_crdtes..fileClose"></a>
 
 ### crdtes~fileClose(fileHandle) ⇒ <code>boolean</code>
 Close a currently open file
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
@@ -411,7 +420,8 @@ Not limited to the UXP security sandbox.
 ### crdtes~fileDelete(filePath) ⇒ <code>boolean</code>
 Delete a file
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
@@ -427,7 +437,8 @@ Check if a file exists. Will return `false` if the file path points to a directo
 
 Also see `dirExists()`.
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - existence of file  
@@ -441,7 +452,8 @@ Not limited to the UXP security sandbox.
 ### crdtes~fileOpen(fileName, mode) ⇒ <code>number</code>
 Open a binary file and return a handle
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>number</code> - file handle  
@@ -456,7 +468,8 @@ Not limited to the UXP security sandbox.
 ### crdtes~fileRead(fileHandle, isBinary) ⇒ <code>any</code>
 Read a file into memory
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>any</code> - either a byte array or a string  
@@ -468,10 +481,11 @@ Not limited to the UXP security sandbox.
 
 <a name="module_crdtes..fileWrite"></a>
 
-### crdtes~fileWrite(fileHandle, s_or_ByteArr) ⇒ <code>boolean</code>
+### crdtes~fileWrite(fileHandle, str_or_ByteArr) ⇒ <code>boolean</code>
 Binary write to a file. Strings are written as UTF-8
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
@@ -479,12 +493,12 @@ Not limited to the UXP security sandbox.
 | Param | Type | Description |
 | --- | --- | --- |
 | fileHandle | <code>number</code> | a file handle as returned by `fileOpen()`. |
-| s_or_ByteArr | <code>string</code> | data to write to the file |
+| str_or_ByteArr | <code>string</code> | data to write to the file |
 
 <a name="module_crdtes..getCapability"></a>
 
 ### crdtes~getCapability(issuer, capabilityCode, encryptionKey) ⇒ <code>string</code>
-See whether or what features of some software are currently activated or not
+Determine whether, or which, features of some software or module are currently activated or not
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - either "NOT_ACTIVATED" or a JSON structure with capability data (customer GUID, decrypted developer-provided data from the activation file).  
@@ -492,15 +506,16 @@ See whether or what features of some software are currently activated or not
 | Param | Type | Description |
 | --- | --- | --- |
 | issuer | <code>string</code> | a GUID identifier for the developer account as seen in the PluginInstaller |
-| capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
-| encryptionKey | <code>string</code> | the secret encryption key (created by the developer) needed to decode the capability data. You want to make sure this encryptionKey is obfuscated and contained within encrypted script code. |
+| capabilityCode | <code>string</code> | a code for the software features to be activated (as determined by the developer who owns the account). `capabilityCode` is not the same as `orderProductCode` - there can be multiple `orderProductCode` associated with a single `capabilityCode` (e.g. `capabilityCode` 'XYZ', `orderProductCode` 'XYZ_1YEAR', 'XYZ_2YEAR'...). |
+| encryptionKey | <code>string</code> | the secret encryption key (created by the developer) needed to decode the capability data. As a developer you want to make sure this encryptionKey is obfuscated and only contained within encrypted script code. |
 
 <a name="module_crdtes..getDir"></a>
 
 ### crdtes~getDir(dirTag) ⇒ <code>string</code>
 Get the path of a system directory
 
-Not limited to the UXP security sandbox.
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - file path of dir or undefined. Directory paths include a trailing slash or backslash  
@@ -514,6 +529,9 @@ Not limited to the UXP security sandbox.
 ### crdtes~getEnvironment(envVarName) ⇒ <code>string</code>
 Access the environment
 
+Not restricted by the UXP security sandbox. Not needed for pure ExtendScript - 
+provided to offer some compatibility with the UXP version of CRDT
+
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - environment variable value  
 
@@ -524,7 +542,7 @@ Access the environment
 <a name="module_crdtes..getBooleanFromINI"></a>
 
 ### crdtes~getBooleanFromINI(in_value) ⇒ <code>boolean</code>
-Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
+Interpret a value extracted from some INI data as a boolean. Things like y, n, yes, no, true, false, t, f, 0, 1
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - value  
@@ -536,7 +554,7 @@ Interpret a value in the INI file as a boolean. Things like y, n, yes, no, true,
 <a name="module_crdtes..getFloatWithUnitFromINI"></a>
 
 ### crdtes~getFloatWithUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
-Interpret a string from the INI file a floating point value, followed by an optional unit
+Interpret a string extracted from some INI data as a floating point value, followed by an optional unit
 If there is no unit, then no conversion is performed.
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -550,7 +568,7 @@ If there is no unit, then no conversion is performed.
 <a name="module_crdtes..getUnitFromINI"></a>
 
 ### crdtes~getUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
-Interpret a string from the INI file as a unit name
+Interpret a string extracted from some INI data as a unit name
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - value  
@@ -570,7 +588,9 @@ Get file path to PluginInstaller if it is installed
 <a name="module_crdtes..getPersistData"></a>
 
 ### crdtes~getPersistData(issuer, attribute, password) ⇒ <code>string</code>
-(Licensed) Fetch some persistent data
+Fetch some persistent data
+
+Only available to paid developer accounts
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - whatever persistent data is stored for the given attribute  
@@ -600,9 +620,10 @@ to handle `Math.pow()`
 <a name="module_crdtes..isCrdtesActivated"></a>
 
 ### crdtes~isCrdtesActivated() ⇒ <code>string</code>
-Determine if Creative Developer Tools is currently activated.
+Determine if this is a paid developer account.
 
-Some functions, marked as (Licensed) will not work without an activation
+Some functions, marked with "Only available to paid developer accounts" 
+will not work with standard CRDT
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - `true` or `false`  
@@ -722,7 +743,9 @@ If the error level is below `LOG_LEVEL_WARNING` nothing happens
 <a name="module_crdtes..machineGUID"></a>
 
 ### crdtes~machineGUID() ⇒ <code>string</code>
-(Licensed) The unique `GUID` of this computer
+The unique `GUID` of this computer
+
+Only available to paid developer accounts
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>string</code> - a `GUID` string  
@@ -835,7 +858,9 @@ Needs to be followed by a `sublicense()` call
 <a name="module_crdtes..setPersistData"></a>
 
 ### crdtes~setPersistData(issuer, attribute, password, data) ⇒ <code>boolean</code>
-(Licensed) Store some persistent data (e.g. a time stamp to determine a demo version lapsing)
+Store some persistent data (e.g. a time stamp to determine a demo version lapsing)
+
+Only available to paid developer accounts
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>boolean</code> - success or failure  
@@ -849,7 +874,7 @@ Needs to be followed by a `sublicense()` call
 
 <a name="module_crdtes..sQ"></a>
 
-### crdtes~sQ(s_or_ByteArr) ⇒ <code>string</code>
+### crdtes~sQ(str_or_ByteArr) ⇒ <code>string</code>
 Wrap a string or a byte array into single quotes, encoding any
 binary data as a string. Knows how to handle Unicode characters
 or binary zeroes.
@@ -867,7 +892,7 @@ Example:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| s_or_ByteArr | <code>string</code> | a Unicode string or an array of bytes |
+| str_or_ByteArr | <code>string</code> | a Unicode string or an array of bytes |
 
 <a name="module_crdtes..strToUTF8"></a>
 

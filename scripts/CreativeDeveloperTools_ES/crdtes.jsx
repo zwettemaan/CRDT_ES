@@ -1355,22 +1355,22 @@ function intPow(i, intPower) {
 crdtes.intPow = intPow;
 
 /**
- * Determine if this is a paid developer account.
+ * Determine the license level for CRDT: 0 = not, 1 = basic, 2 = full
  *
  * Some functions, marked with "Only available to paid developer accounts" 
- * will not work with standard CRDT
+ * will only work with level 2. Licensing function only work with level 1
  *
- * @function isCrdtesActivated
+ * @function getCreativeDeveloperToolsLevel
  *
- * @returns {string} `true` or `false`
+ * @returns {number} 0, 1 or 2
  */
-function isCrdtesActivated() {
+function getCreativeDeveloperToolsLevel() {
 
-    var retVal = crdtesDLL.isCreativeDevToolsActivated();
+    var retVal = crdtesDLL.getCreativeDeveloperToolsLevel();
 
     return retVal;
 }
-crdtes.isCrdtesActivated = isCrdtesActivated;
+crdtes.getCreativeDeveloperToolsLevel = getCreativeDeveloperToolsLevel;
 
 /**
  * Extend or shorten a string to an exact length, adding `padChar` as needed
