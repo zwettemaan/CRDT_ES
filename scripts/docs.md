@@ -69,7 +69,7 @@ https://www.rorohiko.com/crdt
     * [~getPluginInstallerPath()](#module_crdtes..getPluginInstallerPath) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
     * [~intPow(i, intPower)](#module_crdtes..intPow) ⇒ <code>number</code>
-    * [~isCrdtesActivated()](#module_crdtes..isCrdtesActivated) ⇒ <code>string</code>
+    * [~getCreativeDeveloperToolsLevel()](#module_crdtes..getCreativeDeveloperToolsLevel) ⇒ <code>number</code>
     * [~leftPad(s, padChar, len)](#module_crdtes..leftPad) ⇒ <code>string</code>
     * [~logEntry(reportingFunctionArguments)](#module_crdtes..logEntry)
     * [~logError(reportingFunctionArguments, message)](#module_crdtes..logError)
@@ -617,16 +617,16 @@ to handle `Math.pow()`
 | i | <code>number</code> | Integer base |
 | intPower | <code>number</code> | integer power |
 
-<a name="module_crdtes..isCrdtesActivated"></a>
+<a name="module_crdtes..getCreativeDeveloperToolsLevel"></a>
 
-### crdtes~isCrdtesActivated() ⇒ <code>string</code>
-Determine if this is a paid developer account.
+### crdtes~getCreativeDeveloperToolsLevel() ⇒ <code>number</code>
+Determine the license level for CRDT: 0 = not, 1 = basic, 2 = full
 
 Some functions, marked with "Only available to paid developer accounts" 
-will not work with standard CRDT
+will only work with level 2. Licensing function only work with level 1
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>string</code> - `true` or `false`  
+**Returns**: <code>number</code> - 0, 1 or 2  
 <a name="module_crdtes..leftPad"></a>
 
 ### crdtes~leftPad(s, padChar, len) ⇒ <code>string</code>
