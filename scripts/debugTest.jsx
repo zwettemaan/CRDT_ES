@@ -18,7 +18,7 @@ DEBUG_LIBPATH64_OVERRIDE = "/Users/kris/Documents/Controlled/Rorohiko/TightenerC
 // Import API
 //@include "CreativeDeveloperTools_ES/crdtes.jsx"
 
-if (! crdtes.isCrdtesActivated()) {
+if (crdtes.getCreativeDeveloperToolsLevel() < 1) {
     alert("Not activated");
 }
 
