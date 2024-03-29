@@ -1,51 +1,104 @@
 # Creative Developer Tools for ExtendScript
 
-ExtendScript enhancement, enhancing the ExtendScript language for various Adobe® Creative Cloud® apps, as well as _Adobe® InDesign® Server_.
-
 © 2020-2024, Rorohiko Ltd. - Kris Coppieters
 kris@rorohiko.com
 
-To run _Creative Developer Tools for ExtendScript_, you need to activate the software by way of the included _PluginInstaller_.
+## What it does
 
-We have free trial licenses available - you can use the _PluginInstaller_ to order free trial licenses.
+_Creative Developer Tools_ is a growing suite of tools aimed at script and plug-in developers
+for the Adobe Creative Cloud eco-system.
+
+Currently, it is at an beta stage: the feature set is frozen, and new features requests are 
+added to a 'to do' list.
+
+This is the ExtendScript version. It enhances the ExtendScript language for various 
+Adobe® Creative Cloud® apps, as well as _Adobe® InDesign® Server_.
+
+To run _Creative Developer Tools for ExtendScript_ (_CRDT_ES_), you need to create a developer 
+account in the _PluginInstaller_ app. This will activate the _CRDT_ES_ software.
+
+Some more information on the feature set:
+
+https://github.com/zwettemaan/CRDT_ES/blob/main/scripts/docs.md
 
 ## PluginInstaller
 
-The _PluginInstaller_ is provided in the _Helpers_ subfolder.
+Before you can do anything you first need to download and install the _PluginInstaller_ app.
+
+The _PluginInstaller_ is can be downloaded from 
+
+https://store.tgrg.net
 
 You may relocate it to a convenient location (e.g., `/Applications` or `C:\Program Files`).
 
-After downloading, and each time you move the _PluginInstaller_ application to a different location on your computer, you need to launch the app once, so it can reconfigure itself.
+After downloading, and each time you move the _PluginInstaller_ application to a different 
+location on your computer, you need to launch the app once, so it can reconfigure itself.
 
-The _PluginInstaller_ folder on Windows contains a lot of items, and you'll need to scroll down a bit to see `PluginInstaller.exe`
+The _PluginInstaller_ folder on Windows contains a lot of icons, and you'll need to scroll around
+a bit to see `PluginInstaller.exe`
+
+## How it works
+
+This works by way of a DLL written in C++ which is transparently loaded into the ExtendScript environment. 
+
+Before you can use the functions provided you need to have installed _PluginInstaller_ 
+and you need a registered developer account in the _PluginInstaller_. 
+
+More info on _CRDT_:
+
+https://www.rorohiko.com/crdt
 
 ## Demo
 
 Make sure you've run the _PluginInstaller_ from its current location.
 
-Make sure you've created a standard account and have acquired and activated a license for Creative Developer Tools.
+Make sure you've created and registered a developer account.
 
-Make the following two entries accessible to the host app (e.g. in InDesign, you can use the _Scripts_ panel, in Photoshop, you can use the _File - Scripts - Browse..._ menu and browse for the `sample.jsx` script, and similar for other hosts):
+Make the following two file/folder entries accessible to the host app.
+
+E.g. in InDesign, you can use the _Scripts_ panel. In Photoshop, you can use the _File - Scripts - Browse..._ menu and browse for the `sample.jsx` script. Similar for other host apps.
+
 ```
 sample.jsx                    (file)
 CreativeDeveloperTools_ES     (folder)
 ```
-`sample.jsx` will only work with the `CreativeDeveloperTools_ES` folder alongside it. Run `sample.jsx` from the host app.
 
-All it will currently do is run through a bunch of tests from `crtdtes_test.jsx`, which also contains some helpful sample code. Please
-inspect this file for some better insights into the functionality provided.
+`sample.jsx` will only work with the `CreativeDeveloperTools_ES` folder alongside it. 
+
+Run `sample.jsx` from the host app.
+
+All this will currently do is to run through a bunch of tests from `crtdtes_test.jsx`.
+
+`crtdtes_test.jsx` contains some helpful sample code. Please inspect `crtdtes_test.jsx` to learn more about the functionality provided.
+
+You can also use the VSCode-based ExtendScript debugger to step through this code and gain a deeper understanding for how it works.
 
 ## Installing Creative Developer Tools for ExtendScript
 
 Copy the _CreativeDeveloperTools_ES_ subfolder to reside next to your own script (`.jsx`). Use your text editor and look in the `sample.jsx` and `credtes_test.jsx` text files for example code.
 
-Modify your script and at the top, add the lines
+You probably want your script to be split into a small non-encryted 'wrapper' and an encrypted part with the 'meat' of your script.
+
+Modify the unencrypted wrapper to your script and at the top, add the lines
 ```
 // Load the DLL
 //@include "CreativeDeveloperTools_ES/crdtesDLLLoader.jsx"
 // Import API
 //@include "CreativeDeveloperTools_ES/crdtes.jsx"
 ```
+
+In the encrypted part of your script, add a line like 
+```
+TIGHTENER.setIssuer("ISSUERGUID","ISSUER_EMAIL");
+```
+In this last line, `ISSUERGUID` gets replaced by the GUID you've been assigned for your developer account, and `ISSUER_EMAIL` is the corresponding email address.
+
+Example:
+```
+TIGHTENER.setIssuer("1186cb861234567377c49d7eade","my@email.com");
+```
+
+This line will unlock the CRDT features for use by your script.
 
 ## Installing PluginInstaller
 
@@ -63,13 +116,15 @@ Navigate into the _PluginInstaller_ folder and double-click the `PluginInstaller
 
 ## Activating
 
-### Standard Account
+### Registered Developer Account
 
-You need a Standard Account to activate the software.
+You need to have a registered developer account in the _PluginInstaller_. This will activate CRDT on your computer.
 
 Start the _PluginInstaller_.
 
-Create a standard account by clicking the _New_ button, bottom right of the _Accounts_ window.
+Use the _File - PluginInstaller Mode_ menu and switch to _Developer/Publisher_ mode.
+
+Create a developer account by clicking the _New_ button, bottom right of the _Accounts_ window.
 
 Enter a descriptive name and a valid email address, and choose an unlock code. To avoid typos, you need to enter the same unlock code twice.
 
@@ -77,9 +132,9 @@ Click _OK_.
 
 After the account has been created, click _Register_ to register the account.
 
-You will receive a confirmation email with a confirmation link. Click the link to complete the registration.
+You will receive a confirmation email with a confirmation link. Click the link to complete the registration. If the email does not arrive, make sure to check your email spam filter!
 
-If the email does not arrive, make sure to check your email spam filter!
+Next, we'll then contact you via email for some additional info and verify your credentials, and once the process is complete, you will have a registered developer account.
 
 ### Save Unlock Code
 
@@ -89,151 +144,52 @@ If you're on a secure personal computer, you should tick this checkbox, to save 
 
 If you don't save the unlock code, you will need to re-enter the code each time you start the _PluginInstaller_.
 
-### Multiple Accounts
+### Embedding your account info into your source code
 
-You can create as many accounts as needed.
+In order to enable CRDT on your customer's machines when they run your script, you need to unlock CRDT from within your script by calling `TIGHTENER.setIssuer`. 
 
-It is acceptable to re-use the same email address and the same unlock code for multiple accounts.
-
-If you _do_ re-use the same email address for more than one account, they can become hard to distinguish.
-
-Make sure to use good descriptive names, so you can tell the accounts apart.
-
-For example, you might use one account that you keep for your own personal use, and one or more additional accounts that you could use for ordering embeddable _Creative Developer Tools_ activations to pass on to your customers or colleagues.
-
-Always make sure your account is unlocked. If you did not save your unlock code, you will need to re-enter the code in _PluginInstaller_.
-
-### Fetch Product Info
-
-Use the _Store_ window in the _PluginInstaller_, and browse into the _Rorohiko_ Catalog in order to add the product information for the software to be acquired.
-
-Click one of the entries for `Creative Developer Tools` (free trial or commercial activation code). This will open the _Order a License_ window in the _PluginInstaller_.
-
-### Create an Order
-
-Enter the number of seats needed.
-
-Type in some order reference that will have relevance to you.
-
-Finally, if you have multiple accounts available, you will now need to select the correct account from the popup menu.
-
-Then click the _Save_ button.
-
-This creates a _License Request_ file (`.lirq` file name extension).
-
-### Send us your order
-
-Attach this `.lirq` file to an email to mailto:sales@rorohiko.com.
-
-In your email, make sure to mention any additional details that might be relevant or useful (e.g. whether you qualify for a full free license, or if you prefer us to send you a PayPal invoice).
-
-### Payment
-
-Payment processing is not yet automated - if you're not entitled to a free license you need to manually send payment of US$29/seat using PayPal, to `sales@rorohiko.com`, which covers a year of use.
-
-With your payment, make sure to mention the order reference that you used in the _PluginInstaller_, so we can match your payment to the order info embedded in the _License Request_.
-```
-    https://www.paypal.com
-```
-
-### Activation File
-
-Once we have received your payment, we will email you an activation file for the order, which will have a `.capb` file name extension.
-
-Make sure to check your email spam filter!
-
-Start the _PluginInstaller_ and go to the _Licenses, Activations and Pending Orders_ window.
-
-Click _Import_ and import the `.capb` file.
-
-The _PluginInstaller_ will match this activation file to the corresponding pending order.
-
-### Activate
-
-In the _Licenses, Activations and Pending Orders_ window you can now select the order entry, then click the _Activate_ button to activate your workstation.
-
-## Sublicensing/auto-activation
-
-You might want to bundle _Creative Developer Tools_ with your own commercial software, or have _Creative Developer Tools_ auto-activate so the end-user does not have to handle any activations.
-
-To achieve this, you can either add your activation info as a side-car file, or you can embed it into your source code.
-
-In addition to your standard account (incoming), you also need a second developer account (outgoing).
-
-The incoming license info will be ordered from Rorohiko using your standard account for purchasing. The outgoing sublicense will be tied to your developer account.
-
-First, switch the _PluginInstaller_ to _Standard_ mode via the _File - PluginInstaller Mode_ menu.
-
-Purchase a license for _Creative Developer Tools_ as documented in the previous section.
-
-Once the order is validated and the activation file has been imported, switch the _PluginInstaller_ to _Developer/Publisher_ mode.
-
-If you don't have a developer account yet, create and register one. Wait for a confirmation email, and make sure to check your spam filter.
-
-Once you have a registered developer account, go to the _Sublicensing_ window, and select the order.
-
-### Sidecar File
-
-Select the option _SideCar File_, then click the _Copy_ button.
-
-Start your text editor and create a new file, then _Paste_ the activation info (JSON format).
-
-Save this file with a `.actv` file name extension (e.g. `MyAutoActivation.actv`).
-
-On your end-users computer, you can now to install this file into the folder (Windows)
-```
-%APPDATA%\net.tightener\Licensing\AutoActivations
-```
-or (Mac)
-```
-~/Library/Application Support/net.tightener/Licensing/AutoActivations
-```
-
-The software will now auto-activate whenever your customer runs it and the user won't have to deal with activations.
-
-### Embedding
-
-On the _Sublicensing_ window, select _ExtendScript_, then click the _Copy_ button and then go to your source code,
-and _Paste_ right after the line in your own source code where you load _Creative Developer Tools_:
-```
-// Load the DLL
-//@include "CreativeDeveloperTools_ES/crdtesDLLLoader.jsx"
-
-// Import API
-//@include "CreativeDeveloperTools_ES/crdtes.jsx"
+Please add the call to `TIGHTENER.setIssuer` line at the start of your script. 
 
 ```
-so it looks like
-```
-// Load the DLL
-//@include "CreativeDeveloperTools_ES/crdtesDLLLoader.jsx"
-
-// Import API
-//@include "CreativeDeveloperTools_ES/crdtes.jsx"
-
 TIGHTENER.setIssuer("1186cb861234567377c49d7eade","my@email.com");
-TIGHTENER.sublicense("hdjshsajdshajdkas..lotsofit...NEmgd0UGH28dbI1RK0GRig==");
-
+...
+rest of your script
+...
 ```
-The software will now auto-activate when your customer runs it and the user won't have to deal with activations.
-
-`TIGHTENER.sublicense()` returns a boolean - it will return `false` if the activation fails for some reason, so you can verify in code whether the activation succeeded or not.
-
-## Changing computers
-
-When you need to activate on another computer you can transfer and re-use the same licensing info. Activations can be transferred over.
-
-If you activate your copy of _Creative Developer Tools_ by way of the _PluginInstaller_: you can export and import all your account and activation data between computers. Use the _File - Export License Info..._ and _File - Import License Info..._ to manage a transfer.
-
-If you activate your copy by way of the sublicensing mechanism, then the activation will transport automatically.
-
-Note that to avoid abuse, there is a limitation on how frequently you can re-activate: after you activate a seat on a particular computer, you need to wait at least 10 minutes before you can re-activate the same seat on another computer.
 
 ## Change History
 
-### v0.0.1, Feb 23, 2024
+CRDT_ES Version 0.0.5, CRDT_UXP Version 0.0.8: 28-Mar-2024
 
-- Initial release
+    Activation of CRDT is now ties to having a developer account. 
+
+    ‘Standard’ developer accounts miss out on a few optional features.
+
+CRDT_ES Version 0.0.4, CRDT_UXP Version 0.0.7: 26-Mar-2024
+
+    Improvements to PluginInstaller
+
+CRDT_ES Version 0.0.3, CRDT_UXP Version 0.0.6: 20-Mar-2024
+
+    License Manager renamed to PluginInstaller
+
+CRDT_ES Version 0.0.2, CRDT_UXP Version 0.0.5: 26-Feb-2024
+
+    License Manager now handles dark mode
+
+    License Manager has a features to allow packaging of ExtendScript scripts. 
+
+    Features include:
+      – protect source code by encrypting it. Replace JSXBIN with AES-256 encryption
+      – greatly simplify code signing – automatically handles certificates
+      – packaging/manifest
+      – handle downloading/installing/uninstalling of scripts from within license manager
+
+CRDT_ES Version 0.0.1, CRDT_UXP Version 0.0.4: 26-Feb-2024
+
+  Added persistent local storage, shared between CRDT_ES and CRDT_UXP
+
+  Improved License Manager
 
 ## Licenses
 
