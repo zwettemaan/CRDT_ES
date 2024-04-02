@@ -42,7 +42,7 @@ mkdir "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
 
 cd "${SCRIPT_DIR}"
 
-codesign --timestamp --verbose --deep --force --sign "${TIGHTENER_DEV_ID_APPLE}" "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework"
+codesign --timestamp --verbose --deep --force --sign "${ROROHIKO_DEV_ID_APPLE}" "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework"
 
 rm -rf ${CRDT_ES_PRODUCT_NAME}.zip
 rm -rf ${CRDT_ES_PRODUCT_NAME}.nzip
@@ -75,7 +75,7 @@ xattr -cr "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
 zip -y -r ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}  > /dev/null
 rm -rf ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE} 
 
-xcrun notarytool submit --password ${TIGHTENER_NOTARY_PASSWORD}  --apple-id ${TIGHTENER_NOTARY_APPLE_ID} --team-id ${TIGHTENER_NOTARY_TEAM_ID} --wait ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
+xcrun notarytool submit --password ${ROROHIKO_NOTARY_PASSWORD}  --apple-id ${ROROHIKO_NOTARY_APPLE_ID} --team-id ${ROROHIKO_NOTARY_TEAM_ID} --wait ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
 
 rm ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
 rm ${CRDT_ES_PRODUCT_NAME}.nzip
