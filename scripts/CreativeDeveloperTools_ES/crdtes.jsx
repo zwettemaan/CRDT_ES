@@ -842,7 +842,7 @@ function evalScript(scriptName, parentScriptFile) {
         var splitScriptName = scriptName.split(".");
         if (splitScriptName.length > 1) {
             var fileNameExtension = splitScriptName.pop().toLowerCase();
-            if (fileNameExtension = "js") {
+            if (fileNameExtension == "js") {
                 hasJSFileNameExtension = true;
                 scriptNameWithoutExtension = splitScriptName.join(".");            
             }
