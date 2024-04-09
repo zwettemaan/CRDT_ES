@@ -1,6 +1,8 @@
-if ("undefined" == typeof crdtes) {
-    crdtes = {};
+if (! $.global.crdtes) {
+    $.global.crdtes = {};
 }
+
+var crdtes = $.global.crdtes;
 
 (function() {
 

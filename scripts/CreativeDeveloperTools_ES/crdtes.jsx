@@ -25,9 +25,11 @@
  * @module crdtes
  */
 
-if ("undefined" == typeof crdtes) {
-    crdtes = {};
+if (! $.global.crdtes) {
+    $.global.crdtes = {};
 }
+
+var crdtes = $.global.crdtes;
 
 (function() {
 
@@ -831,17 +833,66 @@ function evalScript(scriptName, parentScriptFile) {
             parentScriptFolder = parentScriptFile.parent;
         }
 
-        var unencryptedScriptFile = File(parentScriptFolder + "/" + scriptName + ".jsx");
-        if (! unencryptedScriptFile.exists) {
-            unencryptedScriptFile = File(parentScriptFolder + "/" + scriptName + ".js");
+
+        var hasEncryptedFileNameExtension = false;
+        var hasJSFileNameExtension = false;
+        var hasJSXFileNameExtension = false;
+        var scriptNameWithoutExtension = scriptName;
+
+        var splitScriptName = scriptName.split(".");
+        if (splitScriptName.length > 1) {
+            var fileNameExtension = splitScriptName.pop().toLowerCase();
+            if (fileNameExtension = "js") {
+                hasJSFileNameExtension = true;
+                scriptNameWithoutExtension = splitScriptName.join(".");            
+            }
+            else if (fileNameExtension == "ejs") {
+                hasEncryptedFileNameExtension = true;
+                hasJSFileNameExtension = true;
+                scriptNameWithoutExtension = splitScriptName.join(".");            
+            }
+            else if (fileNameExtension == "jsx") {
+                hasJSXFileNameExtension = true;
+                scriptNameWithoutExtension = splitScriptName.join(".");            
+            }
+            else if (fileNameExtension == "ejsx") {
+                hasEncryptedFileNameExtension = true;
+                hasJSXFileNameExtension = true;
+                scriptNameWithoutExtension = splitScriptName.join(".");            
+            }
         }
-        if (! unencryptedScriptFile.exists) {
-            crdtesDLL.evalScript(scriptName, parentScriptFolder.fsName);
+
+        var unencryptedScriptFile = undefined;
+        if (hasJSXFileNameExtension) {
+            unencryptedScriptFile = File(parentScriptFolder + "/" + scriptNameWithoutExtension + ".jsx");
+            if (! unencryptedScriptFile.exists) {
+                unencryptedScriptFile = undefined;
+            }
+        }
+        else if (hasJSFileNameExtension) {
+            unencryptedScriptFile = File(parentScriptFolder + "/" + scriptNameWithoutExtension + ".js");
+            if (! unencryptedScriptFile.exists) {
+                unencryptedScriptFile = undefined;
+            }
         }
         else {
+            var unencryptedScriptFile = File(parentScriptFolder + "/" + scriptNameWithoutExtension + ".jsx");
+            if (! unencryptedScriptFile.exists) {
+                unencryptedScriptFile = File(parentScriptFolder + "/" + scriptNameWithoutExtension + ".js");
+                if (! unencryptedScriptFile.exists) {
+                    unencryptedScriptFile = undefined;
+                }
+            }
+        }
+
+        if (unencryptedScriptFile) {
             var nearlyForever = 365*24*3600*1000;
             $.evalFile(unencryptedScriptFile,nearlyForever);
         }
+        else {
+            crdtesDLL.evalScript(scriptName, parentScriptFolder.fsName);
+        }
+
     }
     catch (e) {
     }

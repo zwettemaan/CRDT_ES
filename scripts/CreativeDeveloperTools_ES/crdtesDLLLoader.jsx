@@ -1,6 +1,5 @@
 ﻿var LOAD_DEBUG_CRDT_ES;
 var CRDT_ES;
-var crdtesDLL;
 var TIGHTENER;
 var IS_INDESIGN_SERVER;
 //var DEBUG_LIBPATH64_OVERRIDE = "/Users/kris/Documents/Controlled/Rorohiko/TightenerComponents/TightenerDLL/Xcode/Compiled/Debug/TightenerESDLL_x64D.framework";
@@ -96,4 +95,4 @@ if (CRDT_ES.isInDesignServer === undefined) {
     catch (err) {}
 }
 
-crdtesDLL = CRDT_ES();
+$.global.crdtesDLL = CRDT_ES();
