@@ -890,7 +890,7 @@ function evalScript(scriptName, parentScriptFile) {
             $.evalFile(unencryptedScriptFile,nearlyForever);
         }
         else {
-            crdtesDLL.evalScript(scriptName, parentScriptFolder.fsName);
+            crdtesDLL.evalScript(scriptNameWithoutExtension, parentScriptFolder.fsName);
         }
 
     }
