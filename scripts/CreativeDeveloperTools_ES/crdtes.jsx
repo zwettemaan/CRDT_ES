@@ -829,7 +829,6 @@ function evalScript(scriptName, parentScriptFile) {
             parentScriptFolder = parentScriptFile.parent;
         }
 
-
         var hasEncryptedFileNameExtension = false;
         var hasJSFileNameExtension = false;
         var hasJSXFileNameExtension = false;
