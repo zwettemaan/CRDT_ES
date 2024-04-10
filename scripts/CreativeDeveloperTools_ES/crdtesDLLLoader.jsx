@@ -4,6 +4,19 @@ var TIGHTENER;
 var IS_INDESIGN_SERVER;
 //var DEBUG_LIBPATH64_OVERRIDE = "/Users/kris/Documents/Controlled/Rorohiko/TightenerComponents/TightenerDLL/Xcode/Compiled/Debug/TightenerESDLL_x64D.framework";
 
+function getPlatformGlobals() {
+    return $.global;
+}
+
+var platformGlobals = getPlatformGlobals();
+platformGlobals.getPlatformGlobals = getPlatformGlobals;
+platformGlobals.defineGlobalObject = function defineGlobalObject(globalName) {
+    if (! platformGlobals[globalName]) {
+        platformGlobals[globalName] = {};
+    }
+    return platformGlobals[globalName];
+}
+
 if (LOAD_DEBUG_CRDT_ES || "undefined" == typeof(CRDT_ES)) {
 
     CRDT_ES = function() {

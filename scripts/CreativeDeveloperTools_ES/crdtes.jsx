@@ -25,11 +25,7 @@
  * @module crdtes
  */
 
-if (! $.global.crdtes) {
-    $.global.crdtes = {};
-}
-
-var crdtes = $.global.crdtes;
+var crdtes = getPlatformGlobals().defineGlobalObject("crdtes");
 
 (function() {
 
