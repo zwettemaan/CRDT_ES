@@ -47,7 +47,7 @@ codesign --timestamp --verbose --deep --force --sign "${ROROHIKO_DEV_ID_APPLE}" 
 rm -rf ${CRDT_ES_PRODUCT_NAME}.zip
 rm -rf ${CRDT_ES_PRODUCT_NAME}.nzip
 
-zip -y -r ${CRDT_ES_PRODUCT_NAME}.zip      ${CRDT_ES_PRODUCT_NAME}
+zip -q -y -r ${CRDT_ES_PRODUCT_NAME}.zip   ${CRDT_ES_PRODUCT_NAME}
 mv ${CRDT_ES_PRODUCT_NAME}.zip             ${CRDT_ES_PRODUCT_NAME}.nzip
 
 cp -R ${CRDT_ES_PRODUCT_NAME}              "${CRDT_ES_RELEASE_DIR_TEMP}"
@@ -64,7 +64,7 @@ find . -name ".DS_Store" | while read a; do rm "$a"; done
 find . -name "__MACOSX" | while read a; do rm -rf "$a"; done
 
 xattr -cr "${CRDT_ES_RELEASE_DIR_TEMP}"
-zip -y -r ${CRDT_ES_RELEASE_DIR_NAME}.zip ${CRDT_ES_RELEASE_DIR_NAME}  > /dev/null
+zip -q -y -r ${CRDT_ES_RELEASE_DIR_NAME}.zip ${CRDT_ES_RELEASE_DIR_NAME}
 rm -rf ${CRDT_ES_RELEASE_DIR_TEMP}
 
 rm -rf "${CRDT_ES_RELEASE_DIR_NOTARIZE}${CRDT_ES_PRODUCT_NAME}/ARM64"
@@ -72,7 +72,7 @@ rm -rf "${CRDT_ES_RELEASE_DIR_NOTARIZE}${CRDT_ES_PRODUCT_NAME}/win32"
 rm -rf "${CRDT_ES_RELEASE_DIR_NOTARIZE}${CRDT_ES_PRODUCT_NAME}/win64"
 
 xattr -cr "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
-zip -y -r ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}  > /dev/null
+zip -q -y -r ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}
 rm -rf ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE} 
 
 xcrun notarytool submit --password ${ROROHIKO_NOTARY_PASSWORD}  --apple-id ${ROROHIKO_NOTARY_APPLE_ID} --team-id ${ROROHIKO_NOTARY_TEAM_ID} --wait ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
