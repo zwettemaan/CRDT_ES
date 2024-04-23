@@ -28,6 +28,21 @@ cp -R "${TIGHTENER_RELEASE_ROOT}Plug-Ins/TightenerESDLL/lib/mac64" ${CRDT_ES_PRO
 cp -R "${TIGHTENER_RELEASE_ROOT}Plug-Ins/TightenerESDLL/lib/win32" ${CRDT_ES_PRODUCT_NAME}
 cp -R "${TIGHTENER_RELEASE_ROOT}Plug-Ins/TightenerESDLL/lib/win64" ${CRDT_ES_PRODUCT_NAME}
 
+# Flatten Mac framework. We need this so developers on Windows won't destroy the Mac-specific links
+# when building on Windows - flattening removes the need for symlinks
+
+if [ -d "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions" ]; then
+
+    rm "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Resources"
+    mv "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions/A/Resources" "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Resources"
+
+    rm "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/TightenerESDLL_x64R"
+    mv "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions/A/TightenerESDLL_x64R" "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/TightenerESDLL_x64R"
+
+    rm -rf "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions"
+
+fi
+
 rm -rf ${CRDT_ES_RELEASE}
 rm -rf "${CRDT_ES_RELEASE_DIR_TEMP}"
 
@@ -78,5 +93,6 @@ rm -rf ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}
 xcrun notarytool submit --password ${ROROHIKO_NOTARY_PASSWORD}  --apple-id ${ROROHIKO_NOTARY_APPLE_ID} --team-id ${ROROHIKO_NOTARY_TEAM_ID} --wait ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
 
 rm ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
+
 
 echo "makerelease ${CRDT_ES_PRODUCT_NAME} done"
