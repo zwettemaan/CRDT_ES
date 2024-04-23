@@ -43,6 +43,10 @@ if [ -d "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions" ]
 
 fi
 
+find "${CRDT_ES_PRODUCT_NAME}" -name ".DS_Store" | while read a; do rm "$a"; done
+find "${CRDT_ES_PRODUCT_NAME}" -name "__MACOSX" | while read a; do rm -rf "$a"; done
+xattr -cr "${CRDT_ES_PRODUCT_NAME}"
+
 rm -rf ${CRDT_ES_RELEASE}
 rm -rf "${CRDT_ES_RELEASE_DIR_TEMP}"
 
