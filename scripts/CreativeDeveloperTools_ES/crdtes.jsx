@@ -1740,7 +1740,7 @@ function pluginInstaller() {
             
             if (crdtes.IS_WINDOWS) {
                 // Need to set the PATH before launching. Using a wrapper .bat file
-                pluginInstallerFile = pluginInstallerFile.parent + "/PluginInstaller Resources/launchEmbeddedPluginInstaller.bat";
+                pluginInstallerFile = File(pluginInstallerFile.parent + "/PluginInstaller Resources/launchEmbeddedPluginInstaller.bat");
             }
 
             if (pluginInstallerFile.exists) {
