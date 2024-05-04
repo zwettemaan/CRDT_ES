@@ -27,7 +27,7 @@ Before you can do anything you first need to download and install the _PluginIns
 
 The _PluginInstaller_ is can be downloaded from 
 
-https://store.tgrg.net
+https://PluginInstaller.com
 
 You may relocate it to a convenient location (e.g., `/Applications` or `C:\Program Files`).
 
