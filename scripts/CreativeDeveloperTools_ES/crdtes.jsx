@@ -1739,8 +1739,8 @@ function pluginInstaller() {
             var pluginInstallerFile = File(pluginInstallerFilePath);
             
             if (crdtes.IS_WINDOWS) {
-                // Need to set the PATH before launching. Using a wrapper .bat file
-                pluginInstallerFile = File(pluginInstallerFile.parent + "/PluginInstaller Resources/launchEmbeddedPluginInstaller.bat");
+                // Need to set the PATH before launching. Using a wrapper .vbs file
+                pluginInstallerFile = File(pluginInstallerFile.parent + "/PluginInstaller Resources/launchEmbeddedPluginInstaller.vbs");
             }
 
             if (pluginInstallerFile.exists) {
