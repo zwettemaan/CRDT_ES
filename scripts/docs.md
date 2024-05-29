@@ -65,6 +65,8 @@ https://www.rorohiko.com/crdt
     * [~getEnvironment(envVarName)](#module_crdtes..getEnvironment) ⇒ <code>string</code>
     * [~getBooleanFromINI(in_value)](#module_crdtes..getBooleanFromINI) ⇒ <code>boolean</code>
     * [~getFloatWithUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getFloatWithUnitFromINI) ⇒ <code>boolean</code>
+    * [~getFloatValuesFromINI(in_value)](#module_crdtes..getFloatValuesFromINI) ⇒ <code>array</code>
+    * [~getIntValuesFromINI(in_value)](#module_crdtes..getIntValuesFromINI) ⇒ <code>array</code>
     * [~getUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getUnitFromINI) ⇒ <code>boolean</code>
     * [~getPluginInstallerPath()](#module_crdtes..getPluginInstallerPath) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
@@ -565,6 +567,30 @@ If there is no unit, then no conversion is performed.
 | in_value | <code>string</code> | ini value |
 | in_defaultUnit | <code>string</code> | default to use if no match is found |
 
+<a name="module_crdtes..getFloatValuesFromINI"></a>
+
+### crdtes~getFloatValuesFromINI(in_value) ⇒ <code>array</code>
+Interpret a string extracted from some INI data as an array with float values (e.g. "[ 255, 128.2, 1.7]" )
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>array</code> - array of numbers or undefined  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_value | <code>string</code> | ini value |
+
+<a name="module_crdtes..getIntValuesFromINI"></a>
+
+### crdtes~getIntValuesFromINI(in_value) ⇒ <code>array</code>
+Interpret a string extracted from some INI data as an array with int values (e.g. "[ 255, 128, 1]" )
+
+**Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
+**Returns**: <code>array</code> - array of ints or undefined  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| in_value | <code>string</code> | ini value |
+
 <a name="module_crdtes..getUnitFromINI"></a>
 
 ### crdtes~getUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
@@ -813,6 +839,7 @@ returns
 ```
 {
   "mydata": {
+     "__rawSectionName": "My data",
      "thisis": " abc ",
      "that": "abc"
   }

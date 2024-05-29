@@ -54,6 +54,8 @@ const REGEXP_DESPACE                           = /\s+/g;
 const REGEXP_DESPACE_REPLACE                   = "";
 const REGEXP_ALPHA_ONLY                        = /[^-a-zA-Z0-9_$]+/g;
 const REGEXP_ALPHA_ONLY_REPLACE                = "";
+const REGEXP_SECTION_NAME_ONLY                 = /[^-a-zA-Z0-9_$:]+/g;
+const REGEXP_SECTION_NAME_ONLY_REPLACE         = "";
 const REGEXP_NUMBER_ONLY                       = /^([\d\.]+).*$/;
 const REGEXP_NUMBER_ONLY_REPLACE               = "$1";
 const REGEXP_UNIT_ONLY                         = /^[\d\.]+\s*(.*)$/;
@@ -1158,7 +1160,7 @@ function getBooleanFromINI(in_value) {
 
     if (in_value) {
         var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
-        var firstChar = value.charAt(0);
+        var firstChar = value.charAt(0).toLowerCase();
         var firstValue = parseInt(firstChar, 10);
         retVal = firstChar == "y" || firstChar == "t" || (! isNaN(firstValue) && firstValue != 0);
     }
@@ -1186,6 +1188,14 @@ function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
 
         if (! in_valueStr) {
             break;
+        }
+
+        var convertToUnit;
+        if (in_convertToUnit) {
+            convertToUnit = in_convertToUnit;
+        }
+        else {
+            convertToUnit = crdtes.UNIT_NAME_NONE;
         }
 
         var sign = 1.0;
@@ -1233,8 +1243,8 @@ function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
         }
 
         var conversion = 1.0;
-        if (fromUnit != crdtes.UNIT_NAME_NONE && in_convertToUnit != crdtes.UNIT_NAME_NONE) {
-            conversion = crdtes.unitToInchFactor(fromUnit) / crdtes.unitToInchFactor(in_convertToUnit);
+        if (fromUnit != crdtes.UNIT_NAME_NONE && convertToUnit != crdtes.UNIT_NAME_NONE) {
+            conversion = crdtes.unitToInchFactor(fromUnit) / crdtes.unitToInchFactor(convertToUnit);
         }
 
         retVal = sign * numberOnly * conversion;
@@ -1244,6 +1254,96 @@ function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
     return retVal;
 }
 crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
+
+/**
+ * Interpret a string extracted from some INI data as an array with float values (e.g. "[ 255, 128.2, 1.7]" )
+ *
+ * @function getFloatValuesFromINI
+ *
+ * @param {string} in_value - ini value
+ * @returns {array} array of numbers or undefined
+ */
+
+function getFloatValuesFromINI(in_valueStr) {
+
+    var retVal = undefined;
+
+    do {
+
+        if (! in_valueStr) {
+            break;
+        }
+
+        var floatValues = [];
+        var values = in_valueStr.split(",");
+        for (var idx = 0; idx < values.length; idx++) {
+            var value = values[idx].replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
+            if (! value) {
+                value = 0;
+            }
+            else {
+                value = parseFloat(values[idx]);
+                if (isNaN(value)) {
+                    floatValues = undefined;
+                    break;
+                }
+            }
+
+            floatValues.push(value);
+        }
+
+        retVal = floatValues;
+    }
+    while (false);
+
+    return retVal;
+}
+crdtes.getFloatValuesFromINI = getFloatValuesFromINI;
+
+/**
+ * Interpret a string extracted from some INI data as an array with int values (e.g. "[ 255, 128, 1]" )
+ *
+ * @function getIntValuesFromINI
+ *
+ * @param {string} in_value - ini value
+ * @returns {array} array of ints or undefined
+ */
+
+function getIntValuesFromINI(in_valueStr) {
+
+    var retVal = undefined;
+
+    do {
+
+        if (! in_valueStr) {
+            break;
+        }
+
+        var intValues = [];
+        var values = in_valueStr.split(",");
+        for (var idx = 0; idx < values.length; idx++) {
+            var value = values[idx].replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE);
+            if (! value) {
+                value = 0;
+            }
+            else {
+                value = parseInt(values[idx], 10);
+                if (isNaN(value)) {
+                    intValues = undefined;
+                    break;
+                }
+            }
+
+            intValues.push(value);
+        }
+
+        retVal = intValues;
+    }
+    while (false);
+
+    return retVal;
+}
+crdtes.getIntValuesFromINI = getIntValuesFromINI;
 
 /**
  * Interpret a string extracted from some INI data as a unit name
@@ -1263,7 +1363,7 @@ function getUnitFromINI(in_value, in_defaultUnit) {
 
     var value = (in_value + "").replace(REGEXP_TRIM, REGEXP_TRIM_REPLACE).toLowerCase();
 
-    if (value == "\"" || value.substr(0,2) == "in") {
+    if (value == "\"" || value.substring(0,2) == "in") {
         retVal = crdtes.UNIT_NAME_INCH;
     }
     else if (value == "cm" || value == "cms" || value.substr(0,4) == "cent") {
@@ -1272,16 +1372,16 @@ function getUnitFromINI(in_value, in_defaultUnit) {
     else if (value == "mm" || value == "mms" || value.substr(0,4) == "mill") {
         retVal = crdtes.UNIT_NAME_MM;
     }
-    else if (value.substr(0,3) == "cic") {
+    else if (value.substring(0,3) == "cic") {
         retVal = crdtes.UNIT_NAME_CICERO;
     }
-    else if (value.substr(0,3) == "pic") {
+    else if (value.substring(0,3) == "pic") {
         retVal = crdtes.UNIT_NAME_PICA;
     }
-    else if (value.substr(0,3) == "pix" || value == "px") {
+    else if (value.substring(0,3) == "pix" || value == "px") {
         retVal = crdtes.UNIT_NAME_PIXEL;
     }
-    else if (value.substr(0,3) == "poi" || value == "pt") {
+    else if (value.substring(0,3) == "poi" || value == "pt") {
         retVal = crdtes.UNIT_NAME_POINT;
     }
 
@@ -1837,6 +1937,7 @@ crdtes.pushLogLevel = pushLogLevel;
  * ```
  * {
  *   "mydata": {
+ *      "__rawSectionName": "My data",
  *      "thisis": " abc ",
  *      "that": "abc"
  *   }
@@ -1869,6 +1970,7 @@ function readINI(in_text) {
             var attr;
             var value;
             var attrSpaceCount;
+            var rawSectionName = "";
             var sectionName = "";
             var section;
 
@@ -1882,7 +1984,7 @@ function readINI(in_text) {
                     case STATE_IDLE:
                         if (c == '[') {
                             state = STATE_SEEN_OPEN_SQUARE_BRACKET;
-                            sectionName = "";
+                            rawSectionName = "";
                         }
                         else if (c == '#') {
                             state = STATE_IN_COMMENT;
@@ -1902,18 +2004,20 @@ function readINI(in_text) {
                     case STATE_SEEN_OPEN_SQUARE_BRACKET:
                         if (c == ']') {
                             state = STATE_SEEN_CLOSE_SQUARE_BRACKET;
-                            sectionName = sectionName.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
-                            sectionName = sectionName.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);
+                            sectionName = rawSectionName.toLowerCase();
+                            sectionName = sectionName.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE);
+                            sectionName = sectionName.replace(REGEXP_SECTION_NAME_ONLY, REGEXP_SECTION_NAME_ONLY_REPLACE);
                             if (sectionName) {
                                 if (! retVal) {
                                     retVal = {};
                                 }
                                 retVal[sectionName] = {};
                                 section = retVal[sectionName];
+                                section.__rawSectionName = rawSectionName;
                             }
                         }
                         else {
-                            sectionName += c;
+                            rawSectionName += c;
                         }
                         break;
                     case STATE_SEEN_NON_WHITE:
