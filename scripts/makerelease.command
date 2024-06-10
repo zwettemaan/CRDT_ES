@@ -98,5 +98,4 @@ xcrun notarytool submit --password ${ROROHIKO_NOTARY_PASSWORD}  --apple-id ${ROR
 
 rm ${CRDT_ES_RELEASE_DIR_NAME_NOTARIZE}.zip
 
-
 echo "makerelease ${CRDT_ES_PRODUCT_NAME} done"
