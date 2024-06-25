@@ -1944,6 +1944,32 @@ crdtes.pushLogLevel = pushLogLevel;
  * }
  * ```
  *
+ * Duplicated sections and entries are automatically suffixed with a counter suffix - e.g.
+ * 
+ * [main]
+ * a=1
+ * a=2
+ * a=3
+ * 
+ * is equivalent with 
+ * 
+ * [main]
+ * a=1
+ * a_2=2
+ * a_3=3
+ * 
+ * [a]
+ * a=1
+ * [a]
+ * a=2
+ * 
+ * is equivalent with
+ * 
+ * [a]
+ * a=1
+ * [a_2]
+ * a=2
+ * 
  * @function readINI
  *
  * @param {string} in_text - raw text, which might or might not contain some INI-formatted data mixed with normal text
@@ -1973,6 +1999,8 @@ function readINI(in_text) {
             var rawSectionName = "";
             var sectionName = "";
             var section;
+            var attrCounters = {};
+            var sectionCounters = {};
 
             for (var idx = 0; state != STATE_ERROR && idx < text.length; idx++) {
                 var c = text.charAt(idx);
@@ -2008,12 +2036,24 @@ function readINI(in_text) {
                             sectionName = sectionName.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE);
                             sectionName = sectionName.replace(REGEXP_SECTION_NAME_ONLY, REGEXP_SECTION_NAME_ONLY_REPLACE);
                             if (sectionName) {
+
                                 if (! retVal) {
                                     retVal = {};
                                 }
+
+                                var sectionSuffix = "";
+                                var sectionCounter = 1;
+                                if (sectionName in sectionCounters) {
+                                    sectionCounter = sectionCounters[sectionName];
+                                    sectionCounter++;
+                                    sectionSuffix = "_" + sectionCounter;
+                                }
+                                sectionCounters[sectionName] = sectionCounter;
+                                sectionName += sectionSuffix;
                                 retVal[sectionName] = {};
                                 section = retVal[sectionName];
                                 section.__rawSectionName = rawSectionName;
+                                attrCounters = {};
                             }
                         }
                         else {
@@ -2068,6 +2108,17 @@ function readINI(in_text) {
                                 attr = attr.replace(REGEXP_DESPACE, REGEXP_DESPACE_REPLACE).toLowerCase();
                                 attr = attr.replace(REGEXP_ALPHA_ONLY, REGEXP_ALPHA_ONLY_REPLACE);
                                 if (attr) {
+
+                                    var attrSuffix = "";
+                                    var attrCounter = 1;
+                                    if (attr in attrCounters) {
+                                        attrCounter = attrCounters[attr];
+                                        attrCounter++;
+                                        attrSuffix = "_" + attrCounter;
+                                    }
+                                    attrCounters[attr] = attrCounter;
+                                    attr += attrSuffix;
+
                                     section[attr] = value;
                                 }
                             }

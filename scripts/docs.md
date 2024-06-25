@@ -846,6 +846,32 @@ returns
 }
 ```
 
+Duplicated sections and entries are automatically suffixed with a counter suffix - e.g.
+
+[main]
+a=1
+a=2
+a=3
+
+is equivalent with 
+
+[main]
+a=1
+a_2=2
+a_3=3
+
+[a]
+a=1
+[a]
+a=2
+
+is equivalent with
+
+[a]
+a=1
+[a_2]
+a=2
+
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
 **Returns**: <code>object</code> - either the ini data or `undefined`.  
 
