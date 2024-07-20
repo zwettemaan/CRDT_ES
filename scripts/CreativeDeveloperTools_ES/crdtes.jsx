@@ -1175,9 +1175,9 @@ crdtes.getBooleanFromINI = getBooleanFromINI;
  *
  * @function getFloatWithUnitFromINI
  *
- * @param {string} in_value - ini value
- * @param {string} in_defaultUnit - default to use if no match is found
- * @returns {boolean} value
+ * @param {string} in_valueStr - ini value
+ * @param {string} in_convertToUnit - unit to convert to
+ * @returns {number} value
  */
 
 function getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) {
@@ -1260,7 +1260,7 @@ crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
  *
  * @function getFloatValuesFromINI
  *
- * @param {string} in_value - ini value
+ * @param {string} in_valueStr - ini value
  * @returns {array} array of numbers or undefined
  */
 
@@ -1305,7 +1305,7 @@ crdtes.getFloatValuesFromINI = getFloatValuesFromINI;
  *
  * @function getIntValuesFromINI
  *
- * @param {string} in_value - ini value
+ * @param {string} in_valueStr - ini value
  * @returns {array} array of ints or undefined
  */
 
@@ -1352,7 +1352,7 @@ crdtes.getIntValuesFromINI = getIntValuesFromINI;
  *
  * @param {string} in_value - ini value
  * @param {string} in_defaultUnit - default to use if no match is found
- * @returns {boolean} value
+ * @returns {string} value
  */
 
 function getUnitFromINI(in_value, in_defaultUnit) {
