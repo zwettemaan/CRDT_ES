@@ -64,10 +64,10 @@ https://www.rorohiko.com/crdt
     * [~getDir(dirTag)](#module_crdtes..getDir) ⇒ <code>string</code>
     * [~getEnvironment(envVarName)](#module_crdtes..getEnvironment) ⇒ <code>string</code>
     * [~getBooleanFromINI(in_value)](#module_crdtes..getBooleanFromINI) ⇒ <code>boolean</code>
-    * [~getFloatWithUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getFloatWithUnitFromINI) ⇒ <code>boolean</code>
-    * [~getFloatValuesFromINI(in_value)](#module_crdtes..getFloatValuesFromINI) ⇒ <code>array</code>
-    * [~getIntValuesFromINI(in_value)](#module_crdtes..getIntValuesFromINI) ⇒ <code>array</code>
-    * [~getUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getUnitFromINI) ⇒ <code>boolean</code>
+    * [~getFloatWithUnitFromINI(in_valueStr, in_convertToUnit)](#module_crdtes..getFloatWithUnitFromINI) ⇒ <code>number</code>
+    * [~getFloatValuesFromINI(in_valueStr)](#module_crdtes..getFloatValuesFromINI) ⇒ <code>array</code>
+    * [~getIntValuesFromINI(in_valueStr)](#module_crdtes..getIntValuesFromINI) ⇒ <code>array</code>
+    * [~getUnitFromINI(in_value, in_defaultUnit)](#module_crdtes..getUnitFromINI) ⇒ <code>string</code>
     * [~getPluginInstallerPath()](#module_crdtes..getPluginInstallerPath) ⇒ <code>string</code>
     * [~getPersistData(issuer, attribute, password)](#module_crdtes..getPersistData) ⇒ <code>string</code>
     * [~intPow(i, intPower)](#module_crdtes..intPow) ⇒ <code>number</code>
@@ -555,21 +555,21 @@ Interpret a value extracted from some INI data as a boolean. Things like y, n, y
 
 <a name="module_crdtes..getFloatWithUnitFromINI"></a>
 
-### crdtes~getFloatWithUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
+### crdtes~getFloatWithUnitFromINI(in_valueStr, in_convertToUnit) ⇒ <code>number</code>
 Interpret a string extracted from some INI data as a floating point value, followed by an optional unit
 If there is no unit, then no conversion is performed.
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>boolean</code> - value  
+**Returns**: <code>number</code> - value  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| in_value | <code>string</code> | ini value |
-| in_defaultUnit | <code>string</code> | default to use if no match is found |
+| in_valueStr | <code>string</code> | ini value |
+| in_convertToUnit | <code>string</code> | unit to convert to |
 
 <a name="module_crdtes..getFloatValuesFromINI"></a>
 
-### crdtes~getFloatValuesFromINI(in_value) ⇒ <code>array</code>
+### crdtes~getFloatValuesFromINI(in_valueStr) ⇒ <code>array</code>
 Interpret a string extracted from some INI data as an array with float values (e.g. "[ 255, 128.2, 1.7]" )
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -577,11 +577,11 @@ Interpret a string extracted from some INI data as an array with float values (e
 
 | Param | Type | Description |
 | --- | --- | --- |
-| in_value | <code>string</code> | ini value |
+| in_valueStr | <code>string</code> | ini value |
 
 <a name="module_crdtes..getIntValuesFromINI"></a>
 
-### crdtes~getIntValuesFromINI(in_value) ⇒ <code>array</code>
+### crdtes~getIntValuesFromINI(in_valueStr) ⇒ <code>array</code>
 Interpret a string extracted from some INI data as an array with int values (e.g. "[ 255, 128, 1]" )
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
@@ -589,15 +589,15 @@ Interpret a string extracted from some INI data as an array with int values (e.g
 
 | Param | Type | Description |
 | --- | --- | --- |
-| in_value | <code>string</code> | ini value |
+| in_valueStr | <code>string</code> | ini value |
 
 <a name="module_crdtes..getUnitFromINI"></a>
 
-### crdtes~getUnitFromINI(in_value, in_defaultUnit) ⇒ <code>boolean</code>
+### crdtes~getUnitFromINI(in_value, in_defaultUnit) ⇒ <code>string</code>
 Interpret a string extracted from some INI data as a unit name
 
 **Kind**: inner method of [<code>crdtes</code>](#module_crdtes)  
-**Returns**: <code>boolean</code> - value  
+**Returns**: <code>string</code> - value  
 
 | Param | Type | Description |
 | --- | --- | --- |
