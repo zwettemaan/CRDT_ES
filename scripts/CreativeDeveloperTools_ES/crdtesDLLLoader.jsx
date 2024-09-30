@@ -22,6 +22,10 @@ platformGlobals.defineGlobalObject = function defineGlobalObject(globalName, opt
     return platformGlobals[globalName];
 }
 
+if ("undefined" != typeof JSXGetURL && JSXGetURL) {
+    CRDT_ES = JSXGetURL;
+}
+
 if (LOAD_DEBUG_CRDT_ES || "undefined" == typeof(CRDT_ES)) {
 
     CRDT_ES = function() {
