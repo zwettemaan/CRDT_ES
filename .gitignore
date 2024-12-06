@@ -2,6 +2,7 @@
 !*.dll
 *.swp
 *.user
+/node_modules
 /scripts/CreativeDeveloperTools_ES/ARM64/
 /scripts/CreativeDeveloperTools_ES/mac64/
 /scripts/CreativeDeveloperTools_ES/win32/

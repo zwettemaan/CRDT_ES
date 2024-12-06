@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "jsdoc": "^4.0.4",
+    "minami": "^1.2.3",
+    "taffydb": "^2.7.3"
+  }
+}

@@ -7,12 +7,13 @@ export SCRIPT_DIR=`dirname "$0"`
 cd "$SCRIPT_DIR"
 export SCRIPT_DIR=`pwd`/
 
+cd ..
 rm -rf docs
 
 cat > /tmp/crdt_es_jsdoc.json << EOF
 {
   "source": {
-    "include": ["./"],
+    "include": ["./scripts"],
     "includePattern": ".+\\\\.(js|jsx)?\$",
     "excludePattern": "(^|\\\\/|\\\\\\\\)(node_modules|docs)(\\\\/|\\\\\\\\).*\$"
   },
