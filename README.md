@@ -2,11 +2,11 @@
 
 Documentation for Creative Developer Tools for ExtendScript
 
-https://zwettemaan.github.io/CRDT_ES/
+https://zwettemaan.github.io/CRDT_ES/crdtes.html
 
 Documentation for Creative Developer Tools for UXP and UXPScript
 
-https://zwettemaan.github.io/CRDT_UXP/
+https://zwettemaan.github.io/CRDT_UXP/crdtuxp.html
 
 ## Standard features (free of charge)
 
