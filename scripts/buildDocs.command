@@ -15,7 +15,7 @@ cat > /tmp/crdt_es_jsdoc.json << EOF
   "source": {
     "include": ["./scripts"],
     "includePattern": ".+\\\\.(js|jsx)?\$",
-    "excludePattern": "(^|\\\\/|\\\\\\\\)(node_modules|docs)(\\\\/|\\\\\\\\).*\$"
+    "excludePattern": "(^|\\\\/|\\\\\\\\)(node_modules|docs|custom_minami)(\\\\/|\\\\\\\\).*\$"
   },
   "opts": {
     "destination": "./docs/",
@@ -25,5 +25,5 @@ cat > /tmp/crdt_es_jsdoc.json << EOF
 }
 EOF
 
-npm i --save-dev jsdoc taffydb
+npm i --save-dev jsdoc minami taffydb
 jsdoc -c /tmp/crdt_es_jsdoc.json 
