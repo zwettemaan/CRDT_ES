@@ -75,8 +75,7 @@ cp sample.jsx                              "${CRDT_ES_RELEASE_DIR_TEMP}"
 cp ${CRDT_ES_PRODUCT_NAME}.nzip            "${CRDT_ES_RELEASE_DIR_TEMP}"
 cp README.md                               "${CRDT_ES_RELEASE_DIR_TEMP}"
 cp "../../CRDT_UXP/README_CRDT.md"         "${CRDT_ES_RELEASE_DIR_TEMP}"
-cp docs.md                                 "${CRDT_ES_RELEASE_DIR_TEMP}"
-
+cp -R "../docs"                            "${CRDT_ES_RELEASE_DIR_TEMP}"
 cp -R ${CRDT_ES_PRODUCT_NAME}              "${CRDT_ES_RELEASE_DIR_NOTARIZE}"
 
 find . -name ".DS_Store" | while read a; do rm "$a"; done
