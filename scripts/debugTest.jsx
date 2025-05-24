@@ -10,7 +10,7 @@
 // launched as a subprocess of Xcode or Visual Studio
 
 LOAD_DEBUG_CRDT_ES = false;
-DEBUG_LIBPATH64_OVERRIDE = "/Users/kris/Documents/Controlled/Rorohiko/TightenerComponents/TightenerDLL/Xcode/Compiled/Debug/TightenerESDLL_x64D.framework";
+DEBUG_LIBPATH64_OVERRIDE = "/Users/kris2/Documents/Controlled/Rorohiko/TightenerComponents/TightenerDLL/Xcode/Compiled/Debug/TightenerESDLL_x64D.framework";
 
 // Load DLL
 //@include "CreativeDeveloperTools_ES/crdtesDLLLoader.jsx"
