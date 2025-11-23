@@ -115,7 +115,7 @@ crdtes.IS_WINDOWS = ! crdtes.IS_MAC;
  * Setting log level to <code>crdtes.LOG_LEVEL_OFF</code> causes all log output to be suppressed.
  *
  * @constant {number} LOG_LEVEL_OFF
- * 
+ *
  */
 const LOG_LEVEL_OFF = 0;
 crdtes.LOG_LEVEL_OFF = LOG_LEVEL_OFF;
@@ -273,7 +273,7 @@ crdtes.base64encode = base64encode;
  * (<code>charCodeAt()</code>) that would be invalid in UTF8.<br>
  *
  * @function binaryToStr
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} in_byteArray - an array containing UTF-16 values in the range 0-255
  * @returns {string} a string
@@ -304,7 +304,7 @@ crdtes.binaryToStr = binaryToStr;
  * Decode an array of bytes that contains a UTF-8 encoded string.
  *
  * @function binaryUTF8ToStr
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} in_byteArray - an array containing bytes (0-255) for a string that was encoded using UTF-8 encoding.
  * @returns {string} a string, or undefined if some invalid UTF-8 is encountered
@@ -410,7 +410,7 @@ function charCodeToUTF8__(in_charCode) {
  * Configure the logger
  *
  * @function configLogger
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {object} logInfo - object with logger setup info<code>{<br>
  *     logLevel: 0-4<br>
@@ -458,7 +458,7 @@ crdtes.configLogger = configLogger;
  * Only available to paid developer accounts
  *
  * @function decrypt
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} str_or_ByteArr - a string or an array of bytes
  * @param {string} aesKey - a string or an array of bytes
@@ -495,7 +495,7 @@ crdtes.decrypt = decrypt;
  * Reverse the operation of <code>crdtes.dQ()</code> or <code>crdtes.sQ()</code>.
  *
  * @function deQuote
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} quotedString - a quoted string
  * @returns {array} a byte array. If the quoted string contains any <code>\uHHHH</code> codes, these are first re-encoded<br>
@@ -646,7 +646,7 @@ crdtes.deQuote = deQuote;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirCreate
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} filePath
  * @returns {array} list if items in directory
@@ -667,7 +667,7 @@ crdtes.dirCreate = dirCreate;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirDelete
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} filePath
  * @param {boolean} recurse
@@ -693,7 +693,7 @@ crdtes.dirDelete = dirDelete;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirExists
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} dirPath - a path to a directory
  * @returns {boolean} true or false
@@ -714,7 +714,7 @@ crdtes.dirExists = dirExists;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function dirScan
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} filePath
  * @returns {array} list if items in directory
@@ -737,7 +737,7 @@ crdtes.dirScan = dirScan;
  * When the input is a byte array, all bytes are encoded as characters or as `\xHH` escape sequences.
  *
  * @function dQ
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} str_or_ByteArr - a Unicode string or an array of bytes
  * @returns {string} a string enclosed in double quotes. This string is pure 7-bit<br>
@@ -755,9 +755,9 @@ crdtes.dQ = dQ;
  * so even when passing in the same parameter values, the result will be different every time.<br>
  * <br>
  * Only available to paid developer accounts
- * 
+ *
  * @function encrypt
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} str_or_ByteArr - a string or an array of bytes
  * @param {string} aesKey - a string or an array of bytes
@@ -849,7 +849,7 @@ function enQuote__(str_or_ByteArr, quoteChar) {
  * use crdtesDLL to try and run an `.ejsx` or `.ejs` file.
  *
  * @function evalScript
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} scriptName - the name of the script to run, without file name extension or parent directory
  * @param {string} parentScriptFile - the name of the script from which we're calling this (pass in <code>$.fileName</code>).<br>
@@ -884,21 +884,21 @@ function evalScript(scriptName, parentScriptFile) {
             var fileNameExtension = splitScriptName.pop().toLowerCase();
             if (fileNameExtension == "js") {
                 hasJSFileNameExtension = true;
-                scriptNameWithoutExtension = splitScriptName.join(".");            
+                scriptNameWithoutExtension = splitScriptName.join(".");
             }
             else if (fileNameExtension == "ejs") {
                 hasEncryptedFileNameExtension = true;
                 hasJSFileNameExtension = true;
-                scriptNameWithoutExtension = splitScriptName.join(".");            
+                scriptNameWithoutExtension = splitScriptName.join(".");
             }
             else if (fileNameExtension == "jsx") {
                 hasJSXFileNameExtension = true;
-                scriptNameWithoutExtension = splitScriptName.join(".");            
+                scriptNameWithoutExtension = splitScriptName.join(".");
             }
             else if (fileNameExtension == "ejsx") {
                 hasEncryptedFileNameExtension = true;
                 hasJSXFileNameExtension = true;
-                scriptNameWithoutExtension = splitScriptName.join(".");            
+                scriptNameWithoutExtension = splitScriptName.join(".");
             }
         }
 
@@ -945,7 +945,7 @@ crdtes.evalScript = evalScript;
  * Send a TQL script to the DLL
  *
  * @function evalTQL
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} tqlScript - a script to run
  * @param {string} tqlScopeName - a scope name to use. Such scope can be used to pass data between different processes
@@ -977,7 +977,7 @@ crdtes.evalTQL = evalTQL;
  * provided to offer some compatibility with the UXP version of CRDT<br>
  *
  * @function fileClose
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} fileHandle - a file handle as returned by <code>crdtes.fileOpen()</code>.
  * @returns {boolean} success or failure
@@ -998,7 +998,7 @@ crdtes.fileClose = fileClose;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileDelete
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} filePath
  * @returns {boolean} success or failure
@@ -1021,7 +1021,7 @@ crdtes.fileDelete = fileDelete;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileExists
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} filePath
  * @returns {boolean} existence of file
@@ -1042,7 +1042,7 @@ crdtes.fileExists = fileExists;
  * provided to offer some compatibility with the UXP version of CRDT<br>
  *
  * @function fileOpen
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} fileName - a native full file path to the file
  * @param {string} mode - one of <code>'a'</code>, <code>'r'</code>, <code>'w'</code> (append, read, write)
@@ -1071,7 +1071,7 @@ crdtes.fileOpen = fileOpen;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileRead
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} fileHandle - a file handle as returned by <code>crdtes.fileOpen()</code>.
  * @param {boolean} isBinary - whether the file is considered a binary file (as opposed to a UTF-8 text file)
@@ -1100,7 +1100,7 @@ crdtes.fileRead = fileRead;
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function fileWrite
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} fileHandle - a file handle as returned by <code>crdtes.fileOpen()</code>.
  * @param {string} str_or_ByteArr - data to write to the file
@@ -1126,7 +1126,7 @@ crdtes.fileWrite = fileWrite;
  * Determine whether, or which, features of some software or module are currently activated or not
  *
  * @function getCapability
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} capabilityCode - a code for the software features to be activated (as determined by<br>
@@ -1153,7 +1153,7 @@ crdtes.getCapability = getCapability;
  * provided to offer some compatibility with the UXP version of CRDT<br>
  *
  * @function getDir
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} dirTag - a tag representing the dir:<br>
  * <code><br>
@@ -1183,11 +1183,11 @@ crdtes.getDir = getDir;
 /**
  * Access the environment<br>
  * <br>
- * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript -<br> 
+ * Not restricted by the UXP security sandbox. Not needed for pure ExtendScript -<br>
  * provided to offer some compatibility with the UXP version of CRDT
  *
  * @function getEnvironment
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} envVarName - name of environment variable
  * @returns {string} environment variable value
@@ -1204,7 +1204,7 @@ crdtes.getEnvironment = getEnvironment;
  * Interpret a value extracted from some INI data as a boolean. Things like <code>y, n, yes, no, true, false, t, f, 0, 1</code>
  *
  * @function getBooleanFromINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_value - ini value
  * @returns {boolean} value
@@ -1229,7 +1229,7 @@ crdtes.getBooleanFromINI = getBooleanFromINI;
  * If there is no unit, then no conversion is performed.
  *
  * @function getFloatWithUnitFromINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_valueStr - ini value
  * @param {string} in_convertToUnit - unit to convert to
@@ -1315,7 +1315,7 @@ crdtes.getFloatWithUnitFromINI = getFloatWithUnitFromINI;
  * Interpret a string extracted from some INI data as an array with float values (e.g. <code>"[ 255, 128.2, 1.7]"</code> )
  *
  * @function getFloatValuesFromINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_valueStr - ini value
  * @returns {array} array of numbers or undefined
@@ -1361,7 +1361,7 @@ crdtes.getFloatValuesFromINI = getFloatValuesFromINI;
  * Interpret a string extracted from some INI data as an array with int values (e.g. <code>"[ 255, 128, 1]"</code> )
  *
  * @function getIntValuesFromINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_valueStr - ini value
  * @returns {array} array of ints or undefined
@@ -1407,7 +1407,7 @@ crdtes.getIntValuesFromINI = getIntValuesFromINI;
  * Interpret a string extracted from some INI data as a unit name
  *
  * @function getUnitFromINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_value - ini value
  * @param {string} in_defaultUnit - default to use if no match is found
@@ -1452,7 +1452,7 @@ crdtes.getUnitFromINI = getUnitFromINI;
  * Get file path to PluginInstaller if it is installed
  *
  * @function getPluginInstallerPath
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @returns {string} file path
 */
@@ -1469,9 +1469,9 @@ crdtes.getPluginInstallerPath = getPluginInstallerPath;
  * Fetch some persistent data
  *
  * Only available to paid developer accounts
- * 
+ *
  * @function getPersistData
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} attribute - an attribute name for the data
@@ -1508,7 +1508,7 @@ function getSysInfo__() {
  * to handle `Math.pow()`
  *
  * @function intPow
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} i - Integer base
  * @param {number} intPower - integer power
@@ -1569,7 +1569,7 @@ crdtes.intPow = intPow;
  * will only work with level 2. Licensing function only work with level 1
  *
  * @function getCreativeDeveloperToolsLevel
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @returns {number} 0, 1 or 2
  */
@@ -1585,7 +1585,7 @@ crdtes.getCreativeDeveloperToolsLevel = getCreativeDeveloperToolsLevel;
  * Extend or shorten a string to an exact length, adding <code>padChar</code> as needed
  *
  * @function leftPad
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} s - string to be extended or shortened
  * @param {string} padChar - string to append repeatedly if length needs to extended
@@ -1628,7 +1628,7 @@ crdtes.leftPad = leftPad;
  * Make a log entry of the call of a function. Pass in the <code>arguments</code> keyword as a parameter.
  *
  * @function logEntry
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1646,7 +1646,7 @@ crdtes.logEntry = logEntry;
  * If the error level is below <code>crdtes.LOG_LEVEL_ERROR</code> nothing happens
  *
  * @function logError
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1667,7 +1667,7 @@ crdtes.logError = logError;
  * Make a log entry of the exit of a function. Pass in the <code>arguments</code> keyword as a parameter.
  *
  * @function logExit
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1684,7 +1684,7 @@ crdtes.logExit = logExit;
  * Extract the function name from its arguments
  *
  * @function functionNameFromArguments
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {object} functionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name
@@ -1711,7 +1711,7 @@ crdtes.functionNameFromArguments = functionNameFromArguments;
  * Output a log message. Pass in the <code>arguments</code> keyword as the first parameter.
  *
  * @function logMessage
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1803,7 +1803,7 @@ function logMessage(reportingFunctionArguments, logLevel, message) {
                 var fileHandle = new File(LOG_TO_FILEPATH);
                 fileHandle.open("w+");
                 fileHandle.writeln(logLine);
-                fileHandle.close()
+                fileHandle.close();
             }
 
         }
@@ -1821,7 +1821,7 @@ crdtes.logMessage = logMessage;
  * If the error level is below <code>crdtes.LOG_LEVEL_NOTE</code> nothing happens
  *
  * @function logNote
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1843,7 +1843,7 @@ crdtes.logNote = logNote;
  * If the error level is below <code>crdtes.LOG_LEVEL_TRACE</code> nothing happens
  *
  * @function logTrace
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} reportingFunctionArguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1865,7 +1865,7 @@ crdtes.logTrace = logTrace;
  * If the error level is below <code>crdtes.LOG_LEVEL_WARNING</code> nothing happens
  *
  * @function logWarning
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {array} arguments - pass in the current <code>arguments</code> to the function.<br>
  * This is used to determine the function's name for the log
@@ -1886,9 +1886,9 @@ crdtes.logWarning = logWarning;
  * The unique <code>GUID</code> of this computer<br>
  * <br>
  * Only available to paid developer accounts
- * 
+ *
  * @function machineGUID
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @returns {string} a <code>GUID</code> string
  */
@@ -1904,7 +1904,7 @@ crdtes.machineGUID = machineGUID;
  * Attempt to launch the PluginInstaller if it is installed
  *
  * @function pluginInstaller
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @returns {boolean} success or failure
 */
@@ -1915,11 +1915,11 @@ function pluginInstaller() {
 
     do {
         try {
-            
+
             var pluginInstallerFilePath = crdtesDLL.getPluginInstallerPath();
-            
+
             var pluginInstallerFile = File(pluginInstallerFilePath);
-            
+
             if (crdtes.IS_WINDOWS) {
                 // Need to set the PATH before launching. Using a wrapper .vbs file
                 pluginInstallerFile = File(pluginInstallerFile.parent + "/PluginInstaller Resources/launchEmbeddedPluginInstaller.vbs");
@@ -1942,7 +1942,7 @@ crdtes.pluginInstaller = pluginInstaller;
  * Restore the log level to what it was when pushLogLevel was called
  *
  * @function popLogLevel
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @returns {number} log level that was popped off the stack
  */
@@ -1967,7 +1967,7 @@ crdtes.popLogLevel = popLogLevel;
  * Save the previous log level and set a new log level
  *
  * @function pushLogLevel
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} newLogLevel - new log level to set
  * @returns {number} previous log level
@@ -2034,7 +2034,7 @@ crdtes.pushLogLevel = pushLogLevel;
  * a=2
  * a=3
  * </code><br>
- * is equivalent with 
+ * is equivalent with
  * <code><br>
  * [main]
  * a=1
@@ -2055,9 +2055,9 @@ crdtes.pushLogLevel = pushLogLevel;
  * [a_2]
  * a=2<br>
  * </code><br>
- * 
+ *
  * @function readINI
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_text - raw text, which might or might not contain some INI-formatted data mixed with normal text
  * @returns {object} either the ini data or <code>undefined</code>.
@@ -2229,7 +2229,7 @@ crdtes.readINI = readINI;
  * Extend or shorten a string to an exact length, adding <code>padChar</code> as needed
  *
  * @function rightPad
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} s - string to be extended or shortened
  * @param {string} padChar - string to append repeatedly if length needs to extended
@@ -2275,7 +2275,7 @@ crdtes.rightPad = rightPad;
  * Needs to be followed by a <code>crdtes.sublicense()</code> call<br>
  *
  * @function setIssuer
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} issuerGUID - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} issuerEmail - the email for the developer account as seen in the PluginInstaller
@@ -2295,7 +2295,7 @@ crdtes.setIssuer = setIssuer;
  * Only available to paid developer accounts
  *
  * @function setPersistData
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} issuer - a GUID identifier for the developer account as seen in the PluginInstaller
  * @param {string} attribute - an attribute name for the data
@@ -2320,7 +2320,7 @@ crdtes.setPersistData = setPersistData;
  * When the input is a byte array, all bytes are encoded as <code>\xHH</code> escape sequences.
  *
  * @function sQ
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} str_or_ByteArr - a Unicode string or an array of bytes
  * @returns {string} a string enclosed in double quotes. This string is pure 7-bit<br>
@@ -2337,7 +2337,7 @@ crdtes.sQ = sQ;
  * Encode a string into an byte array using UTF-8
  *
  * @function strToUTF8
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_s - a string
  * @returns { array } a byte array
@@ -2372,7 +2372,7 @@ crdtes.strToUTF8 = strToUTF8;
  * Encode a string into an byte array using the 8 lowest bits of each UTF-16 character
  *
  * @function strToBinary
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_s - a string
  * @returns { array } a byte array
@@ -2401,7 +2401,7 @@ crdtes.strToBinary = strToBinary;
  * Needs to be preceded by a <code>crdtes.setIssuer()</code> call.
  *
  * @function sublicense
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} key - key needed to decode activation data
  * @param {string} activation - encrypted activation data
@@ -2420,7 +2420,7 @@ crdtes.sublicense = sublicense;
  * Negative numbers are converted using 2-s complement (so <code>-15</code> results in <code>0x01</code>)<br>
  *
  * @function toHex
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {number} i - integer to convert to hex
  * @param {number} numDigits - How many digits. Defaults to 4 if omitted.
@@ -2464,7 +2464,7 @@ crdtes.toHex = toHex;
  * Conversion factor from a length unit into inches
  *
  * @function unitToInchFactor
- * @memberof crdtes 
+ * @memberof crdtes
  *
  * @param {string} in_unit - unit name (<code>crdtes.UNIT_NAME...</code>)
  * @returns { number } conversion factor or <code>1.0</code> if unknown/not applicable
