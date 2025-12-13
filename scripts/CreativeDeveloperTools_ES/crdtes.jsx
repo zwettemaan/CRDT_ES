@@ -40,6 +40,10 @@ var crdtes = getPlatformGlobals().defineGlobalObject("crdtes");
  */
 const TQL_SCOPE_NAME_DEFAULT = "defaultScope";
 
+const LOCALE_EN_US                             = "en_US";
+
+const DEFAULT_LOCALE                           = LOCALE_EN_US;
+
 const STATE_IDLE                               =  0;
 const STATE_SEEN_OPEN_SQUARE_BRACKET           =  1;
 const STATE_SEEN_NON_WHITE                     =  2;
@@ -67,6 +71,12 @@ const REGEXP_PICAS_POINTS_REPLACE              = "$2";
 const REGEXP_CICEROS                           = /^([\d]+)c(([\d]*)(\.([\d]+)?)?)?$/;
 const REGEXP_CICEROS_REPLACE                   = "$1";
 const REGEXP_CICEROS_POINTS_REPLACE            = "$2";
+
+var LOCALE_STRINGS                             = {};
+
+crdtes.LOCALE                                  = DEFAULT_LOCALE;
+crdtes.LOCALE_STRINGS                          = LOCALE_STRINGS;
+crdtes.LOCALE_EN_US                            = LOCALE_EN_US;
 
 /**
  * <code>crdtes.UNIT_NAME_NONE</code> represents unit-less values.
@@ -2268,6 +2278,50 @@ function rightPad(s, padChar, len) {
     return retVal;
 }
 crdtes.rightPad = rightPad;
+
+/**
+ * Fetch a localized string.
+ *
+ * @function S
+ * @memberof crdtes
+ *
+ * @param {string} stringCode - a token for the string to be localized (e.g. BTN_OK)
+ * @param {string=} locale - a locale. Optional - defaults to "en_US"
+ * @returns {string} a localized string. If the stringCode is not found, returns the stringCode itself.
+ */
+function S(stringCode, locale) {
+
+    var retVal = stringCode;
+
+    do {
+
+        try {
+            if (! locale) {
+                locale = DEFAULT_LOCALE;
+            }
+
+            if (! (stringCode in LOCALE_STRINGS)) {
+                break;
+            }
+
+            var localeStrings = LOCALE_STRINGS[stringCode];
+            if (locale in localeStrings) {
+                retVal = localeStrings[locale]; 
+            }
+            else if (LOCALE_EN_US in localeStrings) {
+                retVal = localeStrings[LOCALE_EN_US];
+            }
+
+        }
+        catch (err) {
+            crdtes.logError(arguments, "throws " + err);
+        }
+    }
+    while (false);
+
+    return retVal;
+}
+crdtes.S = S;
 
 /**
  * Send in activation data to determine whether some software is currently activated or not.<br>
