@@ -24,11 +24,14 @@ function collectionToArray(coll) {
 
     var retVal = undefined;
 
+    crdtes.logEntry(arguments);
+
     do {
 
         try {
 
             if (! coll) {
+                crdtes.logError(arguments, "need coll");
                 break; 
             }
 
@@ -37,6 +40,9 @@ function collectionToArray(coll) {
             }
             else {
                 retVal = coll.everyItem().getElements().slice(0); 
+                if (! (retVal instanceof Array)) {
+                    crdtes.logError(arguments, "failed to convert collection into array");
+                }
             }
 
         }
@@ -46,6 +52,8 @@ function collectionToArray(coll) {
     }
     while (false);
 
+    crdtes.logExit(arguments);
+
     return retVal;
 }
-crdtesIDSN.collectionToArray = collectionToArray
+crdtesIDSN.collectionToArray = collectionToArray;

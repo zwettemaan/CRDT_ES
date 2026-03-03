@@ -936,10 +936,12 @@ function evalScript(scriptName, parentScriptFile) {
         }
 
         if (unencryptedScriptFile) {
+            crdtes.IS_DEBUGGING = true;
             var nearlyForever = 365*24*3600*1000;
             $.evalFile(unencryptedScriptFile,nearlyForever);
         }
         else {
+            crdtes.IS_DEBUGGING = false;
             crdtesDLL.evalScript(scriptNameWithoutExtension, parentScriptFolder.fsName);
         }
 
@@ -1811,7 +1813,7 @@ function logMessage(reportingFunctionArguments, logLevel, message) {
 
             if (LOG_TO_FILEPATH) {
                 var fileHandle = new File(LOG_TO_FILEPATH);
-                fileHandle.open("w+");
+                fileHandle.open("a");
                 fileHandle.writeln(logLine);
                 fileHandle.close();
             }
