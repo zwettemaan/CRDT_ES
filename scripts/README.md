@@ -1,6 +1,6 @@
 # Creative Developer Tools for ExtendScript
 
-© 2020-2024, Rorohiko Ltd. - Kris Coppieters
+© 2020-2026, Rorohiko Ltd. - Kris Coppieters
 kris@rorohiko.com
 
 ## What it does
