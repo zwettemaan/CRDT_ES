@@ -413,21 +413,25 @@ function progressUpdate(progressState) {
                 break;
             }
 
-            var appVersion = Number(app.version);
-            if (! isNaN(appVersion) && appVersion >= 6.0 && palette.update) {
-                palette.update();
-            }
-            else {
-                var nowMilliseconds = (new Date()).getTime();
-                var lastUpdateMilliseconds = progressState.lastUpdateMilliseconds;
-                var updateIntervalMilliseconds = progressState.updateIntervalMilliseconds;
+            var nowMilliseconds = (new Date()).getTime();
+            var lastUpdateMilliseconds = progressState.lastUpdateMilliseconds;
+            var updateIntervalMilliseconds = progressState.updateIntervalMilliseconds;
 
-                if (lastUpdateMilliseconds === null || nowMilliseconds - lastUpdateMilliseconds > updateIntervalMilliseconds) {
-                    palette.show();
-                    palette.hide();
-                    palette.show();
-                    progressState.lastUpdateMilliseconds = nowMilliseconds;
+            if (lastUpdateMilliseconds === null || nowMilliseconds - lastUpdateMilliseconds > updateIntervalMilliseconds) {
+                if (app.processEvents) {
+                    app.processEvents();
                 }
+                else if (palette.layout && palette.layout.layout) {
+                    palette.layout.layout(true);
+                    if (palette.layout.resize) {
+                        palette.layout.resize();
+                    }
+                }
+                else {
+                    crdtes.logError(arguments, "no non-activating ScriptUI refresh method available");
+                }
+
+                progressState.lastUpdateMilliseconds = nowMilliseconds;
             }
         }
         catch (err) {
