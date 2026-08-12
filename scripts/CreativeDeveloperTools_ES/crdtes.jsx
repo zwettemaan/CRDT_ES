@@ -1783,6 +1783,7 @@ function logMessage(reportingFunctionArguments, logLevel, message) {
 
             var platformPrefix = "E ";
 
+            var logLevelPrefix;
             switch (logLevel) {
                 case LOG_LEVEL_ERROR:
                     logLevelPrefix = "ERROR";
