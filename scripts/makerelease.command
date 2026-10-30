@@ -43,6 +43,20 @@ if [ -d "${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Versions" ]
 
 fi
 
+# Record which Tightener build the bundled ESDLL comes from. It travels with
+# every copy of the product folder, including the ones vendored into other repos.
+ESDLL_INFO_PLIST="${CRDT_ES_PRODUCT_NAME}/mac64/TightenerESDLL_x64R.framework/Resources/Info.plist"
+ESDLL_VERSION=`/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "${ESDLL_INFO_PLIST}" 2>/dev/null`
+ESDLL_BUILD=`/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "${ESDLL_INFO_PLIST}" 2>/dev/null`
+if [ "${ESDLL_VERSION}" = "" ] || [ "${ESDLL_BUILD}" = "" ] || [ "${ESDLL_BUILD}" = "1" ]; then
+    echo "Warning: the bundled ESDLL carries no Tightener version (built before buildDLLMac versioned it)"
+    ESDLL_VERSION_LINE="unknown"
+else
+    ESDLL_VERSION_LINE="${ESDLL_VERSION}b${ESDLL_BUILD}"
+fi
+echo "${ESDLL_VERSION_LINE}" > "${CRDT_ES_PRODUCT_NAME}/ESDLL_VERSION.txt"
+echo "Bundled ESDLL: Tightener ${ESDLL_VERSION_LINE}"
+
 find "${CRDT_ES_PRODUCT_NAME}" -name ".DS_Store" | while read a; do rm "$a"; done
 find "${CRDT_ES_PRODUCT_NAME}" -name "__MACOSX" | while read a; do rm -rf "$a"; done
 xattr -cr "${CRDT_ES_PRODUCT_NAME}"
